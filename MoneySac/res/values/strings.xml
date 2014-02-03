@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MADPractice</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="ok_button">OK</string>
+    <string name="cancel_button">Abbrechen</string>
+
+    <string name="listRowTitle">Title</string>
+    <string name="detailLabelDescription">Beschreibung</string>
+    <string name="detailLabelTitle">Titel</string>
+    <string name="preferenceTextSize">Schriftgröße</string>
+    <string name="defaultPriority">hoch</string>
+    <string name="defaultPriorityTitle">Vorausgewählte Priorität</string>
+    <string name="deleteButtonText">Löschen</string>
+    <string name="saveButtonText">Speichern</string>
+    <string name="title_activity_download">DownloadActivity</string>
+    <string name="strEinnahmenHead">Einnahmen:</string>
+    <string name="strAusgabenHead">Ausgaben:</string>
+    <string name="strEinnahmen">Einnahmen</string>
+    <string name="strAusgaben">Ausgaben</string>
+    <string name="strBeides">Beides</string>
+    <string name="strAddIncome">+</string>
+    <string name="strAddExpense">-</string>
+    <string name="strAddMonth">+</string>
+    <string name="name">Name</string>
+    <string name="title_activity_edit_entry">EditEntryActivity</string>
+    <string name="moneysac_menu_category">Kategorien</string>
+    <string name="title_activity_category_list_view">CategoryListView</string>
+    <string name="title_activity_category_detail">CategoryDetailActivity</string>
+
+</resources>

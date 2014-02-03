@@ -1,0 +1,38 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CategoryListView" >
+
+
+
+    <LinearLayout
+        android:id="@+id/moneysac_category_add_del_bar"
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:weightSum="1" 
+        android:padding="@dimen/activity_horizontal_margin">
+
+        <Button
+            android:id="@+id/addCategoryButton"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/strAddIncome"
+            android:textSize="35sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+    
+    <ListView
+        android:id="@+id/moneysac_cetegory_listview"
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/moneysac_category_add_del_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
+
+</RelativeLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin">
+    
+    <ImageView 
+        android:layout_alignParentLeft="true"
+        android:id="@+id/moneysac_category_img_listrow"
+        android:src="@drawable/money_bag_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="@dimen/moneysac_category_listrow_padding_img" />
+
+    <TextView
+        android:id="@+id/moneysac_category__title_listrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/moneysac_category_img_listrow"
+        android:layout_toRightOf="@+id/moneysac_category_img_listrow"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/moneysac_category__type_listrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/moneysac_category_img_listrow"
+        android:layout_toRightOf="@+id/moneysac_category_img_listrow"
+        android:text="Small Text"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+    
+</RelativeLayout>
