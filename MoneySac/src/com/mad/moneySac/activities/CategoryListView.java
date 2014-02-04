@@ -1,5 +1,6 @@
 package com.mad.moneySac.activities;
 
+import java.sql.SQLException;
 import java.util.LinkedList;
 
 import android.app.Activity;
@@ -16,6 +17,7 @@ import android.widget.ListView;
 import com.mad.moneySac.R;
 import com.mad.moneySac.adapters.CategoryListViewAdapter;
 import com.mad.moneySac.model.Category;
+import com.mad.moneySac.model.CategoryDBHelper;
 import com.mad.moneySac.model.SacEntryType;
 
 public class CategoryListView extends Activity {
@@ -23,11 +25,13 @@ public class CategoryListView extends Activity {
 	public static final String CATEGORY_EXTRA_ID = "CATEGORY_ID";
 	private ListView catList;
 	private Button btAddCat;
+	private CategoryDBHelper catDBHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_moneysac_category_list_view);
+		catDBHelper = new CategoryDBHelper();
 		initViewElements();
 		setListener();
 		showList();
@@ -50,38 +54,13 @@ public class CategoryListView extends Activity {
 
 		LinkedList<Category> values = new LinkedList<Category>();
 
-		SacEntryType type1 = new SacEntryType();
-		type1.setName("Einkommen");
-
-		SacEntryType type2 = new SacEntryType();
-		type2.setName("Ausgaben");
-
-		Category cat1 = new Category();
-		Category cat2 = new Category();
-		Category cat3 = new Category();
-		Category cat4 = new Category();
-		Category cat5 = new Category();
-
-		cat1.setName("Gehalt");
-		cat1.setType(type1);
-
-		cat2.setName("Sonstiges");
-		cat2.setType(type1);
-
-		cat3.setName("Steuern");
-		cat3.setType(type2);
-
-		cat4.setName("Einkäufe");
-		cat4.setType(type2);
-
-		cat5.setName("Steuern");
-		cat5.setType(type2);
-
-		values.add(cat1);
-		values.add(cat2);
-		values.add(cat3);
-		values.add(cat4);
-		values.add(cat5);
+		
+		try {
+			values = new LinkedList<Category>(catDBHelper.getAll(this));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		CategoryListViewAdapter adapter = new CategoryListViewAdapter(this, values);
 		catList.setAdapter(adapter);

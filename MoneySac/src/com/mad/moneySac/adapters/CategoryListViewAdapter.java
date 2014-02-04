@@ -18,7 +18,7 @@ public class CategoryListViewAdapter extends ArrayAdapter<Category> {
     private final LinkedList<Category> values;
 
     public CategoryListViewAdapter(Context context, LinkedList<Category> values) {
-        super(context, R.layout.moneysac_category_listrow, values);
+        super(context, R.layout.category_listrow, values);
         this.context = context;
         this.values = values;
     }
@@ -26,7 +26,7 @@ public class CategoryListViewAdapter extends ArrayAdapter<Category> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.moneysac_category_listrow, parent, false);
+        View rowView = inflater.inflate(R.layout.category_listrow, parent, false);
         TextView titleCat = (TextView) rowView.findViewById(R.id.moneysac_category__title_listrow);
         TextView type = (TextView) rowView.findViewById(R.id.moneysac_category__type_listrow);
         ImageView icon = (ImageView) rowView.findViewById(R.id.moneysac_category_img_listrow);
