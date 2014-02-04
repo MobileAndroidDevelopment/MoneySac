@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -17,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mad.moneySac.R;
 import com.mad.moneySac.adapters.CategoryListViewAdapter;
@@ -40,8 +42,6 @@ public class CategoryListView extends Activity {
 		setListener();
 
 	}
-	
-	
 
 	@Override
 	protected void onResume() {
@@ -49,14 +49,13 @@ public class CategoryListView extends Activity {
 		showList();
 	}
 
-
-
 	private void setListener() {
 		btAddCat.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(getApplicationContext(), CategoryDetailActivity.class));
+				startActivity(new Intent(getApplicationContext(),
+						CategoryDetailActivity.class));
 
 			}
 		});
@@ -65,7 +64,7 @@ public class CategoryListView extends Activity {
 	private void showList() {
 
 		values = new LinkedList<Category>();
-		
+
 		try {
 			values = new LinkedList<Category>(catDBHelper.getAll(this));
 		} catch (SQLException e) {
@@ -73,7 +72,8 @@ public class CategoryListView extends Activity {
 			e.printStackTrace();
 		}
 
-		CategoryListViewAdapter adapter = new CategoryListViewAdapter(this, values);
+		CategoryListViewAdapter adapter = new CategoryListViewAdapter(this,
+				values);
 		catList.setAdapter(adapter);
 		catList.setOnItemClickListener(new CategoryItemClickListener(adapter));
 		registerForContextMenu(catList);
@@ -84,8 +84,6 @@ public class CategoryListView extends Activity {
 		btAddCat = (Button) findViewById(R.id.addCategoryButton);
 	}
 
-
-
 	private class CategoryItemClickListener implements OnItemClickListener {
 
 		private ArrayAdapter<Category> adapter;
@@ -95,27 +93,53 @@ public class CategoryListView extends Activity {
 		}
 
 		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-			Intent categoryDetailIntend = new Intent(CategoryListView.this, CategoryDetailActivity.class);
-			categoryDetailIntend.putExtra(CATEGORY_EXTRA_ID, adapter.getItem(position));
+		public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+				long arg3) {
+			Intent categoryDetailIntend = new Intent(CategoryListView.this,
+					CategoryDetailActivity.class);
+			categoryDetailIntend.putExtra(CATEGORY_EXTRA_ID,
+					adapter.getItem(position));
 			startActivity(categoryDetailIntend);
 		}
 	}
-	
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-		  if (v.getId()==R.id.moneysac_cetegory_listview) {
-		    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-		    menu.setHeaderTitle(values.get(info.position).getName());
-		    String[] menuItems = {getString(R.string.edit), getString(R.string.delete)}; 
-		    for (int i = 0; i<menuItems.length; i++) {
-		      menu.add(Menu.NONE, i, i, menuItems[i]);
-		    }
-		  }
+
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		if (v.getId() == R.id.moneysac_cetegory_listview) {
+			AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+			menu.setHeaderTitle(values.get(info.position).getName());
+			String[] menuItems = { getString(R.string.edit),
+					getString(R.string.delete) };
+			for (int i = 0; i < menuItems.length; i++) {
+				menu.add(Menu.NONE, i, i, menuItems[i]);
+			}
 		}
-	
+	}
+
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
+				.getMenuInfo();
+		switch (item.getItemId()) {
+		case 0:
+			Intent categoryDetailIntend = new Intent(CategoryListView.this,
+					CategoryDetailActivity.class);
+			categoryDetailIntend.putExtra(CATEGORY_EXTRA_ID,
+					values.get(info.position));
+			startActivity(categoryDetailIntend);
+			break;
 
-	  return true;
+		case 1:
+			CategoryDBHelper db = new CategoryDBHelper();
+			try {
+				db.delete(this, values.get(info.position));
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			showList();
+			break;
+		}
+		return true;
 	}
 }
