@@ -4,9 +4,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -42,10 +44,10 @@ public class CategoryDetailActivity extends Activity {
 		setSpinnerValues();
 		setListeners();
 
-		Bundle extras =  getIntent().getExtras();
+		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
-			category = (Category) extras.getSerializable(
-					CategoryListView.CATEGORY_EXTRA_ID);
+			category = (Category) extras
+					.getSerializable(CategoryListView.CATEGORY_EXTRA_ID);
 			updateTextBoxes();
 		}
 
@@ -68,7 +70,7 @@ public class CategoryDetailActivity extends Activity {
 		}
 
 		ArrayAdapter<SacEntryType> adapter = new ArrayAdapter<SacEntryType>(
-				this, android.R.layout.simple_spinner_item, typeList);
+				this, android.R.layout.simple_spinner_dropdown_item, typeList);
 		typeSpinner.setAdapter(adapter);
 	}
 
@@ -106,12 +108,14 @@ public class CategoryDetailActivity extends Activity {
 
 		category.setType((SacEntryType) typeSpinner.getSelectedItem());
 		if (edName.getText().toString().trim().isEmpty())
-			Toast.makeText(this, R.string.category_details_name_empty,Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.category_details_name_empty,
+					Toast.LENGTH_SHORT).show();
 		else {
-				category.setName(edName.getText().toString());
+			category.setName(edName.getText().toString());
 			try {
 				catDBHelper.createOrUpdate(this, category);
-				Toast.makeText(this, R.string.saved_succesfull, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, R.string.saved_succesfull,
+						Toast.LENGTH_SHORT).show();
 				finish();
 			} catch (SQLException e) {
 				Log.e("CategoryDetailsSave", e.toString());
@@ -122,6 +126,30 @@ public class CategoryDetailActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.category_detail, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Reacts if a menu item is selected
+		switch (item.getItemId()) {
+		case R.id.menu_category_delete:
+			if (category != null) {
+				CategoryDBHelper catDBHelper = new CategoryDBHelper();
+				try {
+					catDBHelper.delete(this, category);
+					Toast.makeText(this, R.string.deleted_category, Toast.LENGTH_SHORT).show();
+					finish();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					Log.e("CategoryDetailsDelete", e.toString());
+				}
+			}else{
+				finish();
+			}
+			break;
+
+		}
 		return true;
 	}
 

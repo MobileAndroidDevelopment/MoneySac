@@ -6,19 +6,22 @@ import java.util.LinkedList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.mad.moneySac.R;
 import com.mad.moneySac.adapters.CategoryListViewAdapter;
 import com.mad.moneySac.model.Category;
 import com.mad.moneySac.model.CategoryDBHelper;
-import com.mad.moneySac.model.SacEntryType;
 
 public class CategoryListView extends Activity {
 
@@ -26,6 +29,7 @@ public class CategoryListView extends Activity {
 	private ListView catList;
 	private Button btAddCat;
 	private CategoryDBHelper catDBHelper;
+	private LinkedList<Category> values;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +38,18 @@ public class CategoryListView extends Activity {
 		catDBHelper = new CategoryDBHelper();
 		initViewElements();
 		setListener();
+
+	}
+	
+	
+
+	@Override
+	protected void onResume() {
+		super.onResume();
 		showList();
 	}
+
+
 
 	private void setListener() {
 		btAddCat.setOnClickListener(new View.OnClickListener() {
@@ -50,10 +64,7 @@ public class CategoryListView extends Activity {
 
 	private void showList() {
 
-		//fills a list with some test data
-
-		LinkedList<Category> values = new LinkedList<Category>();
-
+		values = new LinkedList<Category>();
 		
 		try {
 			values = new LinkedList<Category>(catDBHelper.getAll(this));
@@ -65,6 +76,7 @@ public class CategoryListView extends Activity {
 		CategoryListViewAdapter adapter = new CategoryListViewAdapter(this, values);
 		catList.setAdapter(adapter);
 		catList.setOnItemClickListener(new CategoryItemClickListener(adapter));
+		registerForContextMenu(catList);
 	}
 
 	private void initViewElements() {
@@ -72,10 +84,7 @@ public class CategoryListView extends Activity {
 		btAddCat = (Button) findViewById(R.id.addCategoryButton);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		return true;
-	}
+
 
 	private class CategoryItemClickListener implements OnItemClickListener {
 
@@ -91,5 +100,22 @@ public class CategoryListView extends Activity {
 			categoryDetailIntend.putExtra(CATEGORY_EXTRA_ID, adapter.getItem(position));
 			startActivity(categoryDetailIntend);
 		}
+	}
+	
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		  if (v.getId()==R.id.moneysac_cetegory_listview) {
+		    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+		    menu.setHeaderTitle(values.get(info.position).getName());
+		    String[] menuItems = {getString(R.string.edit), getString(R.string.delete)}; 
+		    for (int i = 0; i<menuItems.length; i++) {
+		      menu.add(Menu.NONE, i, i, menuItems[i]);
+		    }
+		  }
+		}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+
+	  return true;
 	}
 }

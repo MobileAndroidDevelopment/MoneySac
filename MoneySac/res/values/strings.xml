@@ -30,5 +30,8 @@
     <string name="title_activity_category_detail">CategoryDetailActivity</string>
     <string name="category_details_name_empty">Name darf nicht leer sein</string>
     <string name="saved_succesfull">Erfolgreich gespeichert!</string>
+    <string name="delete">Löschen</string>
+    <string name="deleted_category">Kategorie gelöscht</string>
+    <string name="edit">Bearbeiten</string>
 
 </resources>
