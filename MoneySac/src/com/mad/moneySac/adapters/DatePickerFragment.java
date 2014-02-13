@@ -5,6 +5,7 @@ import java.util.Calendar;
 
 import com.mad.moneySac.activities.MoneySac;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -16,6 +17,7 @@ import android.widget.DatePicker;
 /**
  * Created by Kev1n on 06.10.13.
  */
+@SuppressLint("ValidFragment")
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     static final int DATE_DIALOG_ID = 1;

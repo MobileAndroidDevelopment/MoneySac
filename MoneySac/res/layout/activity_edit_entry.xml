@@ -50,6 +50,7 @@
 
         <EditText
             android:id="@+id/editTextEntryAmount"
+            android:inputType="numberDecimal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".55"
@@ -88,8 +89,8 @@
             android:layout_height="wrap_content"
             android:layout_weight=".6" />
     </LinearLayout>
-    
-        <LinearLayout
+
+    <LinearLayout
         android:id="@+id/layoutEntryDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -110,16 +111,26 @@
             android:id="@+id/buttonEntryDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:onClick="changeDateClicked"
             android:layout_weight=".6"
             android:text="18.01.2014" />
-
     </LinearLayout>
-    
-    <Button 
+
+    <Button
         android:id="@+id/buttonUploadPicture"
-        android:layout_below="@id/layoutEntryDate"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:text="Foto der Rechnung anhängen"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layoutEntryDate"
+        android:text="Foto der Rechnung anhängen" />
+
+    <Button
+        android:id="@+id/buttonAddEntry"
+        android:layout_below="@id/buttonUploadPicture"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="+"
+        android:textSize="35sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

@@ -26,6 +26,7 @@ import com.mad.moneySac.model.Entry;
 
 public class MoneySac extends Activity {
 
+	public static final String IS_INCOME = "IS_INCOME";
 	SimpleDateFormat sdfOut = new SimpleDateFormat("MMMM yyyy", Locale.GERMAN);
 	SimpleDateFormat sdfIn = new SimpleDateFormat("yyyyMM", Locale.GERMAN);
 
@@ -155,12 +156,14 @@ public class MoneySac extends Activity {
 	public void addIncomeClicked(View v) {
 		// TODO add extras in intent bundle
 		Intent intent = new Intent(this, EditEntryActivity.class);
+		intent.putExtra(IS_INCOME, true);
 		startActivity(intent);
 	}
 
 	public void addExpenseClicked(View v) {
 		// TODO add extras in intent bundle
 		Intent intent = new Intent(this, EditEntryActivity.class);
+		intent.putExtra(IS_INCOME, false);
 		startActivity(intent);
 	}
 

@@ -26,7 +26,7 @@
         <activity
             android:name="com.mad.moneySac.activities.EditEntryActivity"
             android:label="@string/title_activity_edit_entry"
-            android:theme="@android:style/Theme.Holo" >
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar" >
         </activity>
         <activity
             android:name="com.mad.moneySac.activities.CategoryListView"
