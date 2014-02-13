@@ -21,6 +21,7 @@ import android.widget.Spinner;
 
 import com.mad.moneySac.R;
 import com.mad.moneySac.adapters.DatePickerFragment;
+import com.mad.moneySac.adapters.ListViewAdapter;
 import com.mad.moneySac.helpers.SegmentedRadioGroup;
 import com.mad.moneySac.model.Entry;
 
@@ -65,11 +66,10 @@ public class MoneySac extends Activity {
 		ListView listView = (ListView) findViewById(R.id.listViewEntries);
 		Calendar calendar = Calendar.getInstance();
 		Date today = calendar.getTime();
-		Date yesterday = calendar.getTime();
 
 		LinkedList<Entry> accountList = new LinkedList<Entry>();
-		accountList.add(new Entry(yesterday, "Schuhe", 100, false));
-		accountList.add(new Entry(yesterday, "Gehalt", 2000, true));
+		accountList.add(new Entry(today, "Schuhe", 100, false));
+		accountList.add(new Entry(today, "Gehalt", 2000, true));
 		accountList.add(new Entry(today, "Laptop", 1000, false));
 		accountList.add(new Entry(today, "Taschengeld", 100, true));
 		accountList.add(new Entry(today, "Essen", 200, false));
@@ -84,9 +84,8 @@ public class MoneySac extends Activity {
 		// //and load it again
 		// BankAccountMonth currentMonth =
 		// BankAccountList.getMonthFromStorage(this, thisMonth);
-		// ListViewAdapter listAdapter = new ListViewAdapter(this,
-		// currentMonth.getEntries());
-		// listView.setAdapter(listAdapter);
+		ListViewAdapter listAdapter = new ListViewAdapter(this, accountList);
+		listView.setAdapter(listAdapter);
 		return listView;
 	}
 
@@ -114,7 +113,7 @@ public class MoneySac extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.menu_moneysac_main, menu); 
+		getMenuInflater().inflate(R.menu.menu_moneysac_main, menu);
 		return true;
 	}
 
@@ -128,7 +127,7 @@ public class MoneySac extends Activity {
 			intent = new Intent(this, CategoryListView.class);
 			startActivity(intent);
 			break;
-			
+
 		}
 		return true;
 	}
