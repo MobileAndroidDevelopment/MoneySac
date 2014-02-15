@@ -103,6 +103,7 @@ public class EditEntryActivity extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		helper.close();
 		this.finish();
 	}
 

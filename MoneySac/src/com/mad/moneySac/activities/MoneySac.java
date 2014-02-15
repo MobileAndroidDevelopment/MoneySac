@@ -1,15 +1,16 @@
 package com.mad.moneySac.activities;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,14 +20,17 @@ import android.widget.ListView;
 import com.mad.moneySac.R;
 import com.mad.moneySac.adapters.DatePickerFragment;
 import com.mad.moneySac.adapters.ListViewAdapter;
+import com.mad.moneySac.helpers.SacEntrySelection;
 import com.mad.moneySac.helpers.SegmentedRadioGroup;
-import com.mad.moneySac.model.Entry;
+import com.mad.moneySac.model.SacEntry;
+import com.mad.moneySac.model.SacEntryDBHelper;
 import com.mad.moneySac.model.SacEntryType;
 
 public class MoneySac extends Activity {
 
 	public static final String TYPE_EXTRA = "TYPE";
 	private SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.GERMANY);
+	private long currentDate;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,13 @@ public class MoneySac extends Activity {
 		load();
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		loadListView();
+	}
+	
+	
 	private void load() {
 		loadListView();
 		loadSegmentedRadioGroup();
@@ -46,6 +57,7 @@ public class MoneySac extends Activity {
 		Button button = (Button)findViewById(R.id.monthButton);
 		Calendar c=Calendar.getInstance();
 		button.setText(sdf.format(c.getTime()));
+		currentDate = c.getTimeInMillis();
 		return button;
 	}
 	
@@ -53,6 +65,7 @@ public class MoneySac extends Activity {
 		Button button = (Button)findViewById(R.id.monthButton);
 		Calendar c = Calendar.getInstance();
 		c.set(year, month, 0);
+		currentDate = c.getTimeInMillis();
 		button.setText(sdf.format(c.getTime()));
 	}
 	
@@ -76,27 +89,20 @@ public class MoneySac extends Activity {
 
 	private ListView loadListView() {
 		ListView listView = (ListView) findViewById(R.id.listViewEntries);
-		Calendar calendar = Calendar.getInstance();
-		Date today = calendar.getTime();
 
-		LinkedList<Entry> accountList = new LinkedList<Entry>();
-		accountList.add(new Entry(today, "Schuhe", 100, false));
-		accountList.add(new Entry(today, "Gehalt", 2000, true));
-		accountList.add(new Entry(today, "Laptop", 1000, false));
-		accountList.add(new Entry(today, "Taschengeld", 100, true));
-		accountList.add(new Entry(today, "Essen", 200, false));
-
-		Date thisMonth = calendar.getTime();
-
-		// save a month just for example
-		// BankAccountMonth bankAccountMonth = new BankAccountMonth(accountList,
-		// thisMonth);
-		// BankAccountList.addMonthToStorage(this, bankAccountMonth);
-		//
-		// //and load it again
-		// BankAccountMonth currentMonth =
-		// BankAccountList.getMonthFromStorage(this, thisMonth);
-		ListViewAdapter listAdapter = new ListViewAdapter(this, accountList);
+		SacEntrySelection selection = new SacEntrySelection().setSelectedMonth(currentDate);
+		SacEntryDBHelper helper = new SacEntryDBHelper();
+		List<SacEntry> list = null;
+		try {
+//			list = helper.where(this, selection);
+			list = helper.getAll(this);
+			Log.d("getAll()", list.size()+"");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		ListViewAdapter listAdapter = new ListViewAdapter(this, list);
 		listView.setAdapter(listAdapter);
 		return listView;
 	}
