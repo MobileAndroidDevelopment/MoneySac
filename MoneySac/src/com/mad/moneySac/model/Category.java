@@ -43,7 +43,7 @@ public class Category implements Serializable, Comparable<Category> {
 
 	@Override
 	public String toString() {
-		return "Category [id=" + id + ", name=" + name + ", type=" + type + "]";
+		return name;
 	}
 
 	@Override
