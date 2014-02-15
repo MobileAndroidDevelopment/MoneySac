@@ -8,29 +8,70 @@ import com.mad.moneySac.R;
 
 public class SacEntryType {
 
+	private String name;
+	private int categoryIcon;
+	private int listIcon;
+	private String buttonText;
+
+	private SacEntryType(String name, int categoryIcon, int listIcon, String buttonText) {
+		this.name = name;
+		this.categoryIcon = categoryIcon;
+		this.listIcon = listIcon;
+		this.buttonText = buttonText;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getCategoryIcon() {
+		return categoryIcon;
+	}
+
+	public void setCategoryIcon(int categoryIcon) {
+		this.categoryIcon = categoryIcon;
+	}
+
+	public int getListIcon() {
+		return listIcon;
+	}
+
+	public void setListIcon(int listIcon) {
+		this.listIcon = listIcon;
+	}
+
+	public String getButtonText() {
+		return buttonText;
+	}
+
+	public void setButtonText(String buttonText) {
+		this.buttonText = buttonText;
+	}
+
+	@Override
+	public String toString() {
+		return "SacEntryType [name=" + name + ", buttonIcon=" + categoryIcon + ", listIcon=" + listIcon + ", buttonText=" + buttonText + "]";
+	}
+
 	public static final String INCOME = "Einnahme";
 	public static final String EXPENSE = "Ausgabe";
-	
-	private static final TreeMap<String, Integer> TYPE_ICONS = new TreeMap<String, Integer>();
-	private static final TreeMap<String, String> TYPE_BUTTON_TEXTS = new TreeMap<String, String>();
-	
-	static {
-		TYPE_ICONS.put(EXPENSE, R.drawable.money_bag_down);
-		TYPE_ICONS.put(INCOME, R.drawable.money_bag_up);
 
-		TYPE_BUTTON_TEXTS.put(EXPENSE, "-");
-		TYPE_BUTTON_TEXTS.put(INCOME, "+");
+	private static final TreeMap<String, SacEntryType> entryTypes = new TreeMap<String, SacEntryType>();
+
+	static {
+		entryTypes.put(INCOME, new SacEntryType(INCOME, R.drawable.money_bag_up, R.drawable.arrow_green, "+"));
+		entryTypes.put(EXPENSE, new SacEntryType(EXPENSE, R.drawable.money_bag_down, R.drawable.arrow_red, "-"));
 	}
-	
-	public static int getIconForEntryType(String type){
-		return TYPE_ICONS.get(type);
+
+	public static SacEntryType getType(String typeName) {
+		return entryTypes.get(typeName);
 	}
-	
-	public static String getButtonTextForEntryType(String type){
-		return TYPE_BUTTON_TEXTS.get(type);
-	}
-	
-	public static final List<String> getTypes(){
+
+	public static final List<String> getTypesAsStringList() {
 		List<String> allTypes = new LinkedList<String>();
 		allTypes.add(EXPENSE);
 		allTypes.add(INCOME);

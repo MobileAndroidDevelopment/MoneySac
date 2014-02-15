@@ -54,7 +54,7 @@ public class CategoryDetailActivity extends Activity {
 
 	private void setSpinnerValues() {
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-				this, android.R.layout.simple_spinner_dropdown_item, SacEntryType.getTypes());
+				this, android.R.layout.simple_spinner_dropdown_item, SacEntryType.getTypesAsStringList());
 		typeSpinner.setAdapter(adapter);
 	}
 

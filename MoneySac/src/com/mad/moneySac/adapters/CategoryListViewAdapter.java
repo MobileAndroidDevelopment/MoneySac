@@ -34,7 +34,7 @@ public class CategoryListViewAdapter extends ArrayAdapter<Category> {
         
         titleCat.setText(values.get(position).getName());
         type.setText(values.get(position).getType());
-        int iconID = SacEntryType.getIconForEntryType(values.get(position).getType());
+        int iconID = SacEntryType.getType(values.get(position).getType()).getCategoryIcon();
         icon.setImageResource(iconID);
 
         return rowView;

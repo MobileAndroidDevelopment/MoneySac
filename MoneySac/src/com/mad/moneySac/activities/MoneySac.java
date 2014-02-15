@@ -1,8 +1,6 @@
 package com.mad.moneySac.activities;
 
-import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -22,6 +20,7 @@ import android.widget.TextView;
 import com.mad.moneySac.R;
 import com.mad.moneySac.adapters.DatePickerFragment;
 import com.mad.moneySac.adapters.ListViewAdapter;
+import com.mad.moneySac.helpers.MoneyUtils;
 import com.mad.moneySac.helpers.SacEntrySelection;
 import com.mad.moneySac.helpers.SegmentedRadioGroup;
 import com.mad.moneySac.model.SacEntry;
@@ -31,6 +30,7 @@ import com.mad.moneySac.model.SacEntryType;
 public class MoneySac extends Activity {
 
 	public static final String TYPE_EXTRA = "TYPE";
+	public static final String ENTRY_EXTRA = "ENTRY";
 	private SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.GERMANY);
 	private long currentDate;
 
@@ -98,12 +98,12 @@ public class MoneySac extends Activity {
 		try {
 			list = helper.where(this, selection);
 		} catch (SQLException e) {
-			// TODO Exception Handling
 			e.printStackTrace();
 		}
 		
 		ListViewAdapter listAdapter = new ListViewAdapter(this, list);
 		listView.setAdapter(listAdapter);
+		listView.setOnItemClickListener(listAdapter.getCategoryItemClickListener());
 		
 		calculateSum();
 	}
@@ -123,14 +123,10 @@ public class MoneySac extends Activity {
 			}
 		}
 		
-		textViewIncome.setText(getFormattedNumber(totalIncome));
-		textViewExpense.setText(getFormattedNumber(totalExpense));
+		textViewIncome.setText(MoneyUtils.getFormattedNumber(totalIncome));
+		textViewExpense.setText(MoneyUtils.getFormattedNumber(totalExpense));
 	}
 	
-	public String getFormattedNumber(double amount){
-		return String.format("%.2f", amount)+" €";
-	}
-
 	public void showMoneySacDatePickerDialog(View v) {
 		DialogFragment newFragment = new DatePickerFragment(this);
 		newFragment.show(getFragmentManager(), "datePicker");
@@ -138,14 +134,12 @@ public class MoneySac extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.menu_moneysac_main, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		//Reacts if a menu item is selected
 		Intent intent;
 		switch (item.getItemId()) {
 		case R.id.menu_main_category:
@@ -159,14 +153,12 @@ public class MoneySac extends Activity {
 	}
 
 	public void addIncomeClicked(View v) {
-		// TODO add extras in intent bundle
 		Intent intent = new Intent(this, EditEntryActivity.class);
 		intent.putExtra(TYPE_EXTRA, SacEntryType.INCOME);
 		startActivity(intent);
 	}
 
 	public void addExpenseClicked(View v) {
-		// TODO add extras in intent bundle
 		Intent intent = new Intent(this, EditEntryActivity.class);
 		intent.putExtra(TYPE_EXTRA, SacEntryType.EXPENSE);
 		startActivity(intent);
