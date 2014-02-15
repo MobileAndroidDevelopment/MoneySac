@@ -35,4 +35,15 @@ public class SacEntryDBHelper extends AbstractDBHelper<SacEntry> {
 		List<SacEntry> categories = dao.queryBuilder().where().eq(column, value).query();
 		return categories;
 	}
+	
+	public List<SacEntry> where(Context context, String[] columns, Object[] values) throws SQLException{
+
+		Dao<SacEntry, Integer> dao = getHelper(context).getSacEntryDao();
+		QueryBuilder<SacEntry, Integer> builder = dao.queryBuilder();
+		for(int i = 0; i <columns.length; i++){
+			builder.where().eq(columns[i], values[i]);
+		}
+		
+		return builder.query();
+	}
 }
