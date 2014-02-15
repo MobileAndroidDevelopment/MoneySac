@@ -1,6 +1,8 @@
 package com.mad.moneySac.activities;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -120,8 +122,13 @@ public class MoneySac extends Activity {
 				totalExpense+=adapter.getItem(i).getAmount();
 			}
 		}
-		textViewIncome.setText(totalIncome+"");
-		textViewExpense.setText(totalExpense+"");
+		
+		textViewIncome.setText(getFormattedNumber(totalIncome));
+		textViewExpense.setText(getFormattedNumber(totalExpense));
+	}
+	
+	public String getFormattedNumber(double amount){
+		return String.format("%.2f", amount)+" €";
 	}
 
 	public void showMoneySacDatePickerDialog(View v) {

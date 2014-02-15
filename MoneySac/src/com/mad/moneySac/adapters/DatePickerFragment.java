@@ -3,6 +3,7 @@ package com.mad.moneySac.adapters;
 import java.lang.reflect.Field;
 import java.util.Calendar;
 
+import com.mad.moneySac.R.color;
 import com.mad.moneySac.activities.MoneySac;
 
 import android.annotation.SuppressLint;
@@ -41,14 +42,14 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         // Do something with the date chosen by the user
         ((MoneySac)getActivity()).changeMonth(year, month, day);
     }
-
-
+    
     private DatePickerDialog customDatePicker() {
     	Calendar c = Calendar.getInstance();
         DatePickerDialog dpd = new DatePickerDialog(context, this, c.get(Calendar.YEAR), (c.get(Calendar.MONTH)+1), 0);
         try {
             Field[] datePickerDialogFields = dpd.getClass().getDeclaredFields();
             for (Field datePickerDialogField : datePickerDialogFields) {
+            	
                 if (datePickerDialogField.getName().equals("mDatePicker")) {
                     datePickerDialogField.setAccessible(true);
                     DatePicker datePicker = (DatePicker) datePickerDialogField.get(dpd);
