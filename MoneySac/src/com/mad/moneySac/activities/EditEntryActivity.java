@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -31,6 +30,7 @@ public class EditEntryActivity extends Activity {
 	private Spinner categorySpinner;
 	private long currentDateInMillis;
 	private String type;
+	private SacEntry sacEntry;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,6 @@ public class EditEntryActivity extends Activity {
 
 		getExtrasFromBundle();
 		loadCategories();
-		setDateButtonText();
 	}
 
 	private void loadCategories() {
@@ -49,20 +48,35 @@ public class EditEntryActivity extends Activity {
 			List<Category> categories = categoryHelper.where(this, "type", type);
 			categorySpinner = (Spinner) findViewById(R.id.spinnerEntryCategory);
 			categorySpinner.setAdapter(new ArrayAdapter<Category>(this, android.R.layout.simple_spinner_dropdown_item, categories));
-			} catch (SQLException e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	private void getExtrasFromBundle() {
-		type = getIntent().getStringExtra(MoneySac.TYPE_EXTRA);
+		Calendar calendar = Calendar.getInstance();
+		if(getIntent().getExtras().containsKey("")){
+			sacEntry = (SacEntry)getIntent().getExtras().get("");
+			type = sacEntry.getType();
+			((EditText) findViewById(R.id.editTextEntryAmount)).setText(sacEntry.getAmount()+"");
+			((EditText) findViewById(R.id.editTextEntryDesc)).setText(sacEntry.getDescription()+"");
+			calendar.setTimeInMillis(sacEntry.getDateTime());
+
+			@SuppressWarnings("unchecked")
+			ArrayAdapter<Category> spinnerAdapter = (ArrayAdapter<Category>) categorySpinner.getAdapter();
+			int position = spinnerAdapter.getPosition(sacEntry.getCategory());
+			categorySpinner.setSelection(position);
+		} else {
+			type = getIntent().getStringExtra(MoneySac.TYPE_EXTRA);
+		}
+		
+		setDateButtonText(calendar);
 		((Button) findViewById(R.id.buttonAddEntry)).setText(SacEntryType.getButtonTextForEntryType(type));
 	}
 
-	private void setDateButtonText() {
+	private void setDateButtonText(Calendar c) {
 		Button dateButton = (Button) findViewById(R.id.buttonEntryDate);
-		Calendar c = Calendar.getInstance();
 		currentDateInMillis = c.getTimeInMillis();
 		dateButton.setText(c.get(Calendar.DAY_OF_MONTH) + "." + (c.get(Calendar.MONTH)+1) + "." + c.get(Calendar.YEAR));
 	}
@@ -74,7 +88,6 @@ public class EditEntryActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.edit_entry, menu);
 		return true;
 	}
@@ -89,16 +102,18 @@ public class EditEntryActivity extends Activity {
 	}
 	
 	private void persist(String desc, double amount, Category category, long date) {
-		SacEntry entry = new SacEntry();
-		entry.setAmount(amount);
-		entry.setCategory(category);
-		entry.setDescription(desc);
-		entry.setDateTime(date);
-		entry.setType(type);
-		Log.d("zu speicherndes objekt", entry.toString());
+		if (sacEntry == null) {
+			sacEntry = new SacEntry();
+			sacEntry.setAmount(amount);
+			sacEntry.setCategory(category);
+			sacEntry.setDescription(desc);
+			sacEntry.setDateTime(date);
+			sacEntry.setType(type);
+		}
+		Log.d("zu speicherndes objekt", sacEntry.toString());
 		SacEntryDBHelper helper = new SacEntryDBHelper();
 		try {
-			helper.createOrUpdate(this, entry);
+			helper.createOrUpdate(this, sacEntry);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
