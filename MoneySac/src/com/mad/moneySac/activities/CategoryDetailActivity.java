@@ -85,7 +85,7 @@ public class CategoryDetailActivity extends Activity {
 			Toast.makeText(this, R.string.category_details_name_empty,
 					Toast.LENGTH_SHORT).show();
 		else {
-			category.setName(edName.getText().toString());
+			category.setName(edName.getText().toString().trim());
 			try {
 				catDBHelper.createOrUpdate(this, category);
 				Toast.makeText(this, R.string.saved_succesfull,
