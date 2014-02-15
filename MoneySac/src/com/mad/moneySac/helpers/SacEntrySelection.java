@@ -2,6 +2,8 @@ package com.mad.moneySac.helpers;
 
 import java.util.Calendar;
 
+import android.util.Log;
+
 public class SacEntrySelection {
 
 	private String type;
@@ -32,6 +34,7 @@ public class SacEntrySelection {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(selectedMonth);
 		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		Log.d("FROM_DATE", calendar.getTimeInMillis()+"");
 		return calendar.getTimeInMillis();
 	}
 	
@@ -39,6 +42,7 @@ public class SacEntrySelection {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(selectedMonth);
 		calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+		Log.d("TO_DATE", calendar.getTimeInMillis()+"");
 		return calendar.getTimeInMillis();
 	}
 	

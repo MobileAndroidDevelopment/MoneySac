@@ -43,12 +43,11 @@ public class MoneySac extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		loadListView();
+		refreshListView();
 	}
 	
 	
 	private void load() {
-		loadListView();
 		loadSegmentedRadioGroup();
 		loadCurrentMonthButton();
 	}
@@ -67,6 +66,7 @@ public class MoneySac extends Activity {
 		c.set(year, month, 0);
 		currentDate = c.getTimeInMillis();
 		button.setText(sdf.format(c.getTime()));
+		refreshListView();
 	}
 	
 	private SegmentedRadioGroup loadSegmentedRadioGroup() {
@@ -87,18 +87,16 @@ public class MoneySac extends Activity {
 		}
 	}
 
-	private ListView loadListView() {
+	private ListView refreshListView() {
 		ListView listView = (ListView) findViewById(R.id.listViewEntries);
 
 		SacEntrySelection selection = new SacEntrySelection().setSelectedMonth(currentDate);
 		SacEntryDBHelper helper = new SacEntryDBHelper();
 		List<SacEntry> list = null;
 		try {
-//			list = helper.where(this, selection);
-			list = helper.getAll(this);
-			Log.d("getAll()", list.size()+"");
+			list = helper.where(this, selection);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			// TODO Exception Handling
 			e.printStackTrace();
 		}
 		
