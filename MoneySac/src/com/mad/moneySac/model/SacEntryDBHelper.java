@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.mad.moneySac.helpers.SacEntrySelection;
 
 public class SacEntryDBHelper extends AbstractDBHelper<SacEntry> {
 
@@ -42,6 +43,19 @@ public class SacEntryDBHelper extends AbstractDBHelper<SacEntry> {
 		QueryBuilder<SacEntry, Integer> builder = dao.queryBuilder();
 		for(int i = 0; i <columns.length; i++){
 			builder.where().eq(columns[i], values[i]);
+		}
+		
+		return builder.query();
+	}
+	
+	public List<SacEntry> where(Context context, SacEntrySelection selection) throws SQLException{
+		Dao<SacEntry, Integer> dao = getHelper(context).getSacEntryDao();
+		QueryBuilder<SacEntry, Integer> builder = dao.queryBuilder();
+		if(selection.hasTimeSelection()){
+			builder.where().between("dateTime", selection.fromDate(), selection.toDate());
+		}
+		if(selection.hasTypeSelection()){
+			builder.where().eq("type", selection.getType());
 		}
 		
 		return builder.query();
