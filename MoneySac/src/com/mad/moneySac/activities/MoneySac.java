@@ -43,12 +43,10 @@ public class MoneySac extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		refreshListView();
+		setSelection(loadSegmentedRadioGroup().getCheckedRadioButtonId());
 	}
-	
-	
+
 	private void load() {
-		loadSegmentedRadioGroup();
 		loadCurrentMonthButton();
 	}
 
@@ -60,37 +58,43 @@ public class MoneySac extends Activity {
 		return button;
 	}
 	
-	public void changeMonth(int year, int month){
+	public void changeMonth(int year, int month, int day){
 		Button button = (Button)findViewById(R.id.monthButton);
 		Calendar c = Calendar.getInstance();
-		c.set(year, month, 0);
+		c.set(year, month, day);
 		currentDate = c.getTimeInMillis();
 		button.setText(sdf.format(c.getTime()));
-		refreshListView();
+		setSelection(loadSegmentedRadioGroup().getCheckedRadioButtonId());
 	}
 	
+
 	private SegmentedRadioGroup loadSegmentedRadioGroup() {
 		return (SegmentedRadioGroup) findViewById(R.id.segmentedRadioGroup);
 	}
 
 
 	public void segmentedButtonClicked(View v) {
-
-		if (v.getId() == R.id.segmentedRadioButtonIn) {
-
-		} else if (v.getId() == R.id.segmentedRadioButtonOut) {
-			// if Out clicked
-
+		setSelection(v.getId());
+	}
+	
+	public void setSelection(int id){
+		SacEntrySelection selection = null;
+		if (id == R.id.segmentedRadioButtonIn) {
+			// if income selected
+			selection = new SacEntrySelection().setSelectedMonth(currentDate).setType(SacEntryType.INCOME);
+		} else if (id == R.id.segmentedRadioButtonOut) {
+			// if expenses selected
+			selection = new SacEntrySelection().setSelectedMonth(currentDate).setType(SacEntryType.EXPENSE);
 		} else {
 			// represents all other states, showing both.
-
+			selection = new SacEntrySelection().setSelectedMonth(currentDate);
 		}
+		refreshListView(selection);
 	}
 
-	private ListView refreshListView() {
+	private ListView refreshListView(SacEntrySelection selection) {
 		ListView listView = (ListView) findViewById(R.id.listViewEntries);
-
-		SacEntrySelection selection = new SacEntrySelection().setSelectedMonth(currentDate);
+		
 		SacEntryDBHelper helper = new SacEntryDBHelper();
 		List<SacEntry> list = null;
 		try {
