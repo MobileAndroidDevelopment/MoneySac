@@ -1,5 +1,9 @@
 package com.mad.moneySac.model;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 
 import android.content.Context;
@@ -10,6 +14,7 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.mad.moneySac.helpers.FileUtils;
 
 /**
  * Database helper class used to manage the creation and upgrading of your database. This class also usually provides
@@ -18,6 +23,7 @@ import com.j256.ormlite.table.TableUtils;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 	// name of the database file for your application -- change to something appropriate for your app
+	// //data/data/<Your-Application-Package-Name>/databases/sacEntry.db
 	private static final String DATABASE_NAME = "sacEntry.db";
 	// any time you make changes to your database objects, you may have to increase the database version
 	private static final int DATABASE_VERSION = 2;
@@ -76,6 +82,29 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			sacEntryDao = getDao(SacEntry.class);
 		}
 		return sacEntryDao;
+	}
+	
+	public static String DB_FILEPATH = "/data/data/{package_name}/databases/sacEntry.db";
+
+	/**
+	 * Copies the database file at the specified location over the current
+	 * internal application database.
+	 */
+	public boolean importDatabase(String dbPath) throws IOException {
+
+	    // Close the SQLiteOpenHelper so it will commit the created empty
+	    // database to internal storage.
+	    close();
+	    File newDb = new File(dbPath);
+	    File oldDb = new File(DB_FILEPATH);
+	    if (newDb.exists()) {
+	        FileUtils.copyFile(new FileInputStream(newDb), new FileOutputStream(oldDb));
+	        // Access the copied database so SQLiteHelper will cache it and mark
+	        // it as created.
+	        getWritableDatabase().close();
+	        return true;
+	    }
+	    return false;
 	}
 
 	/**
