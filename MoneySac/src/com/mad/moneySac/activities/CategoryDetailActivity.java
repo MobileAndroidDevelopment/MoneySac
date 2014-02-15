@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -19,9 +18,12 @@ import com.mad.moneySac.model.Category;
 import com.mad.moneySac.model.CategoryDBHelper;
 import com.mad.moneySac.model.SacEntryType;
 
+/**
+ * Activity zum Anlegen/Anzeigen/Ändern/Löschen einer Kategorie. Wurde eine Kategorie an diese Activity übergeben, werden die Felder
+ * entsprechend gefüllt und die Kategorie kann geändert oder gelöscht werden.
+ */
 public class CategoryDetailActivity extends Activity {
 
-	private Button btSave;
 	private Spinner typeSpinner;
 	private EditText edName;
 	private Category category;
@@ -33,22 +35,21 @@ public class CategoryDetailActivity extends Activity {
 
 		initViews();
 		setSpinnerValues();
-		setListeners();
 
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
-			category = (Category) extras
-					.getSerializable(CategoryListView.CATEGORY_EXTRA_ID);
+			category = (Category) extras.getSerializable(CategoryListView.CATEGORY_EXTRA_ID);
 			updateTextBoxes();
 		}
-
 	}
 
 	private void updateTextBoxes() {
 		edName.setText(category.getName());
-		if (!((String) typeSpinner.getSelectedItem()).equals(category.getType())){
-			typeSpinner.setSelection(1);
-		}
+
+		@SuppressWarnings("unchecked")
+		ArrayAdapter<String> myAdap = (ArrayAdapter<String>) typeSpinner.getAdapter();
+		int position = myAdap.getPosition(category.getType());
+		typeSpinner.setSelection(position);
 	}
 
 	private void setSpinnerValues() {
@@ -58,38 +59,27 @@ public class CategoryDetailActivity extends Activity {
 	}
 
 	private void initViews() {
-		btSave = (Button) findViewById(R.id.moneysac_detail_category_bt_save);
 		typeSpinner = (Spinner) findViewById(R.id.moneysac_detail_category_typ_spinner);
 		edName = (EditText) findViewById(R.id.moneysac_detail_category_edit_title);
 	}
 
-	private void setListeners() {
-
-		btSave.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				save();
-			}
-		});
-
-	}
-
-	private void save() {
+	/**
+	 * Speichert die Kategorie, egal ob es sich um eine neue oder bereits vorhandene handelt
+	 * @param view
+	 */
+	public void save(View view) {
 		CategoryDBHelper catDBHelper = new CategoryDBHelper();
 		if (category == null)
 			category = new Category();
 
 		category.setType((String) typeSpinner.getSelectedItem());
 		if (edName.getText().toString().trim().isEmpty())
-			Toast.makeText(this, R.string.category_details_name_empty,
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.category_details_name_empty, Toast.LENGTH_SHORT).show();
 		else {
 			category.setName(edName.getText().toString().trim());
 			try {
 				catDBHelper.createOrUpdate(this, category);
-				Toast.makeText(this, R.string.saved_succesfull,
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, R.string.saved_succesfull, Toast.LENGTH_SHORT).show();
 				finish();
 			} catch (SQLException e) {
 				Log.e("CategoryDetailsSave", e.toString());
@@ -122,7 +112,6 @@ public class CategoryDetailActivity extends Activity {
 				finish();
 			}
 			break;
-
 		}
 		return true;
 	}

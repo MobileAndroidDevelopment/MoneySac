@@ -31,8 +31,6 @@ public class Category implements Serializable, Comparable<Category> {
 		this.name = name;
 	}
 
-	
-	
 	public String getType() {
 		return type;
 	}

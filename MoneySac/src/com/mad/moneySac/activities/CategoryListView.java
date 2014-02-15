@@ -2,11 +2,11 @@ package com.mad.moneySac.activities;
 
 import java.sql.SQLException;
 import java.util.LinkedList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -15,10 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mad.moneySac.R;
 import com.mad.moneySac.adapters.CategoryListViewAdapter;
@@ -29,9 +26,8 @@ public class CategoryListView extends Activity {
 
 	public static final String CATEGORY_EXTRA_ID = "CATEGORY_ID";
 	private ListView catList;
-	private Button btAddCat;
 	private CategoryDBHelper catDBHelper;
-	private LinkedList<Category> values;
+	private List<Category> values;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +35,6 @@ public class CategoryListView extends Activity {
 		setContentView(R.layout.activity_moneysac_category_list_view);
 		catDBHelper = new CategoryDBHelper();
 		initViewElements();
-		setListener();
-
 	}
 
 	@Override
@@ -48,32 +42,25 @@ public class CategoryListView extends Activity {
 		super.onResume();
 		showList();
 	}
-
-	private void setListener() {
-		btAddCat.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				startActivity(new Intent(getApplicationContext(),
-						CategoryDetailActivity.class));
-
-			}
-		});
+	
+	/**
+	 * Startet die Activity zum Anlegen einer neuen Kategorie
+	 * @param view
+	 */
+	public void startAddCategory(View view){
+		startActivity(new Intent(getApplicationContext(), CategoryDetailActivity.class));
 	}
 
 	private void showList() {
-
 		values = new LinkedList<Category>();
 
 		try {
-			values = new LinkedList<Category>(catDBHelper.getAll(this));
+			values = catDBHelper.getAll(this);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		CategoryListViewAdapter adapter = new CategoryListViewAdapter(this,
-				values);
+		CategoryListViewAdapter adapter = new CategoryListViewAdapter(this, values);
 		catList.setAdapter(adapter);
 		catList.setOnItemClickListener(new CategoryItemClickListener(adapter));
 		registerForContextMenu(catList);
@@ -81,30 +68,9 @@ public class CategoryListView extends Activity {
 
 	private void initViewElements() {
 		catList = (ListView) findViewById(R.id.moneysac_cetegory_listview);
-		btAddCat = (Button) findViewById(R.id.addCategoryButton);
 	}
 
-	private class CategoryItemClickListener implements OnItemClickListener {
-
-		private ArrayAdapter<Category> adapter;
-
-		public CategoryItemClickListener(ArrayAdapter<Category> adapter) {
-			this.adapter = adapter;
-		}
-
-		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-				long arg3) {
-			Intent categoryDetailIntend = new Intent(CategoryListView.this,
-					CategoryDetailActivity.class);
-			categoryDetailIntend.putExtra(CATEGORY_EXTRA_ID,
-					adapter.getItem(position));
-			startActivity(categoryDetailIntend);
-		}
-	}
-
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		if (v.getId() == R.id.moneysac_cetegory_listview) {
 			AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
 			menu.setHeaderTitle(values.get(info.position).getName());
@@ -118,14 +84,11 @@ public class CategoryListView extends Activity {
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
-				.getMenuInfo();
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 		switch (item.getItemId()) {
 		case 0:
-			Intent categoryDetailIntend = new Intent(CategoryListView.this,
-					CategoryDetailActivity.class);
-			categoryDetailIntend.putExtra(CATEGORY_EXTRA_ID,
-					values.get(info.position));
+			Intent categoryDetailIntend = new Intent(CategoryListView.this, CategoryDetailActivity.class);
+			categoryDetailIntend.putExtra(CATEGORY_EXTRA_ID, values.get(info.position));
 			startActivity(categoryDetailIntend);
 			break;
 
@@ -134,12 +97,28 @@ public class CategoryListView extends Activity {
 			try {
 				db.delete(this, values.get(info.position));
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			showList();
 			break;
 		}
 		return true;
+	}
+
+	private class CategoryItemClickListener implements OnItemClickListener {
+
+		private ArrayAdapter<Category> adapter;
+
+		public CategoryItemClickListener(ArrayAdapter<Category> adapter) {
+			this.adapter = adapter;
+		}
+
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+				long arg3) {
+			Intent categoryDetailIntend = new Intent(CategoryListView.this, CategoryDetailActivity.class);
+			categoryDetailIntend.putExtra(CATEGORY_EXTRA_ID, adapter.getItem(position));
+			startActivity(categoryDetailIntend);
+		}
 	}
 }

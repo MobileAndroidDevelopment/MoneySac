@@ -1,6 +1,6 @@
 package com.mad.moneySac.adapters;
 
-import java.util.LinkedList;
+import java.util.List;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -16,9 +16,9 @@ import com.mad.moneySac.model.SacEntryType;
 
 public class CategoryListViewAdapter extends ArrayAdapter<Category> {
     private final Context context;
-    private final LinkedList<Category> values;
+    private final List<Category> values;
 
-    public CategoryListViewAdapter(Context context, LinkedList<Category> values) {
+    public CategoryListViewAdapter(Context context, List<Category> values) {
         super(context, R.layout.category_listrow, values);
         this.context = context;
         this.values = values;

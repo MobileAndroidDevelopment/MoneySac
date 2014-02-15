@@ -61,6 +61,7 @@
         android:layout_below="@id/layoutCategoryDetail"
         android:textStyle="bold"
         android:textSize="35sp"
+        android:onClick="save"
         android:text="+" />
 
 </RelativeLayout>
