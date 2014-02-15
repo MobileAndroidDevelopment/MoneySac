@@ -2,15 +2,11 @@ package com.mad.moneySac.activities;
 
 import java.util.Calendar;
 
-import junit.framework.Test;
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.transition.ChangeBounds;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.Spinner;
 
 import com.mad.moneySac.R;
+import com.mad.moneySac.model.SacEntryType;
 
 public class EditEntryActivity extends Activity {
 	
@@ -35,16 +32,8 @@ public class EditEntryActivity extends Activity {
 	}
 
 	private void getExtrasFromBundle() {
-		setButtonText(getIntent().getBooleanExtra(MoneySac.IS_INCOME, false));
-	}
-
-	private void setButtonText(boolean isIncome) {
-		Button readyButton = (Button) findViewById(R.id.buttonAddEntry);
-		if (isIncome) {
-			readyButton.setText("+");
-		} else {
-			readyButton.setText("-");
-		}
+		String type = getIntent().getStringExtra(MoneySac.TYPE_EXTRA);
+		((Button) findViewById(R.id.buttonAddEntry)).setText(SacEntryType.getButtonTextForEntryType(type));
 	}
 
 	private void setDateButtonText() {

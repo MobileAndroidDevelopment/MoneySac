@@ -28,11 +28,9 @@ import com.mad.moneySac.model.SacEntryType;
 
 public class MoneySac extends Activity {
 
-	public static final String IS_INCOME = "IS_INCOME";
+	public static final String TYPE_EXTRA = "TYPE";
 	SimpleDateFormat sdfOut = new SimpleDateFormat("MMMM yyyy", Locale.GERMAN);
 	SimpleDateFormat sdfIn = new SimpleDateFormat("yyyyMM", Locale.GERMAN);
-	private SacEntryType incomeType;
-	private SacEntryType expenseType;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -158,14 +156,14 @@ public class MoneySac extends Activity {
 	public void addIncomeClicked(View v) {
 		// TODO add extras in intent bundle
 		Intent intent = new Intent(this, EditEntryActivity.class);
-		intent.putExtra(IS_INCOME, true);
+		intent.putExtra(TYPE_EXTRA, SacEntryType.INCOME);
 		startActivity(intent);
 	}
 
 	public void addExpenseClicked(View v) {
 		// TODO add extras in intent bundle
 		Intent intent = new Intent(this, EditEntryActivity.class);
-		intent.putExtra(IS_INCOME, false);
+		intent.putExtra(TYPE_EXTRA, SacEntryType.EXPENSE);
 		startActivity(intent);
 	}
 
