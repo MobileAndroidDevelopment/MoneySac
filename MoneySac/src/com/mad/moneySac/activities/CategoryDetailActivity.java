@@ -22,7 +22,6 @@ import com.mad.moneySac.model.SacEntryType;
 public class CategoryDetailActivity extends Activity {
 
 	private Button btSave;
-	private Button btCancel;
 	private Spinner typeSpinner;
 	private EditText edName;
 	private Category category;
@@ -59,8 +58,7 @@ public class CategoryDetailActivity extends Activity {
 	}
 
 	private void initViews() {
-		btSave = (Button) findViewById(R.id.moneysac_detail_categoryl_bt_save);
-		btCancel = (Button) findViewById(R.id.moneysac_detail_category_bt_cancel);
+		btSave = (Button) findViewById(R.id.moneysac_detail_category_bt_save);
 		typeSpinner = (Spinner) findViewById(R.id.moneysac_detail_category_typ_spinner);
 		edName = (EditText) findViewById(R.id.moneysac_detail_category_edit_title);
 	}
@@ -72,14 +70,6 @@ public class CategoryDetailActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				save();
-			}
-		});
-
-		btCancel.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				finish();
 			}
 		});
 

@@ -36,7 +36,7 @@
         <activity
             android:name="com.mad.moneySac.activities.CategoryDetailActivity"
             android:label="@string/title_activity_category_detail"
-            android:theme="@android:style/Theme.Holo" >
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar" >
         </activity>
     </application>
 
