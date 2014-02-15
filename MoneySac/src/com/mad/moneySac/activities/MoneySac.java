@@ -10,12 +10,12 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.mad.moneySac.R;
 import com.mad.moneySac.adapters.DatePickerFragment;
@@ -37,17 +37,13 @@ public class MoneySac extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_moneysac);
 		setTitle("MoneySac");
-		load();
+		loadCurrentMonthButton();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		setSelection(loadSegmentedRadioGroup().getCheckedRadioButtonId());
-	}
-
-	private void load() {
-		loadCurrentMonthButton();
 	}
 
 	private Button loadCurrentMonthButton() {
@@ -92,7 +88,7 @@ public class MoneySac extends Activity {
 		refreshListView(selection);
 	}
 
-	private ListView refreshListView(SacEntrySelection selection) {
+	private void refreshListView(SacEntrySelection selection) {
 		ListView listView = (ListView) findViewById(R.id.listViewEntries);
 		
 		SacEntryDBHelper helper = new SacEntryDBHelper();
@@ -106,7 +102,26 @@ public class MoneySac extends Activity {
 		
 		ListViewAdapter listAdapter = new ListViewAdapter(this, list);
 		listView.setAdapter(listAdapter);
-		return listView;
+		
+		calculateSum();
+	}
+
+	private void calculateSum() {
+		TextView textViewIncome = (TextView)findViewById(R.id.textViewInValue);
+		TextView textViewExpense = (TextView)findViewById(R.id.textViewOutValue);
+		double totalIncome = 0.0;
+		double totalExpense = 0.0;
+		ListView listView = (ListView) findViewById(R.id.listViewEntries);
+		ListViewAdapter adapter = (ListViewAdapter)listView.getAdapter();
+		for(int i = 0; i < adapter.getCount(); i++){
+			if(adapter.getItem(i).getType().equals(SacEntryType.INCOME)){
+				totalIncome+=adapter.getItem(i).getAmount();
+			} else {
+				totalExpense+=adapter.getItem(i).getAmount();
+			}
+		}
+		textViewIncome.setText(totalIncome+"");
+		textViewExpense.setText(totalExpense+"");
 	}
 
 	public void showMoneySacDatePickerDialog(View v) {
