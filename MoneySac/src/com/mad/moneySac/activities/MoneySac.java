@@ -24,18 +24,21 @@ import com.mad.moneySac.adapters.DatePickerFragment;
 import com.mad.moneySac.adapters.ListViewAdapter;
 import com.mad.moneySac.helpers.SegmentedRadioGroup;
 import com.mad.moneySac.model.Entry;
+import com.mad.moneySac.model.SacEntryType;
 
 public class MoneySac extends Activity {
 
 	public static final String IS_INCOME = "IS_INCOME";
 	SimpleDateFormat sdfOut = new SimpleDateFormat("MMMM yyyy", Locale.GERMAN);
 	SimpleDateFormat sdfIn = new SimpleDateFormat("yyyyMM", Locale.GERMAN);
+	private SacEntryType incomeType;
+	private SacEntryType expenseType;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_moneysac);
-
+		
 		load();
 	}
 

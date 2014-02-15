@@ -1,10 +1,8 @@
 package com.mad.moneySac.activities;
 
 import java.sql.SQLException;
-import java.util.List;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -20,7 +18,6 @@ import com.mad.moneySac.R;
 import com.mad.moneySac.model.Category;
 import com.mad.moneySac.model.CategoryDBHelper;
 import com.mad.moneySac.model.SacEntryType;
-import com.mad.moneySac.model.SacEntryTypeDBHelper;
 
 public class CategoryDetailActivity extends Activity {
 
@@ -30,15 +27,10 @@ public class CategoryDetailActivity extends Activity {
 	private EditText edName;
 	private Category category;
 
-	private List<SacEntryType> typeList;
-	private SacEntryTypeDBHelper typeDBHelper;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_category_detail);
-
-		typeDBHelper = new SacEntryTypeDBHelper();
 
 		initViews();
 		setSpinnerValues();
@@ -55,22 +47,14 @@ public class CategoryDetailActivity extends Activity {
 
 	private void updateTextBoxes() {
 		edName.setText(category.getName());
-		if (((SacEntryType) typeSpinner.getSelectedItem()).getId() != category
-				.getType().getId())
+		if (!((String) typeSpinner.getSelectedItem()).equals(category.getType())){
 			typeSpinner.setSelection(1);
-
+		}
 	}
 
 	private void setSpinnerValues() {
-
-		try {
-			typeList = typeDBHelper.getAll(this);
-		} catch (SQLException e) {
-			Log.e("Get Types:", e.toString());
-		}
-
-		ArrayAdapter<SacEntryType> adapter = new ArrayAdapter<SacEntryType>(
-				this, android.R.layout.simple_spinner_dropdown_item, typeList);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+				this, android.R.layout.simple_spinner_dropdown_item, SacEntryType.getTypes());
 		typeSpinner.setAdapter(adapter);
 	}
 
@@ -106,7 +90,7 @@ public class CategoryDetailActivity extends Activity {
 		if (category == null)
 			category = new Category();
 
-		category.setType((SacEntryType) typeSpinner.getSelectedItem());
+		category.setType((String) typeSpinner.getSelectedItem());
 		if (edName.getText().toString().trim().isEmpty())
 			Toast.makeText(this, R.string.category_details_name_empty,
 					Toast.LENGTH_SHORT).show();

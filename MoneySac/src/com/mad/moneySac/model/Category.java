@@ -12,8 +12,8 @@ public class Category implements Serializable, Comparable<Category> {
 	private int id;
 	@DatabaseField
 	private String name;
-	@DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
-	private SacEntryType type;
+	@DatabaseField(canBeNull = false)
+	private String type;
 
 	public Integer getId() {
 		return id;
@@ -31,11 +31,13 @@ public class Category implements Serializable, Comparable<Category> {
 		this.name = name;
 	}
 
-	public SacEntryType getType() {
+	
+	
+	public String getType() {
 		return type;
 	}
 
-	public void setType(SacEntryType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 

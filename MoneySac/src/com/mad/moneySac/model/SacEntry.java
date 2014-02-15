@@ -17,8 +17,8 @@ public class SacEntry implements Serializable, Comparable<SacEntry> {
 	private Category category;
 	@DatabaseField
 	private long dateTime;
-	@DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
-	private SacEntryType type;
+	@DatabaseField
+	private String type;
 
 	public Integer getId() {
 		return id;
@@ -60,17 +60,18 @@ public class SacEntry implements Serializable, Comparable<SacEntry> {
 		this.dateTime = dateTime;
 	}
 
-	public SacEntryType getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(SacEntryType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
 	@Override
 	public String toString() {
-		return "SacEntry [id=" + id + ", description=" + description + ", amount=" + amount + ", category=" + category + ", dateTime=" + dateTime + ", type=" + type + "]";
+		return "SacEntry [id=" + id + ", description=" + description + ", amount=" + amount + ", category=" + category + ", dateTime=" + dateTime + ", type="
+				+ type + "]";
 	}
 
 	@Override

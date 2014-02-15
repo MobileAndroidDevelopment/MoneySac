@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.mad.moneySac.R;
 import com.mad.moneySac.model.Category;
+import com.mad.moneySac.model.SacEntryType;
 
 public class CategoryListViewAdapter extends ArrayAdapter<Category> {
     private final Context context;
@@ -30,9 +31,10 @@ public class CategoryListViewAdapter extends ArrayAdapter<Category> {
         TextView titleCat = (TextView) rowView.findViewById(R.id.moneysac_category__title_listrow);
         TextView type = (TextView) rowView.findViewById(R.id.moneysac_category__type_listrow);
         ImageView icon = (ImageView) rowView.findViewById(R.id.moneysac_category_img_listrow);
+        
         titleCat.setText(values.get(position).getName());
-        type.setText(values.get(position).getType().getName());
-        int iconID = values.get(position).getType().getIcon();
+        type.setText(values.get(position).getType());
+        int iconID = SacEntryType.getIconForEntryType(values.get(position).getType());
         icon.setImageResource(iconID);
 
         return rowView;

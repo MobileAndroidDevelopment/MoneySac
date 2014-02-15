@@ -10,7 +10,6 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.mad.moneySac.R;
 
 /**
  * Database helper class used to manage the creation and upgrading of your database. This class also usually provides
@@ -21,11 +20,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	// name of the database file for your application -- change to something appropriate for your app
 	private static final String DATABASE_NAME = "sacEntry.db";
 	// any time you make changes to your database objects, you may have to increase the database version
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 
 	// the DAO object we use to access the Todo table
 	private Dao<Category, Integer> categoryDao = null;
-	private Dao<SacEntryType, Integer> sacEntryTypeDao = null;
 	private Dao<SacEntry, Integer> sacEntryDao = null;
 
 	public DatabaseHelper(Context context) {
@@ -40,31 +38,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
 		try {
 			Log.i(DatabaseHelper.class.getName(), "onCreate");
-			TableUtils.createTable(connectionSource, SacEntryType.class);
 			TableUtils.createTable(connectionSource, Category.class);
 			TableUtils.createTable(connectionSource, SacEntry.class);
-
-			createEntryTypes();
 		} catch (SQLException e) {
 			Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
 			throw new RuntimeException(e);
-		}
-	}
-
-	private void createEntryTypes() {
-		try {
-			Dao<SacEntryType, Integer> dao = getSacEntryTypeDao();
-			SacEntryType incomeEntryType = new SacEntryType();
-			incomeEntryType.setName("Einnahme");
-			incomeEntryType.setIcon(R.drawable.money_bag_up);
-			dao.create(incomeEntryType);
-
-			SacEntryType expenseEntryType = new SacEntryType();
-			expenseEntryType.setName("Ausgabe");
-			expenseEntryType.setIcon(R.drawable.money_bag_down);
-			dao.create(expenseEntryType);
-		} catch (SQLException e) {
-			Log.e("ENTRY_TYPE_CREATE", e.getMessage(), e);
 		}
 	}
 
@@ -76,7 +54,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVersion, int newVersion) {
 		try {
 			Log.i(DatabaseHelper.class.getName(), "onUpgrade");
-			TableUtils.dropTable(connectionSource, SacEntryType.class, true);
 			TableUtils.dropTable(connectionSource, Category.class, true);
 			TableUtils.dropTable(connectionSource, SacEntry.class, true);
 			// after we drop the old databases, we create the new ones
@@ -94,13 +71,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		return categoryDao;
 	}
 
-	public Dao<SacEntryType, Integer> getSacEntryTypeDao() throws SQLException {
-		if (sacEntryTypeDao == null) {
-			sacEntryTypeDao = getDao(SacEntryType.class);
-		}
-		return sacEntryTypeDao;
-	}
-
 	public Dao<SacEntry, Integer> getSacEntryDao() throws SQLException {
 		if (sacEntryDao == null) {
 			sacEntryDao = getDao(SacEntry.class);
@@ -116,7 +86,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		super.close();
 		categoryDao = null;
 		sacEntryDao = null;
-		sacEntryTypeDao = null;
 	}
 
 }

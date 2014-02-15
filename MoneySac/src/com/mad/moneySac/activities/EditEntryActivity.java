@@ -15,16 +15,20 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.Spinner;
 
 import com.mad.moneySac.R;
 
 public class EditEntryActivity extends Activity {
+	
+	private Spinner categorySpinner;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_entry);
 		setTitle("Neue Ausgabe");
+		categorySpinner = (Spinner) findViewById(R.id.spinnerEntryCategory);
 
 		getExtrasFromBundle();
 		setDateButtonText();
