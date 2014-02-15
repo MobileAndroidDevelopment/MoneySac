@@ -1,6 +1,5 @@
 package com.mad.moneySac.activities;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -11,13 +10,11 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Spinner;
 
 import com.mad.moneySac.R;
 import com.mad.moneySac.adapters.DatePickerFragment;
@@ -29,26 +26,40 @@ import com.mad.moneySac.model.SacEntryType;
 public class MoneySac extends Activity {
 
 	public static final String TYPE_EXTRA = "TYPE";
-	SimpleDateFormat sdfOut = new SimpleDateFormat("MMMM yyyy", Locale.GERMAN);
-	SimpleDateFormat sdfIn = new SimpleDateFormat("yyyyMM", Locale.GERMAN);
+	private SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.GERMANY);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_moneysac);
-		
+		setTitle("MoneySac");
 		load();
 	}
 
 	private void load() {
-		ListView listView = loadListView();
-		Spinner monthSpinner = loadSpinner();
-		SegmentedRadioGroup segmentedButton = loadSegmentedRadioGroup();
+		loadListView();
+		loadSegmentedRadioGroup();
+		loadCurrentMonthButton();
 	}
 
+	private Button loadCurrentMonthButton() {
+		Button button = (Button)findViewById(R.id.monthButton);
+		Calendar c=Calendar.getInstance();
+		button.setText(sdf.format(c.getTime()));
+		return button;
+	}
+	
+	public void changeMonth(int year, int month){
+		Button button = (Button)findViewById(R.id.monthButton);
+		Calendar c = Calendar.getInstance();
+		c.set(year, month, 0);
+		button.setText(sdf.format(c.getTime()));
+	}
+	
 	private SegmentedRadioGroup loadSegmentedRadioGroup() {
 		return (SegmentedRadioGroup) findViewById(R.id.segmentedRadioGroup);
 	}
+
 
 	public void segmentedButtonClicked(View v) {
 
@@ -90,22 +101,6 @@ public class MoneySac extends Activity {
 		return listView;
 	}
 
-	private Spinner loadSpinner() {
-		Spinner monthSpinner = (Spinner) findViewById(R.id.spinnerMonths);
-		ArrayAdapter<String> monthSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
-		// Specify the layout to use when the list of choices appears
-		// TODO monthSpinnerAdapter.addAll(getMonths());
-		LinkedList<String> tempList = new LinkedList<String>();
-		tempList.add("Monat 1");
-		tempList.add("Monat 2");
-		tempList.add("Monat 3");
-		monthSpinnerAdapter.addAll(tempList);
-		monthSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		// Apply the adapter to the spinner
-		monthSpinner.setAdapter(monthSpinnerAdapter);
-		return monthSpinner;
-	}
-
 	public void showMoneySacDatePickerDialog(View v) {
 		DialogFragment newFragment = new DatePickerFragment(this);
 		newFragment.show(getFragmentManager(), "datePicker");
@@ -131,26 +126,6 @@ public class MoneySac extends Activity {
 
 		}
 		return true;
-	}
-
-	public void addMonthToSpinner(String date) {
-
-		Spinner spinner = (Spinner) findViewById(R.id.spinnerMonths);
-		ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinner.getAdapter();
-		Log.d("DATE STRING", date);
-		try {
-			boolean found = false;
-			for (int i = 0; i < adapter.getCount(); i++) {
-				if (adapter.getItem(i).equals(sdfOut.format(sdfIn.parse(date)))) {
-					found = true;
-				}
-			}
-			if (!found) {
-				adapter.add(sdfOut.format(sdfIn.parse(date)));
-			}
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public void addIncomeClicked(View v) {

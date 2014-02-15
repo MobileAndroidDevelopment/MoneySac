@@ -15,28 +15,14 @@
         android:orientation="vertical"
         android:weightSum="1" >
 
-        <LinearLayout
-            android:id="@+id/relativeLayoutSpinner"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/monthButton"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1" >
-
-            <Spinner
-                android:id="@+id/spinnerMonths"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight=".84" />
-
-            <Button
-                android:id="@+id/addButton"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight=".16"
-                android:onClick="showMoneySacDatePickerDialog"
-                android:text="@string/strAddMonth"
-                android:textSize="25sp" />
-        </LinearLayout>
+            android:layout_width="match_parent"
+            android:onClick="showMoneySacDatePickerDialog"
+            android:text="@string/strAddMonth"
+            android:textSize="25sp" />
 
         <ListView
             android:id="@+id/listViewEntries"
@@ -160,8 +146,8 @@
         </com.mad.moneySac.helpers.SegmentedRadioGroup>
 
         <LinearLayout
-            android:layout_width="match_parent"
             style="?android:attr/buttonBarStyle"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.15"
             android:orientation="horizontal"
@@ -173,21 +159,21 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight=".5"
-                android:textStyle="bold"
                 android:onClick="addIncomeClicked"
                 android:text="@string/strAddIncome"
-                android:textSize="35sp" />
+                android:textSize="35sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/addExpenseButton"
-                 style="?android:attr/buttonBarButtonStyle"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
-                android:textStyle="bold"
                 android:layout_height="match_parent"
                 android:layout_weight=".5"
                 android:onClick="addExpenseClicked"
                 android:text="@string/strAddExpense"
-                android:textSize="35sp" />
+                android:textSize="35sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 

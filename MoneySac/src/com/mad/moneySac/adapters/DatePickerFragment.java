@@ -53,11 +53,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     }
 
     protected void updateDate() {
-        int localMonth = (mMonth+1);
-        String monthString = localMonth < 10 ? "0" + localMonth : Integer.toString(localMonth);
-        String localYear = Integer.toString(mYear).substring(2);
-
-        ((MoneySac)getActivity()).addMonthToSpinner("20" + localYear + monthString);
+        ((MoneySac)getActivity()).changeMonth(mYear, (mMonth+1));
     }
 
     private DatePickerDialog customDatePicker() {
