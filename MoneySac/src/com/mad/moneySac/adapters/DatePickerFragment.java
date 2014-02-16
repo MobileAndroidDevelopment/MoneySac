@@ -22,34 +22,35 @@ import android.widget.DatePicker;
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     static final int DATE_DIALOG_ID = 1;
+    private long date;
     private Context context;
 
     public DatePickerFragment(){
     }
     
-    public DatePickerFragment(Context context){
+    public DatePickerFragment(Context context, long date){
         this.context = context;
+        this.date = date;
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
         DatePickerDialog datePickerDialog = this.customDatePicker();
         return datePickerDialog;
     }
 
-    public void onDateSet(DatePicker view, int year, int month, int day) {
+	public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
         ((MoneySac)getActivity()).changeMonth(year, month, day);
     }
     
     private DatePickerDialog customDatePicker() {
     	Calendar c = Calendar.getInstance();
+    	c.setTimeInMillis(date);
         DatePickerDialog dpd = new DatePickerDialog(context, this, c.get(Calendar.YEAR), (c.get(Calendar.MONTH)+1), 0);
         try {
             Field[] datePickerDialogFields = dpd.getClass().getDeclaredFields();
             for (Field datePickerDialogField : datePickerDialogFields) {
-            	
                 if (datePickerDialogField.getName().equals("mDatePicker")) {
                     datePickerDialogField.setAccessible(true);
                     DatePicker datePicker = (DatePicker) datePickerDialogField.get(dpd);
@@ -63,10 +64,10 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
                         }
                     }
                 }
-
             }
         } catch (Exception ex) {
         }
+        dpd.setTitle("Monat wählen");
         return dpd;
     }
 }

@@ -128,7 +128,7 @@ public class MoneySac extends Activity {
 	}
 	
 	public void showMoneySacDatePickerDialog(View v) {
-		DialogFragment newFragment = new DatePickerFragment(this);
+		DialogFragment newFragment = new DatePickerFragment(this, currentDate);
 		newFragment.show(getFragmentManager(), "datePicker");
 	}
 
