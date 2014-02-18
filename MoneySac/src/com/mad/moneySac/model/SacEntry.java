@@ -21,8 +21,25 @@ public class SacEntry implements Serializable, Comparable<SacEntry> {
 	private String type;
 	@DatabaseField
 	private String picturePath;
+	@DatabaseField
+	private final boolean recurring;
 
-	
+	public SacEntry() {
+		recurring = false;
+	}
+
+	private SacEntry(boolean recurring) {
+		this.recurring = recurring;
+	}
+
+	public static SacEntry normalEntry() {
+		return new SacEntry(false);
+	}
+
+	public static SacEntry recurringEntry() {
+		return new SacEntry(true);
+	}
+
 	public String getPicturePath() {
 		return picturePath;
 	}
@@ -79,10 +96,14 @@ public class SacEntry implements Serializable, Comparable<SacEntry> {
 		this.type = type;
 	}
 
+	public boolean isRecurring() {
+		return recurring;
+	}
+
 	@Override
 	public String toString() {
 		return "SacEntry [id=" + id + ", description=" + description + ", amount=" + amount + ", category=" + category + ", dateTime=" + dateTime + ", type="
-				+ type + "]";
+				+ type + ", picturePath=" + picturePath + ", recurring=" + recurring + "]";
 	}
 
 	@Override

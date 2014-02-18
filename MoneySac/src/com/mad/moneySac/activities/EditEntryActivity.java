@@ -130,7 +130,7 @@ public class EditEntryActivity extends Activity {
 
 	private void persist(String desc, double amount, Category category, long date) {
 		if (sacEntry == null) {
-			sacEntry = new SacEntry();
+			sacEntry = SacEntry.normalEntry();
 		}
 		sacEntry.setAmount(amount);
 		sacEntry.setCategory(category);
