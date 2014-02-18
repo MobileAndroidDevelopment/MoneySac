@@ -10,9 +10,13 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,6 +27,7 @@ import com.mad.moneySac.adapters.ListViewAdapter;
 import com.mad.moneySac.helpers.MoneyUtils;
 import com.mad.moneySac.helpers.SacEntrySelection;
 import com.mad.moneySac.helpers.SegmentedRadioGroup;
+import com.mad.moneySac.model.CategoryDBHelper;
 import com.mad.moneySac.model.SacEntry;
 import com.mad.moneySac.model.SacEntryDBHelper;
 import com.mad.moneySac.model.SacEntryType;
@@ -104,7 +109,7 @@ public class MoneySac extends Activity {
 		ListViewAdapter listAdapter = new ListViewAdapter(this, list);
 		listView.setAdapter(listAdapter);
 		listView.setOnItemClickListener(listAdapter.getCategoryItemClickListener());
-		
+		registerForContextMenu(listView);
 		calculateSum();
 	}
 
@@ -162,6 +167,46 @@ public class MoneySac extends Activity {
 		Intent intent = new Intent(this, EditEntryActivity.class);
 		intent.putExtra(TYPE_EXTRA, SacEntryType.EXPENSE);
 		startActivity(intent);
+	}
+	
+	
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		if (v.getId() == R.id.listViewEntries) {
+
+			menu.setHeaderTitle("Bitte wählen");
+			String[] menuItems = { getString(R.string.edit),
+					getString(R.string.delete) };
+			for (int i = 0; i < menuItems.length; i++) {
+				menu.add(Menu.NONE, i, i, menuItems[i]);
+			}
+		}
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+		ListView listView = (ListView) findViewById(R.id.listViewEntries);
+		ListViewAdapter adapter = (ListViewAdapter)listView.getAdapter();
+		switch (item.getItemId()) {
+		case 0:
+			Intent editEntryIntent = new Intent(this, EditEntryActivity.class);
+			editEntryIntent.putExtra(ENTRY_EXTRA, adapter.getItem(info.position));
+			Log.d("longclicked item", adapter.getItem(info.position).toString());
+			Log.d("longclicked item position", info.position+"");
+			startActivity(editEntryIntent);
+			break;
+
+		case 1:
+			SacEntryDBHelper helper = new SacEntryDBHelper();
+			try {
+				helper.delete(this, adapter.getItem(info.position));
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			onResume();
+			break;
+		}
+		return true;
 	}
 
 }
