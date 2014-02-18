@@ -1,14 +1,27 @@
 package com.mad.moneySac.activities;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -17,8 +30,10 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.mad.moneySac.R;
+import com.mad.moneySac.helpers.FileUtils;
 import com.mad.moneySac.model.Category;
 import com.mad.moneySac.model.CategoryDBHelper;
 import com.mad.moneySac.model.SacEntry;
@@ -27,6 +42,12 @@ import com.mad.moneySac.model.SacEntryType;
 
 public class EditEntryActivity extends Activity {
 
+	private static final int TAKE_PHOTO_CODE = 0;
+	public static final int MEDIA_TYPE_IMAGE = 1;
+	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+	public static final String IMAGE = "IMAGE";
+
+	private Uri fileUri;
 	private Spinner categorySpinner;
 	private long currentDateInMillis;
 	private String type;
@@ -116,6 +137,9 @@ public class EditEntryActivity extends Activity {
 		sacEntry.setDescription(desc);
 		sacEntry.setDateTime(date);
 		sacEntry.setType(type);
+		if(fileUri != null){
+			sacEntry.setPicturePath(fileUri+"");
+		}
 		Log.d("zu speicherndes objekt", sacEntry.toString());
 		SacEntryDBHelper helper = new SacEntryDBHelper();
 		try {
@@ -160,5 +184,87 @@ public class EditEntryActivity extends Activity {
 			((EditEntryActivity) getActivity()).setCurrentMillis(c.getTimeInMillis());
 		}
 	}
+	
+	public void seePictureOfBill(View v){
+		if(sacEntry != null){
+			 if(sacEntry.getPicturePath() != null){
+				 startActivity(sacEntry.getPicturePath());
+			 } else {
+				 Toast.makeText(this, "Kein Bild vorhanden", Toast.LENGTH_LONG).show();
+			 }
+		} else if(fileUri != null){
+			startActivity(fileUri+"");
+		} else {
+			Toast.makeText(this, "Kein Bild vorhanden", Toast.LENGTH_LONG).show();
+		}
+	}
+	
+	private void startActivity(String path){
+		 Intent intent = new Intent(this,ShowPictureActivity.class);
+		 intent.putExtra(IMAGE, path);
+		 startActivity(intent);
+	}
 
+	public void takePictureOfBill(View v) {
+		// here,counter will be incremented each time,and the picture taken by camera will be stored as 1.jpg,2.jpg and likewise.
+
+		// create Intent to take a picture and return control to the calling application
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
+
+		// start the image capture Intent
+		startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+			if (resultCode == RESULT_OK) {
+				// Image captured and saved to fileUri specified in the Intent
+				Toast.makeText(this, "Gespeichert!" /*+ fileUri*/, Toast.LENGTH_LONG).show();
+			} else if (resultCode == RESULT_CANCELED) {
+				// User cancelled the image capture
+			} else {
+				Toast.makeText(this, "SRY U NO PIC", Toast.LENGTH_SHORT).show();
+			}
+		}
+	}
+
+	/** Create a file Uri for saving an image or video */
+	private static Uri getOutputMediaFileUri(int type) {
+		return Uri.fromFile(getOutputMediaFile(type));
+	}
+
+	/** Create a File for saving an image or video */
+	private static File getOutputMediaFile(int type) {
+		// To be safe, you should check that the SDCard is mounted
+		// using Environment.getExternalStorageState() before doing this.
+
+		File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MoneySac");
+		// This location works best if you want the created images to be shared
+		// between applications and persist after your app has been uninstalled.
+
+		// Create the storage directory if it does not exist
+		if (!mediaStorageDir.exists()) {
+			if (!mediaStorageDir.mkdirs()) {
+				Log.d("MoneySacCam", "failed to create directory");
+				return null;
+			}
+		}
+
+		// Create a media file name
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+		File mediaFile;
+		
+		if (type == MEDIA_TYPE_IMAGE) {
+			mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
+			
+		} else {
+			return null;
+		}
+
+		return mediaFile;
+	}
 }

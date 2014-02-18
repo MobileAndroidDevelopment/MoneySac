@@ -19,6 +19,17 @@ public class SacEntry implements Serializable, Comparable<SacEntry> {
 	private long dateTime;
 	@DatabaseField
 	private String type;
+	@DatabaseField
+	private String picturePath;
+
+	
+	public String getPicturePath() {
+		return picturePath;
+	}
+
+	public void setPicturePath(String picturePath) {
+		this.picturePath = picturePath;
+	}
 
 	public Integer getId() {
 		return id;

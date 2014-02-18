@@ -5,7 +5,6 @@
     <string name="action_settings">Einstellungen</string>
     <string name="ok_button">OK</string>
     <string name="cancel_button">Abbrechen</string>
-
     <string name="listRowTitle">Title</string>
     <string name="detailLabelDescription">Beschreibung</string>
     <string name="detailLabelTitle">Titel</string>
@@ -33,5 +32,7 @@
     <string name="delete">Löschen</string>
     <string name="deleted_category">Kategorie gelöscht</string>
     <string name="edit">Bearbeiten</string>
+    <string name="title_activity_show_picture">ShowPictureActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

@@ -50,10 +50,10 @@
 
         <EditText
             android:id="@+id/editTextEntryAmount"
-            android:inputType="numberDecimal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".55"
+            android:inputType="numberDecimal"
             android:text="3.50" />
 
         <TextView
@@ -111,26 +111,46 @@
             android:id="@+id/buttonEntryDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:onClick="changeDateClicked"
             android:layout_weight=".6"
+            android:onClick="changeDateClicked"
             android:text="18.01.2014" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/buttonUploadPicture"
+    <LinearLayout
+        android:id="@+id/layoutPicture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/layoutEntryDate"
-        android:text="Foto der Rechnung anhängen" />
+        android:orientation="horizontal"
+        android:weightSum="1" >
+
+        <Button
+            android:id="@+id/buttonUploadPicture"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".8"
+            android:onClick="takePictureOfBill"
+            android:textSize="12sp"
+            android:text="Foto der Rechnung anhängen" />
+
+        <ImageButton
+            android:id="@+id/buttonShowPicture"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".2"
+            android:src="@drawable/icon_lupe"
+            android:onClick="seePictureOfBill"
+            />
+    </LinearLayout>
 
     <Button
         android:id="@+id/buttonAddEntry"
-        android:layout_below="@id/buttonUploadPicture"
         style="?android:attr/buttonBarButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="+"
+        android:layout_below="@id/layoutPicture"
         android:onClick="persistClicked"
+        android:text="+"
         android:textSize="35sp"
         android:textStyle="bold" />
 
