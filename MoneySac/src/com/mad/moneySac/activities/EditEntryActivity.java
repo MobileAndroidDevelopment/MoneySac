@@ -198,8 +198,6 @@ public class EditEntryActivity extends Activity {
 	}
 
 	public void takePictureOfBill(View v) {
-		// here,counter will be incremented each time,and the picture taken by camera will be stored as 1.jpg,2.jpg and likewise.
-
 		// create Intent to take a picture and return control to the calling application
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
@@ -224,12 +222,12 @@ public class EditEntryActivity extends Activity {
 		}
 	}
 
-	/** Create a file Uri for saving an image or video */
+	/** Create a file Uri for saving an image */
 	private static Uri getOutputMediaFileUri(int type) {
 		return Uri.fromFile(getOutputMediaFile(type));
 	}
 
-	/** Create a File for saving an image or video */
+	/** Create a File for saving an image */
 	private static File getOutputMediaFile(int type) {
 		// To be safe, you should check that the SDCard is mounted
 		// using Environment.getExternalStorageState() before doing this.
