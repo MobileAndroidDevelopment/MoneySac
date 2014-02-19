@@ -48,5 +48,9 @@
     <string name="menu_stats">Statistik</string>
     <string name="title_activity_stats">Statistik</string>
     <string name="title_activity_recurring_entry">RecurringEntryActivity</string>
+    <string name="menu_recurring_income">Wiederkehrendes Einkommen anlegen</string>
+    <string name="menu_recurring_expense">Wiederkehrende Ausgabe anlegen</string>
+    <string name="new_income">Neue Einnahme</string>
+    <string name="new_expense">Neue Ausgabe</string>
 
 </resources>
