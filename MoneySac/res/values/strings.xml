@@ -47,5 +47,6 @@
     <string name="attention">Achtung</string>
     <string name="menu_stats">Statistik</string>
     <string name="title_activity_stats">Statistik</string>
+    <string name="title_activity_recurring_entry">RecurringEntryActivity</string>
 
 </resources>

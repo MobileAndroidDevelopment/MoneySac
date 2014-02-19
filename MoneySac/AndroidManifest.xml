@@ -47,13 +47,17 @@
         </activity>
         <activity
             android:name="com.mad.moneySac.activities.ShowPictureActivity"
-            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"
-            android:label="@string/title_activity_show_picture" >
+            android:label="@string/title_activity_show_picture"
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar" >
         </activity>
         <activity
             android:name="com.mad.moneySac.activities.StatsActivity"
             android:label="@string/title_activity_stats"
             android:theme="@android:style/Theme.Holo.Dialog.NoActionBar" >
+        </activity>
+        <activity
+            android:name="com.mad.moneySac.activities.RecurringEntryActivity"
+            android:label="@string/title_activity_recurring_entry" >
         </activity>
     </application>
 
