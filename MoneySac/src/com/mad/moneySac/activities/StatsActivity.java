@@ -11,12 +11,12 @@ import org.afree.ui.RectangleInsets;
 import org.afree.util.UnitType;
 
 import android.app.Activity;
-import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.Display;
 
 import com.mad.moneySac.R;
-import com.mad.moneySac.model.SacEntry;
 import com.mad.moneySac.model.StatsView;
 
 public class StatsActivity extends Activity {
@@ -34,7 +34,11 @@ public class StatsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_stats);
 		
-		statsView = new StatsView(this);
+		Display display = getWindowManager().getDefaultDisplay();
+    	Point size = new Point();
+    	display.getSize(size);
+		
+		statsView = new StatsView(this, size.x);
 		statsChart = createPieChart(createDataset());
 		statsView.drawChart(statsChart);
 		

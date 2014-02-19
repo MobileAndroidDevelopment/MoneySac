@@ -8,31 +8,31 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 public class StatsView extends ImageView {
 	
-	Context context;
+	private Context		context;
 	private Bitmap		bitmap;
     private RectShape	rectArea;
     private Canvas		canvas;
     private AFreeChart	chart;
+    private int			width;
 
     public StatsView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         this.context = context;
+        this.width = 320;
     }
 
-    public StatsView(Context context) {
+    public StatsView(Context context, int width) {
         super(context);
         this.context = context;
+        this.width = width;
         initChart();
     }
 
     private void initChart() {
-        int width = getResources().getConfiguration().smallestScreenWidthDp;
-        Toast.makeText(context, "size:"+width, Toast.LENGTH_SHORT).show();
-    	bitmap = Bitmap.createBitmap(width, width, Bitmap.Config.ARGB_8888);
+        bitmap = Bitmap.createBitmap(width, width, Bitmap.Config.ARGB_8888);
     	rectArea = new RectShape(0.0, 0.0, width, width);
     }
 
