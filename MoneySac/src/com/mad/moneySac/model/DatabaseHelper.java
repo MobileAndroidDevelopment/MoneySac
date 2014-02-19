@@ -24,7 +24,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 	// name of the database file for your application -- change to something appropriate for your app
 	// //data/data/<Your-Application-Package-Name>/databases/sacEntry.db
-	private static final String DATABASE_NAME = "sacEntry.db";
+	public static final String DATABASE_NAME = "sacEntry.db";
 	// any time you make changes to your database objects, you may have to increase the database version
 	private static final int DATABASE_VERSION = 3;
 
@@ -51,7 +51,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			throw new RuntimeException(e);
 		}
 	}
-
+	
 	/**
 	 * This is called when your application is upgraded and it has a higher version number. This allows you to adjust
 	 * the various data to match the new version number.
