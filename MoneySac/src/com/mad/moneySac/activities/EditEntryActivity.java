@@ -1,17 +1,12 @@
 package com.mad.moneySac.activities;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -33,7 +28,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.mad.moneySac.R;
-import com.mad.moneySac.helpers.FileUtils;
 import com.mad.moneySac.model.Category;
 import com.mad.moneySac.model.CategoryDBHelper;
 import com.mad.moneySac.model.SacEntry;
@@ -42,7 +36,6 @@ import com.mad.moneySac.model.SacEntryType;
 
 public class EditEntryActivity extends Activity {
 
-	private static final int TAKE_PHOTO_CODE = 0;
 	public static final int MEDIA_TYPE_IMAGE = 1;
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	public static final String IMAGE = "IMAGE";
@@ -130,7 +123,7 @@ public class EditEntryActivity extends Activity {
 
 	private void persist(String desc, double amount, Category category, long date) {
 		if (sacEntry == null) {
-			sacEntry = new SacEntry();
+			sacEntry = SacEntry.normalEntry();
 		}
 		sacEntry.setAmount(amount);
 		sacEntry.setCategory(category);
@@ -145,7 +138,6 @@ public class EditEntryActivity extends Activity {
 		try {
 			helper.createOrUpdate(this, sacEntry);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		helper.close();
@@ -255,7 +247,7 @@ public class EditEntryActivity extends Activity {
 		}
 
 		// Create a media file name
-		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.GERMAN).format(new Date());
 		File mediaFile;
 		
 		if (type == MEDIA_TYPE_IMAGE) {

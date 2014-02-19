@@ -26,7 +26,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	// //data/data/<Your-Application-Package-Name>/databases/sacEntry.db
 	public static final String DATABASE_NAME = "sacEntry.db";
 	// any time you make changes to your database objects, you may have to increase the database version
-	private static final int DATABASE_VERSION = 3;
+	private static final int DATABASE_VERSION = 4;
 
 	// the DAO object we use to access the Todo table
 	private Dao<Category, Integer> categoryDao = null;
