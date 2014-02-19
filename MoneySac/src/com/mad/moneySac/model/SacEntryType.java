@@ -77,4 +77,11 @@ public class SacEntryType {
 		allTypes.add(INCOME);
 		return allTypes;
 	}
+	
+	public static final List<SacEntryType> getTypesAsList(){
+		List<SacEntryType> types = new LinkedList<SacEntryType>();
+		types.add(entryTypes.get(INCOME));
+		types.add(entryTypes.get(EXPENSE));
+		return types;
+	}
 }

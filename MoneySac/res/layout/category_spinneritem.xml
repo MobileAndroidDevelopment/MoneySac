@@ -9,28 +9,18 @@
     
     <ImageView 
         android:layout_alignParentLeft="true"
-        android:id="@+id/moneysac_category_img_listrow"
+        android:id="@+id/moneysac_category_img_spinner"
         android:src="@drawable/money_bag_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingRight="@dimen/moneysac_category_listrow_padding_img" />
 
     <TextView
-        android:id="@+id/moneysac_category__title_listrow"
+        android:id="@+id/moneysac_category_type_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/moneysac_category_img_listrow"
-        android:layout_toRightOf="@+id/moneysac_category_img_listrow"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/moneysac_category__type_listrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/moneysac_category_img_listrow"
-        android:layout_toRightOf="@+id/moneysac_category_img_listrow"
-        android:text="Small Text"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@+id/moneysac_category_img_spinner"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
     
 </RelativeLayout>

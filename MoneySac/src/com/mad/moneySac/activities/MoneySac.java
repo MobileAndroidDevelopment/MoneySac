@@ -44,9 +44,14 @@ public class MoneySac extends Activity {
 
 	public static final String TYPE_EXTRA = "TYPE";
 	public static final String ENTRY_EXTRA = "ENTRY";
+	public static final String INCOME = "income";
+	public static final String EXPENSE = "expense";
+	
 	private SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.GERMANY);
 	private long currentDate;
 	private File[] files;
+	double totalIncome = 0.0;
+	double totalExpense = 0.0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -123,8 +128,8 @@ public class MoneySac extends Activity {
 	private void calculateSum() {
 		TextView textViewIncome = (TextView) findViewById(R.id.textViewInValue);
 		TextView textViewExpense = (TextView) findViewById(R.id.textViewOutValue);
-		double totalIncome = 0.0;
-		double totalExpense = 0.0;
+		totalIncome = 0.0;
+		totalExpense = 0.0;
 		ListView listView = (ListView) findViewById(R.id.listViewEntries);
 		ListViewAdapter adapter = (ListViewAdapter) listView.getAdapter();
 		for (int i = 0; i < adapter.getCount(); i++) {
@@ -154,21 +159,27 @@ public class MoneySac extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent intent;
 		switch (item.getItemId()) {
-		case R.id.menu_main_category:
-			// starts the activity "CategoryListView"
-			intent = new Intent(this, CategoryListView.class);
-			startActivity(intent);
-			break;
-		case R.id.menu_main_import:
-			// imports the database
-			showListOfBackups();
-			break;
-		case R.id.menu_main_export:
-			// exports the database
-			String fileName = FileUtils.exportDB(this);
-			Toast.makeText(this, getString(R.string.database_exported) + fileName, Toast.LENGTH_LONG).show();
-			break;
-
+			case R.id.menu_main_category:
+				// starts the activity "CategoryListView"
+				intent = new Intent(this, CategoryListView.class);
+				startActivity(intent);
+				break;
+			case R.id.menu_main_import:
+				// imports the database
+				showListOfBackups();
+				break;
+			case R.id.menu_main_export:
+				// exports the database
+				String fileName = FileUtils.exportDB(this);
+				Toast.makeText(this, getString(R.string.database_exported) + fileName, Toast.LENGTH_LONG).show();
+				break;
+			case R.id.menu_main_stats:
+				// starts the activity "StatsActivity"
+				intent = new Intent(this, StatsActivity.class);
+				intent.putExtra(INCOME, totalIncome);
+				intent.putExtra(EXPENSE, totalExpense);
+				startActivity(intent);
+				break;
 		}
 		return true;
 	}

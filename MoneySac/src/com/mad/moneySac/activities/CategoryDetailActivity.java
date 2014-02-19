@@ -8,12 +8,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.mad.moneySac.R;
+import com.mad.moneySac.adapters.CategorySpinnerAdapter;
 import com.mad.moneySac.model.Category;
 import com.mad.moneySac.model.CategoryDBHelper;
 import com.mad.moneySac.model.SacEntryType;
@@ -46,16 +46,15 @@ public class CategoryDetailActivity extends Activity {
 	private void updateTextBoxes() {
 		edName.setText(category.getName());
 
-		@SuppressWarnings("unchecked")
-		ArrayAdapter<String> myAdap = (ArrayAdapter<String>) typeSpinner.getAdapter();
-		int position = myAdap.getPosition(category.getType());
-		typeSpinner.setSelection(position);
+		if(category.getType().equals(SacEntryType.INCOME))
+			typeSpinner.setSelection(0);
+		else
+			typeSpinner.setSelection(1);
 	}
 
 	private void setSpinnerValues() {
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-				this, android.R.layout.simple_spinner_dropdown_item, SacEntryType.getTypesAsStringList());
-		typeSpinner.setAdapter(adapter);
+		
+		typeSpinner.setAdapter(new CategorySpinnerAdapter(this, R.layout.category_spinneritem ,SacEntryType.getTypesAsList()));
 	}
 
 	private void initViews() {
@@ -72,7 +71,7 @@ public class CategoryDetailActivity extends Activity {
 		if (category == null)
 			category = new Category();
 
-		category.setType((String) typeSpinner.getSelectedItem());
+		category.setType(((SacEntryType)typeSpinner.getSelectedItem()).getName());
 		if (edName.getText().toString().trim().isEmpty())
 			Toast.makeText(this, R.string.category_details_name_empty, Toast.LENGTH_SHORT).show();
 		else {
