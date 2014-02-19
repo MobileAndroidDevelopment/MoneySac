@@ -31,7 +31,8 @@ public class StatsView extends ImageView {
 
     private void initChart() {
         int width = getResources().getConfiguration().smallestScreenWidthDp;
-        width = 480;
+        
+        if (width < 480) width = 480;
         Toast.makeText(context, "size:"+width, Toast.LENGTH_SHORT).show();
     	bitmap = Bitmap.createBitmap(width, width, Bitmap.Config.ARGB_8888);
     	rectArea = new RectShape(0.0, 0.0, width, width);
