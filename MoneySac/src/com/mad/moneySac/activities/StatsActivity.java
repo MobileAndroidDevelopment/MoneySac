@@ -58,7 +58,8 @@ public class StatsActivity extends Activity {
 		chart.setPadding(ZERO_INSETS);
 		
 		statsPlot = (PiePlot) chart.getPlot();
-		statsPlot.setLabelFont(new Font("SansSerif", Typeface.NORMAL, 11));
+		
+		statsPlot.setLabelFont(new Font("SansSerif", Typeface.NORMAL, 12));
 		statsPlot.setNoDataMessage("No data available");
 		statsPlot.setCircular(true);
 		statsPlot.setAutoPopulateSectionOutlinePaint(true);
@@ -67,10 +68,18 @@ public class StatsActivity extends Activity {
 		statsPlot.setInteriorGap(0.0);
 		statsPlot.setLabelGap(0.0);
 		statsPlot.setLabelLinkMargin(0.0);
-		statsPlot.setLabelLinkStroke(0.2F);
+		statsPlot.setLabelLinkStroke(0.3F);
 		statsPlot.setLabelLinkStyle(PieLabelLinkStyle.CUBIC_CURVE);
 		statsPlot.setLabelLinksVisible(true);
 		statsPlot.setLabelOutlineStroke(0.0F);
+		statsPlot.setIgnoreNullValues(true);
+		statsPlot.setIgnoreZeroValues(true);
+		statsPlot.setShadowXOffset(0.0);
+		statsPlot.setShadowYOffset(0.0);
+		statsPlot.setSimpleLabels(true);
+		statsPlot.setStartAngle(270.0);
+		
+		statsPlot.setOutlineVisible(false);
 		
 		return chart;
 	}
@@ -80,8 +89,8 @@ public class StatsActivity extends Activity {
         
         getExtrasFromBundle();
         
-        dataset.setValue("Einnahmen", income);
         dataset.setValue("Ausgaben", expense);
+        dataset.setValue("Einnahmen", income);
         
         return dataset;
     }

@@ -21,7 +21,7 @@ public class StatsView extends ImageView {
     public StatsView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         this.context = context;
-        this.width = 320;
+        this.width = 400;
     }
 
     public StatsView(Context context, int width) {
