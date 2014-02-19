@@ -5,24 +5,24 @@ import java.sql.SQLException;
 import android.content.Context;
 import android.util.Log;
 
-import com.mad.moneySac.model.ReccurringEntry;
+import com.mad.moneySac.model.RecurringEntry;
 import com.mad.moneySac.model.SacEntry;
 import com.mad.moneySac.model.SacEntryDBHelper;
 
-public abstract class ReccurringBatchCreator {
+public abstract class RecurringBatchCreator {
 
-	void createSacEntries(Context context, ReccurringEntry entry) throws SQLException {
+	public void createSacEntries(Context context, RecurringEntry entry) throws SQLException {
 		SacEntryDBHelper helper = new SacEntryDBHelper();
 
 		long nextCreationTime = entry.getStartDateTime();
 		int counter = 0;
 		while (nextCreationTime <= entry.getEndDateTime()) {
+			nextCreationTime = getNextCreationTime(entry.getStartDateTime(), counter);
 			SacEntry newEntry = SacEntry.recurringEntry(entry, nextCreationTime);
 			helper.createOrUpdate(context, newEntry);
-			nextCreationTime = getNextCreationTime(entry.getStartDateTime(), counter);
 			counter++;
 		}
-
+		helper.close();
 		Log.d("RECCURRING_ENTRY", counter + " Eintraege angelegt");
 	}
 

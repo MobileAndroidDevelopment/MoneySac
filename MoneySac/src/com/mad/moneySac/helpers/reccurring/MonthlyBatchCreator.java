@@ -5,7 +5,7 @@ import java.util.Calendar;
 /**
  * Zeitberechnung fuer monatliche Eintraege
  */
-public class MonthlyBatchCreator extends ReccurringBatchCreator {
+public class MonthlyBatchCreator extends RecurringBatchCreator {
 
 	@Override
 	long getNextCreationTime(long startCreationTime, int entryNumber) {

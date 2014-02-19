@@ -1,8 +1,8 @@
 package com.mad.moneySac.helpers.reccurring;
 
-public class TwoWeeklyBatchCreator extends ReccurringBatchCreator{
+public class TwoWeeklyBatchCreator extends RecurringBatchCreator{
 
-	private static final int WEEK_IN_MILLIS = 1000*60*60*24*7;
+	private static final long WEEK_IN_MILLIS = 1000*60*60*24*7;
 
 	@Override
 	long getNextCreationTime(long startCreationTime, int entryCounter) {

@@ -58,7 +58,8 @@
         </activity>
         <activity
             android:name="com.mad.moneySac.activities.RecurringEntryActivity"
-            android:label="@string/title_activity_recurring_entry" >
+            android:label="@string/title_activity_recurring_entry"
+            android:theme="@android:style/Theme.Holo" >
         </activity>
         <receiver android:name="com.mad.moneySac.activities.Widget">"
             <intent-filter>

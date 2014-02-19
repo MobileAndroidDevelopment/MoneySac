@@ -10,20 +10,26 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.mad.moneySac.R;
+import com.mad.moneySac.helpers.reccurring.RecurringBatchCreator;
+import com.mad.moneySac.helpers.reccurring.RecurringBatchCreatorFactory;
 import com.mad.moneySac.model.Category;
 import com.mad.moneySac.model.CategoryDBHelper;
+import com.mad.moneySac.model.RecurringEntry;
+import com.mad.moneySac.model.RecurringInterval;
 import com.mad.moneySac.model.SacEntryType;
 
 public class RecurringEntryActivity extends Activity {
 
 	private Spinner categorySpinner;
-	private Spinner recurringTypeSpinner;
+	private Spinner recurringIntervalSpinner;
 	private String type;
 	private long fromDateTime;
 	private long toDateTime;
@@ -38,14 +44,24 @@ public class RecurringEntryActivity extends Activity {
 		} else {
 			setTitle("Neue wiederkehrende Ausgabe");
 		}
+		categorySpinner = (Spinner) findViewById(R.id.spinnerRecurringEntryCategory);
+		recurringIntervalSpinner = (Spinner) findViewById(R.id.spinnerRecurringEntryInterval);
 
 		loadCategories();
+		loadRecurringTypes();
+		setFromDateButtonText(Calendar.getInstance());
+		setToDateButtonText(Calendar.getInstance());
+	}
+
+	private void loadRecurringTypes() {
+		RecurringInterval[] recurringIntervals = RecurringInterval.values();
+		recurringIntervalSpinner.setAdapter(new ArrayAdapter<RecurringInterval>(this, android.R.layout.simple_spinner_dropdown_item, recurringIntervals));
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.recurring_entry, menu);
-		return true;
+		return false;
 	}
 
 	private void loadCategories() {
@@ -58,26 +74,18 @@ public class RecurringEntryActivity extends Activity {
 		}
 	}
 
-	public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+	public void changeFromDateClicked(View v) {
+		DialogFragment newFragment = new FromDatePickerFragment();
+		Bundle bundle = new Bundle();
+		newFragment.setArguments(bundle);
+		newFragment.show(getFragmentManager(), "fromDatePicker");
+	}
 
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			// Use the current date as the default date in the picker
-			final Calendar c = Calendar.getInstance();
-			int year = c.get(Calendar.YEAR);
-			int month = c.get(Calendar.MONTH);
-			int day = c.get(Calendar.DAY_OF_MONTH);
-
-			// Create a new instance of DatePickerDialog and return it
-			return new DatePickerDialog(getActivity(), this, year, month, day);
-		}
-
-		public void onDateSet(DatePicker view, int year, int month, int day) {
-			((RecurringEntryActivity) getActivity()).setDateButtonText(day + "." + (month + 1) + "." + year);
-			final Calendar c = Calendar.getInstance();
-			c.set(year, month, day);
-			((RecurringEntryActivity) getActivity()).setFromDateTime(c.getTimeInMillis());
-		}
+	public void changeToDateClicked(View v) {
+		DialogFragment newFragment = new ToDatePickerFragment();
+		Bundle bundle = new Bundle();
+		newFragment.setArguments(bundle);
+		newFragment.show(getFragmentManager(), "toDatePicker");
 	}
 
 	private void setFromDateButtonText(Calendar c) {
@@ -85,13 +93,88 @@ public class RecurringEntryActivity extends Activity {
 		fromDateTime = c.getTimeInMillis();
 		dateButton.setText(c.get(Calendar.DAY_OF_MONTH) + "." + (c.get(Calendar.MONTH) + 1) + "." + c.get(Calendar.YEAR));
 	}
-	
-	private void setDateButtonText(String date) {
-		Button dateButton = (Button) findViewById(R.id.buttonEntryDate);
+
+	private void setFromDateButtonText(String date) {
+		Button dateButton = (Button) findViewById(R.id.buttonRecurringEntryStartDate);
 		dateButton.setText(date);
 	}
 
 	public void setFromDateTime(long currentDateInMillis) {
 		this.fromDateTime = currentDateInMillis;
+	}
+
+	private void setToDateButtonText(Calendar c) {
+		Button dateButton = (Button) findViewById(R.id.buttonRecurringEntryFinishDate);
+		toDateTime = c.getTimeInMillis();
+		dateButton.setText(c.get(Calendar.DAY_OF_MONTH) + "." + (c.get(Calendar.MONTH) + 1) + "." + c.get(Calendar.YEAR));
+	}
+
+	private void setToDateButtonText(String date) {
+		Button dateButton = (Button) findViewById(R.id.buttonRecurringEntryFinishDate);
+		dateButton.setText(date);
+	}
+
+	public void setToDateTime(long currentDateInMillis) {
+		this.toDateTime = currentDateInMillis;
+	}
+	
+	public void persistClicked(View v) {
+		String description = ((EditText) findViewById(R.id.editTextRecurringEntryDesc)).getText().toString();
+		double amount = Double.parseDouble(((EditText) findViewById(R.id.editTextRecurringEntryAmount)).getText().toString());
+		Category category = (Category) categorySpinner.getSelectedItem();
+		RecurringInterval interval = (RecurringInterval) recurringIntervalSpinner.getSelectedItem();
+
+		RecurringEntry entry = new RecurringEntry(description, amount, category, fromDateTime, toDateTime, type, interval);
+		RecurringBatchCreator creator = RecurringBatchCreatorFactory.getCreatorForInterval(interval);
+		try {
+			creator.createSacEntries(this, entry);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		this.finish();
+	}
+	
+	/*
+	 * DATE PICKER
+	 */
+
+	public static class FromDatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			final Calendar c = Calendar.getInstance();
+			int year = c.get(Calendar.YEAR);
+			int month = c.get(Calendar.MONTH);
+			int day = c.get(Calendar.DAY_OF_MONTH);
+			return new DatePickerDialog(getActivity(), this, year, month, day);
+		}
+
+		public void onDateSet(DatePicker view, int year, int month, int day) {
+
+			((RecurringEntryActivity) getActivity()).setFromDateButtonText(day + "." + (month + 1) + "." + year);
+			final Calendar c = Calendar.getInstance();
+			c.set(year, month, day);
+			((RecurringEntryActivity) getActivity()).setFromDateTime(c.getTimeInMillis());
+		}
+	}
+
+	public static class ToDatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			final Calendar c = Calendar.getInstance();
+			int year = c.get(Calendar.YEAR);
+			int month = c.get(Calendar.MONTH);
+			int day = c.get(Calendar.DAY_OF_MONTH);
+			return new DatePickerDialog(getActivity(), this, year, month, day);
+		}
+
+		public void onDateSet(DatePicker view, int year, int month, int day) {
+
+			((RecurringEntryActivity) getActivity()).setToDateButtonText(day + "." + (month + 1) + "." + year);
+			final Calendar c = Calendar.getInstance();
+			c.set(year, month, day);
+			((RecurringEntryActivity) getActivity()).setToDateTime(c.getTimeInMillis());
+		}
 	}
 }
