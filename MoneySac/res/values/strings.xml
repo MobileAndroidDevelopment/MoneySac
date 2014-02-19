@@ -34,5 +34,8 @@
     <string name="edit">Bearbeiten</string>
     <string name="title_activity_show_picture">ShowPictureActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="menu_import">Importieren</string>
+    <string name="menu_export">Exportieren</string>
+    <string name="menu_additional">Weiteres</string>
 
 </resources>

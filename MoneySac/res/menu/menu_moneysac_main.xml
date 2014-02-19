@@ -2,8 +2,28 @@
 
     <item
         android:id="@+id/menu_main_category"
-        android:orderInCategory="100"
+        android:orderInCategory="1"
         android:showAsAction="never"
         android:title="@string/moneysac_menu_category"/>
+    <item
+        android:id="@+id/menu_additional"
+        android:title="@string/menu_additional"
+        android:titleCondensed="@string/menu_additional"
+        android:orderInCategory="2">
+        <menu>
+            <item
+                android:id="@+id/menu_main_import"
+                android:icon="@drawable/import_icon"
+                android:orderInCategory="100"
+                android:showAsAction="never"
+                android:title="@string/menu_import"/>
+            <item
+                android:id="@+id/menu_main_export"
+                android:icon="@drawable/export_icon"
+                android:orderInCategory="100"
+                android:showAsAction="never"
+                android:title="@string/menu_export"/>
+        </menu>
+    </item>
 
 </menu>
