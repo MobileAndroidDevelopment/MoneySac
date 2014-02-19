@@ -50,6 +50,11 @@
             android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"
             android:label="@string/title_activity_show_picture" >
         </activity>
+        <activity
+            android:name="com.mad.moneySac.activities.StatsActivity"
+            android:label="@string/title_activity_stats"
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar" >
+        </activity>
     </application>
 
 </manifest>
