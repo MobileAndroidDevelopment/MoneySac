@@ -1,0 +1,176 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".RecurringEntryActivity" >
+
+    <LinearLayout
+        android:id="@+id/layoutRecurringEntryDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1" >
+
+        <TextView
+            android:id="@+id/textViewRecurringEntryDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".4"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/editTextRecurringEntryDesc"
+            android:layout_width="0dp"
+            android:inputType="text"
+            android:layout_height="wrap_content"
+            android:layout_weight=".6" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutRecurringEntryAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layoutRecurringEntryDesc"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:weightSum="1" >
+
+        <TextView
+            android:id="@+id/textViewEntryAmount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".4"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/editTextEntryAmount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".55"
+            android:inputType="numberDecimal" />
+
+        <TextView
+            android:id="@+id/textViewRecurringEntryEuro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".05"
+            android:text="€"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutRecurringEntryCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layoutEntryAmount"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:weightSum="1" >
+
+        <TextView
+            android:id="@+id/textViewRecurringEntryCategory"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".4"
+            android:text="Kategorie: "
+            android:textSize="20sp" />
+
+        <Spinner
+            android:id="@+id/spinnerRecurringEntryCategory"
+            style="@android:style/Widget.Holo.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".6" />
+    </LinearLayout>
+    
+    
+    <LinearLayout
+        android:id="@+id/layoutRecurringEntryType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layoutEntryAmount"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:weightSum="1" >
+
+        <TextView
+            android:id="@+id/textViewRecurringEntryType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".4"
+            android:text="Intervall: "
+            android:textSize="20sp" />
+
+        <Spinner
+            android:id="@+id/spinnerRecurringEntryType"
+            style="@android:style/Widget.Holo.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".6" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutRecurringEntryStartDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layoutRecurringEntryType"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:weightSum="1" >
+
+        <TextView
+            android:id="@+id/textViewRecurringEntryStartDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".4"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/buttonRecurringEntryStartDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".6"
+            android:onClick="changeDateClicked"/>
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/layoutRecurringEntryFinishDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layoutRecurringEntryStartDate"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:weightSum="1" >
+
+        <TextView
+            android:id="@+id/textViewRecurringEntryFinishDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".4"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/buttonRecurringEntryFinishDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".6"
+            android:onClick="changeDateClicked"/>
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/buttonAddRecurringEntry"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layoutRecurringEntryCategory"
+        android:onClick="persistClicked"
+        android:textSize="35sp"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>
