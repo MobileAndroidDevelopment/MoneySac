@@ -1,8 +1,8 @@
-package com.mad.moneySac.helpers;
+package com.mad.moneySac.model;
 
 public enum ReccurringInterval {
 
-	weekly("wöchentlich"), monthly("monatlich");
+	weekly("wöchentlich"), monthly("monatlich"), twoWeekly("alle zwei Wochen"), twoMonthly("alle zwei Monate");
 
 	private final String text;
 

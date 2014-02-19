@@ -22,10 +22,9 @@ public class SacEntry implements Serializable, Comparable<SacEntry> {
 	@DatabaseField
 	private String picturePath;
 	@DatabaseField
-	private final boolean recurring;
+	private boolean recurring;
 
 	public SacEntry() {
-		recurring = false;
 	}
 
 	private SacEntry(boolean recurring) {
@@ -36,8 +35,14 @@ public class SacEntry implements Serializable, Comparable<SacEntry> {
 		return new SacEntry(false);
 	}
 
-	public static SacEntry recurringEntry() {
-		return new SacEntry(true);
+	public static SacEntry recurringEntry(ReccurringEntry entryBase, long dateTime) {
+		SacEntry newEntry =  new SacEntry(true);
+		newEntry.setAmount(entryBase.getAmount());
+		newEntry.setCategory(entryBase.getCategory());
+		newEntry.setDateTime(dateTime);
+		newEntry.setDescription(entryBase.getDescription());
+		newEntry.setType(entryBase.getType());
+		return newEntry;
 	}
 
 	public String getPicturePath() {
@@ -98,6 +103,10 @@ public class SacEntry implements Serializable, Comparable<SacEntry> {
 
 	public boolean isRecurring() {
 		return recurring;
+	}
+
+	public void setRecurring(boolean recurring) {
+		this.recurring = recurring;
 	}
 
 	@Override
