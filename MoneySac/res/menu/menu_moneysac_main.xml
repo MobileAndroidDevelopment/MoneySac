@@ -15,13 +15,13 @@
                 android:id="@+id/menu_main_import"
                 android:icon="@drawable/import_icon"
                 android:orderInCategory="100"
-                android:showAsAction="never"
+                android:showAsAction="always|withText"
                 android:title="@string/menu_import"/>
             <item
                 android:id="@+id/menu_main_export"
                 android:icon="@drawable/export_icon"
                 android:orderInCategory="100"
-                android:showAsAction="never"
+                android:showAsAction="always|withText"
                 android:title="@string/menu_export"/>
         </menu>
     </item>
