@@ -6,11 +6,16 @@ import org.afree.chart.plot.PieLabelLinkStyle;
 import org.afree.chart.plot.PiePlot;
 import org.afree.data.general.DefaultPieDataset;
 import org.afree.data.general.PieDataset;
+import org.afree.graphics.PaintType;
+import org.afree.graphics.SolidColor;
 import org.afree.graphics.geom.Font;
 import org.afree.ui.RectangleInsets;
 import org.afree.util.UnitType;
 
+import android.R.color;
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -22,6 +27,10 @@ import com.mad.moneySac.model.StatsView;
 public class StatsActivity extends Activity {
 	
 	private static final RectangleInsets ZERO_INSETS = new RectangleInsets(UnitType.ABSOLUTE, 0.0, 0.0, 0.0, 0.0);
+	private static final PaintType transparent	= new SolidColor(color.transparent);
+	private static final PaintType white		= new SolidColor(color.white);
+	private static final PaintType green		= new SolidColor(color.holo_green_light);
+	private static final PaintType red			= new SolidColor(color.holo_red_light);
 
 	AFreeChart	statsChart;
 	PiePlot		statsPlot;
@@ -40,10 +49,11 @@ public class StatsActivity extends Activity {
 		
 		statsView = new StatsView(this, size.x);
 		statsChart = createPieChart(createDataset());
-		statsView.drawChart(statsChart);
 		
+		configureChart();
+		
+		statsView.drawChart(statsChart);	
         setContentView(statsView);
-        // requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
 
 	private AFreeChart createPieChart(PieDataset dataset) {
@@ -57,15 +67,26 @@ public class StatsActivity extends Activity {
 		chart.setBorderStroke(0.0F);
 		chart.setPadding(ZERO_INSETS);
 		
-		statsPlot = (PiePlot) chart.getPlot();
+		return chart;
+	}
+	
+	private void configureChart() {
+		statsChart.setBackgroundPaintType(transparent);
+		// statsChart.setBorderEffect(effect);
+		statsChart.setBorderPaintType(transparent);
+		statsChart.setBorderStroke(0.0F);
+		statsChart.setBorderVisible(false);
+		statsChart.setNotify(false);
 		
-		statsPlot.setLabelFont(new Font("SansSerif", Typeface.NORMAL, 12));
+		statsPlot = (PiePlot) statsChart.getPlot();
+		
+		statsPlot.setLabelFont(new Font("SansSerif", Typeface.NORMAL, 24));
 		statsPlot.setNoDataMessage("No data available");
 		statsPlot.setCircular(true);
 		statsPlot.setAutoPopulateSectionOutlinePaint(true);
 		statsPlot.setAutoPopulateSectionOutlineStroke(true);
 		statsPlot.setAutoPopulateSectionPaint(true);
-		statsPlot.setInteriorGap(0.0);
+		statsPlot.setInteriorGap(0.002);
 		statsPlot.setLabelGap(0.0);
 		statsPlot.setLabelLinkMargin(0.0);
 		statsPlot.setLabelLinkStroke(0.3F);
@@ -78,15 +99,21 @@ public class StatsActivity extends Activity {
 		statsPlot.setShadowYOffset(0.0);
 		statsPlot.setSimpleLabels(true);
 		statsPlot.setStartAngle(270.0);
-		
 		statsPlot.setOutlineVisible(false);
 		
-		return chart;
+		statsPlot.setBackgroundPaintType(transparent);
+		statsPlot.setLabelBackgroundPaintType(transparent);
+		statsPlot.setLabelLinkPaintType(transparent);
+		statsPlot.setLabelOutlinePaint(transparent);
+		statsPlot.setLabelShadowPaint(transparent);
+		statsPlot.setShadowPaint(new Paint(Color.TRANSPARENT));
+
+		// statsPlot.setSectionPaintType("Ausgaben", red);
+		// statsPlot.setSectionPaintType("Einnahmen", green);
 	}
 	
     private PieDataset createDataset() {
         DefaultPieDataset dataset = new DefaultPieDataset();
-        
         getExtrasFromBundle();
         
         dataset.setValue("Ausgaben", expense);
