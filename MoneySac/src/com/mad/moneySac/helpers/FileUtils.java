@@ -5,9 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 
 import com.mad.moneySac.model.DatabaseHelper;
@@ -27,7 +28,7 @@ public class FileUtils {
 	 * @param toFile
 	 *            - FileInputStream for the file to copy to.
 	 */
-	public static void copyFile(FileInputStream fromFile, FileOutputStream toFile) throws IOException {
+	private static void copyFile(FileInputStream fromFile, FileOutputStream toFile) throws IOException {
 		FileChannel fromChannel = null;
 		FileChannel toChannel = null;
 		try {
@@ -47,14 +48,18 @@ public class FileUtils {
 		}
 	}
 
-	public static void exportDB(Context context) {
-		File sd = Environment.getExternalStorageDirectory();
-		File data = Environment.getDataDirectory();
+	public static String exportDB(Context context) {
+		File sd = new File(Environment.getExternalStorageDirectory().toString() + "/MoneySacExport");
+		sd.mkdirs();
+		Calendar cal = Calendar.getInstance();
+		cal.getTime();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd'_'HH:mm:ss");
+		String time = sdf.format(cal.getTime());
 		FileChannel source = null;
 		FileChannel destination = null;
-		String currentDBPath = context.getApplicationInfo().dataDir +"/databases/"+ DatabaseHelper.DATABASE_NAME;
-		String backupDBPath = DatabaseHelper.DATABASE_NAME;
-		File currentDB = new File(data, currentDBPath);
+		String currentDBPath = context.getApplicationInfo().dataDir + "/databases/" + DatabaseHelper.DATABASE_NAME;
+		String backupDBPath = time + "_" + DatabaseHelper.DATABASE_NAME;
+		File currentDB = new File(currentDBPath);
 		File backupDB = new File(sd, backupDBPath);
 		try {
 			source = new FileInputStream(currentDB).getChannel();
@@ -65,17 +70,18 @@ public class FileUtils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		return backupDB.toString();
 	}
-	
-	public boolean importDatabase(Context context) throws IOException {
 
-	    File newDb = new File(DatabaseHelper.DATABASE_NAME);
-	    File oldDb = new File(context.getApplicationInfo().dataDir +"/databases/"+ DatabaseHelper.DATABASE_NAME);
-	    if (newDb.exists()) {
-	        FileUtils.copyFile(new FileInputStream(newDb), new FileOutputStream(oldDb));
+	/**
+	 * Copies the database file at the specified location over the current
+	 * internal application database.
+	 */
+	public static void importDatabase(Context context, File dbToImport) throws IOException {
 
-	        return true;
-	    }
-	    return false;
+		File oldDb = new File(context.getApplicationInfo().dataDir + "/databases/" + DatabaseHelper.DATABASE_NAME);
+		FileUtils.copyFile(new FileInputStream(dbToImport), new FileOutputStream(oldDb));
+
 	}
 }

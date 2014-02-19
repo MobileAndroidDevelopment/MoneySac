@@ -37,5 +37,13 @@
     <string name="menu_import">Importieren</string>
     <string name="menu_export">Exportieren</string>
     <string name="menu_additional">Weiteres</string>
+    <string name="main_pls_select">Bitte wählen</string>
+    <string name="no_file_found_to_import">Keine Datei zum importieren gefunden.</string>
+    <string name="database_exported">Datenbank wurde erfolgreich exportiert.\n\n</string>
+    <string name="select_import_file">Datum auswählen</string>
+    <string name="database_imported">Datenbank wurde erfolgreich importiert.</string>
+    <string name="strContinue">Fortfahren</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="attention">Achtung</string>
 
 </resources>
