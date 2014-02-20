@@ -56,9 +56,9 @@ public class EditEntryActivity extends Activity {
 		loadCategories();
 		initView();
 		
-		if(type.equals(SacEntryType.EXPENSE)){
+		if (type.equals(SacEntryType.EXPENSE)) {
 			setTitle(R.string.new_expense);
-		} else{
+		} else {
 			setTitle(R.string.new_income);			
 		}
 	}
