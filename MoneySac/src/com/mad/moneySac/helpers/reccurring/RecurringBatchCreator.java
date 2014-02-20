@@ -11,6 +11,12 @@ import com.mad.moneySac.model.SacEntryDBHelper;
 
 public abstract class RecurringBatchCreator {
 
+	/**
+	 * Erstellt SacEntries nach RecurringEntry-Definition.
+	 * @param context
+	 * @param entry
+	 * @throws SQLException
+	 */
 	public void createSacEntries(Context context, RecurringEntry entry) throws SQLException {
 		SacEntryDBHelper helper = new SacEntryDBHelper();
 
@@ -26,5 +32,10 @@ public abstract class RecurringBatchCreator {
 		Log.d("RECCURRING_ENTRY", counter + " Eintraege angelegt");
 	}
 
+	/**
+	 * @param startCreationTime
+	 * @param entryNumber
+	 * @return die Zeit des x-ten Entries ausgehend von der Startzeit
+	 */
 	abstract long getNextCreationTime(long startCreationTime, int entryNumber);
 }

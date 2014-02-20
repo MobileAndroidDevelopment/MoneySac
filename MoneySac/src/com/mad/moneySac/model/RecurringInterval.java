@@ -1,5 +1,8 @@
 package com.mad.moneySac.model;
 
+/**
+ * Mögliche Intervalle, die bei wiederkehrenden Einträgen verwendet werden können. Sie besitzen zusaetzlich eine Text-Repräsentation
+ */
 public enum RecurringInterval {
 
 	weekly("wöchentlich"), monthly("monatlich"), twoWeekly("alle zwei Wochen"), twoMonthly("alle zwei Monate");
@@ -8,19 +11,6 @@ public enum RecurringInterval {
 
 	RecurringInterval(String name) {
 		this.text = name;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public RecurringInterval withText(String text) {
-		for (RecurringInterval nextInterval : RecurringInterval.values()) {
-			if (nextInterval.getText().equals(text)) {
-				return nextInterval;
-			}
-		}
-		throw new RuntimeException("Kein Interval mit dem Text gefunden: " + text);
 	}
 	
 	@Override

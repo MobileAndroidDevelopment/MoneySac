@@ -1,5 +1,9 @@
 package com.mad.moneySac.model;
 
+/**
+ * Definition eines wiederkehrenden Eintrages, egal ob Einkommen oder Ausgabe. Es handelt sich dabei nur um eine Hilfsklasse, die zur Generierung der SacEntries
+ * verwendet wird. Hierbei existiert keine Persistenz der Definition. Sobald der Vorgang abgeschlossen ist, ist auch der RecurringEntry nicht mehr vorhanden.
+ */
 public class RecurringEntry {
 
 	private String description;
