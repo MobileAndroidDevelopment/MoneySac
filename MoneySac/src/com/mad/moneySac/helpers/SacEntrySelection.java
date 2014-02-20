@@ -32,6 +32,9 @@ public class SacEntrySelection {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(selectedMonth);
 		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		calendar.set(Calendar.HOUR, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
 		return calendar.getTimeInMillis();
 	}
 	
@@ -39,6 +42,9 @@ public class SacEntrySelection {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(selectedMonth);
 		calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+		calendar.set(Calendar.HOUR, 23);
+		calendar.set(Calendar.MINUTE, 59);
+		calendar.set(Calendar.SECOND, 59);
 		return calendar.getTimeInMillis();
 	}
 	

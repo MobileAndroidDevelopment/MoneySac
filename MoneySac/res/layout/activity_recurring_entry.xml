@@ -20,6 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".4"
+            android:text="Was?"
             android:textSize="20sp" />
 
         <EditText
@@ -40,14 +41,15 @@
         android:weightSum="1" >
 
         <TextView
-            android:id="@+id/textViewEntryAmount"
+            android:id="@+id/textViewRecurringEntryAmount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".4"
+            android:text="Betrag"
             android:textSize="20sp" />
 
         <EditText
-            android:id="@+id/editTextEntryAmount"
+            android:id="@+id/editTextRecurringEntryAmount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".55"
@@ -66,7 +68,7 @@
         android:id="@+id/layoutRecurringEntryCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/layoutEntryAmount"
+        android:layout_below="@id/layoutRecurringEntryAmount"
         android:orientation="horizontal"
         android:paddingTop="10dp"
         android:weightSum="1" >
@@ -87,12 +89,11 @@
             android:layout_weight=".6" />
     </LinearLayout>
     
-    
     <LinearLayout
         android:id="@+id/layoutRecurringEntryType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/layoutEntryAmount"
+        android:layout_below="@id/layoutRecurringEntryCategory"
         android:orientation="horizontal"
         android:paddingTop="10dp"
         android:weightSum="1" >
@@ -106,7 +107,7 @@
             android:textSize="20sp" />
 
         <Spinner
-            android:id="@+id/spinnerRecurringEntryType"
+            android:id="@+id/spinnerRecurringEntryInterval"
             style="@android:style/Widget.Holo.Spinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -127,6 +128,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".4"
+            android:text="Startdatum: "
             android:textSize="20sp" />
 
         <Button
@@ -134,7 +136,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".6"
-            android:onClick="changeDateClicked"/>
+            android:onClick="changeFromDateClicked"/>
     </LinearLayout>
     
     <LinearLayout
@@ -151,6 +153,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".4"
+            android:text="Enddatum: "
             android:textSize="20sp" />
 
         <Button
@@ -158,7 +161,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".6"
-            android:onClick="changeDateClicked"/>
+            android:onClick="changeToDateClicked"/>
     </LinearLayout>
 
 
@@ -167,9 +170,10 @@
         style="?android:attr/buttonBarButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/layoutRecurringEntryCategory"
+        android:layout_below="@id/layoutRecurringEntryFinishDate"
         android:onClick="persistClicked"
         android:textSize="35sp"
+        android:text="+"
         android:textStyle="bold" />
 
 

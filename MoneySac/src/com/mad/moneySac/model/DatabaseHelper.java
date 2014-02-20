@@ -1,9 +1,5 @@
 package com.mad.moneySac.model;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.sql.SQLException;
 
 import android.content.Context;
@@ -14,7 +10,6 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.mad.moneySac.helpers.FileUtils;
 
 /**
  * Database helper class used to manage the creation and upgrading of your database. This class also usually provides
@@ -26,7 +21,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	// //data/data/<Your-Application-Package-Name>/databases/sacEntry.db
 	public static final String DATABASE_NAME = "sacEntry.db";
 	// any time you make changes to your database objects, you may have to increase the database version
-	private static final int DATABASE_VERSION = 4;
+	private static final int DATABASE_VERSION = 6;
 
 	// the DAO object we use to access the Todo table
 	private Dao<Category, Integer> categoryDao = null;

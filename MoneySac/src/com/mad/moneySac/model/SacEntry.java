@@ -35,7 +35,7 @@ public class SacEntry implements Serializable, Comparable<SacEntry> {
 		return new SacEntry(false);
 	}
 
-	public static SacEntry recurringEntry(ReccurringEntry entryBase, long dateTime) {
+	public static SacEntry recurringEntry(RecurringEntry entryBase, long dateTime) {
 		SacEntry newEntry =  new SacEntry(true);
 		newEntry.setAmount(entryBase.getAmount());
 		newEntry.setCategory(entryBase.getCategory());
