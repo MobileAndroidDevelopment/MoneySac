@@ -28,10 +28,14 @@ public class Widget extends AppWidgetProvider {
 			intentIncome.putExtra(MoneySac.TYPE_EXTRA, SacEntryType.INCOME);
 			PendingIntent pendingIntentIncome = PendingIntent.getActivity(context, 1, intentIncome, PendingIntent.FLAG_UPDATE_CURRENT);
 			
+			Intent intentApp = new Intent(context, MoneySac.class);
+			PendingIntent pendingIntentMoneySac = PendingIntent.getActivity(context, 2, intentApp, PendingIntent.FLAG_UPDATE_CURRENT);
+			
 			// Get the layout for the App Widget and attach an on-click listener to the button
 			RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 			views.setOnClickPendingIntent(R.id.widgetButtonPlus, pendingIntentIncome);
 			views.setOnClickPendingIntent(R.id.widgetButtonMinus, pendingIntentExpense);
+			views.setOnClickPendingIntent(R.id.widgetView, pendingIntentMoneySac);
 			
 			// Tell the AppWidgetManager to perform an update on the current app widget
 			appWidgetManager.updateAppWidget(appWidgetId, views);
