@@ -1,9 +1,12 @@
 package com.mad.moneySac.model;
 
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
@@ -32,33 +35,42 @@ public class SacEntryDBHelper extends AbstractDBHelper<SacEntry> {
 		dao.delete(category);
 	}
 
-	public List<SacEntry> where(Context context, String column, Object value) throws SQLException {
-		Dao<SacEntry, Integer> dao = getHelper(context).getSacEntryDao();
-		List<SacEntry> categories = dao.queryBuilder().where().eq(column, value).query();
-		return categories;
-	}
-	
-	public List<SacEntry> where(Context context, String[] columns, Object[] values) throws SQLException{
-
-		Dao<SacEntry, Integer> dao = getHelper(context).getSacEntryDao();
-		QueryBuilder<SacEntry, Integer> builder = dao.queryBuilder();
-		for(int i = 0; i <columns.length; i++){
-			builder.where().eq(columns[i], values[i]);
-		}
-		
-		return builder.query();
-	}
-	
-	public List<SacEntry> where(Context context, SacEntrySelection selection) throws SQLException{
+	public List<SacEntry> where(Context context, SacEntrySelection selection) throws SQLException {
 		Dao<SacEntry, Integer> dao = getHelper(context).getSacEntryDao();
 		Where<SacEntry, Integer> where = dao.queryBuilder().where().isNotNull("id");
-		if(selection.hasTimeSelection()){
+		if (selection.hasTimeSelection()) {
 			where.and().between("dateTime", selection.fromDate(), selection.toDate());
 		}
-		if(selection.hasTypeSelection()){
+		if (selection.hasTypeSelection()) {
 			where.and().eq("type", selection.getType());
 		}
-		
+
 		return where.query();
+	}
+
+	/**
+	 * @param context
+	 * @param type
+	 * @param recurring
+	 * @return Alle existierenden Beschreibungen sortiert nach Häufigkeit, häufigste dabei an erster Stelle
+	 */
+	public List<String> getUsedDescriptionsOrderByUsageDescending(Context context, String type, boolean recurring) {
+		// da SQLite nicht direkt boolean kennt muss diese veränderte Abfrage auf true (kein NOT davor) oder false (NOT davor) benutzt werden
+		String recurringSelection = (recurring?" ":"NOT ")+SacEntryTable.COLUMN_RECURRING;
+		String queryString =
+				"SELECT DISTINCT " + SacEntryTable.COLUMN_DESCRIPTION + ", COUNT(" + SacEntryTable.COLUMN_DESCRIPTION + ") AS count " +
+						"FROM  " + SacEntryTable.TABLE + " " +
+						"WHERE " + SacEntryTable.COLUMN_TYPE + " = ? AND "+recurringSelection+" GROUP BY " + SacEntryTable.COLUMN_DESCRIPTION + " ORDER BY count DESC";
+		SQLiteDatabase db = getHelper(context).getReadableDatabase();
+		Cursor cursor = db.rawQuery(queryString, new String[] { type });
+		List<String> descriptions = new LinkedList<String>();
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			descriptions.add(cursor.getString(0));
+			cursor.moveToNext();
+		}
+		Log.d("DESCRIPTIONS", descriptions.toString());
+
+		return descriptions;
 	}
 }

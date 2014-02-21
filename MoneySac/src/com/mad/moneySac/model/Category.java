@@ -8,11 +8,11 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable
 public class Category implements Serializable, Comparable<Category> {
 
-	@DatabaseField(generatedId = true)
+	@DatabaseField(generatedId = true, columnName = CategoryTable.COLUMN_ID)
 	private int id;
-	@DatabaseField
+	@DatabaseField(columnName = CategoryTable.COLUMN_NAME)
 	private String name;
-	@DatabaseField(canBeNull = false)
+	@DatabaseField(canBeNull = false, columnName = CategoryTable.COLUMN_TYPE)
 	private String type;
 
 	public Integer getId() {

@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -40,6 +41,8 @@ public class EditEntryActivity extends Activity {
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	public static final String IMAGE = "IMAGE";
 
+	private AutoCompleteTextView descriptionAutoComplete;
+	
 	private Uri fileUri;
 	private Spinner categorySpinner;
 	private long currentDateInMillis;
@@ -51,10 +54,12 @@ public class EditEntryActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_entry);
 		categorySpinner = (Spinner) findViewById(R.id.spinnerEntryCategory);
+		descriptionAutoComplete = (AutoCompleteTextView) findViewById(R.id.editTextEntryDesc);
 
 		getExtrasFromBundle();
 		loadCategories();
 		initView();
+		initAutoCompleteWithAlreadyUsedDescriptions();
 		
 		if (type.equals(SacEntryType.EXPENSE)) {
 			setTitle(R.string.new_expense);
@@ -63,11 +68,23 @@ public class EditEntryActivity extends Activity {
 		}
 	}
 
+	/**
+	 * Befüllen des AutoComplete-Feldes, typspezifisch, sortiert nach Häufigkeit
+	 */
+	private void initAutoCompleteWithAlreadyUsedDescriptions() {
+		SacEntryDBHelper dbHelper = new SacEntryDBHelper();
+		List<String> descriptions = dbHelper.getUsedDescriptionsOrderByUsageDescending(this, type, false);
+		Log.d("AUTO_COMPLETE", descriptions.toString());
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, descriptions);
+		descriptionAutoComplete.setAdapter(adapter);
+	}
+
 	private void initView() {
+		
 		Calendar calendar = Calendar.getInstance();
 		if (sacEntry != null) {
 			((EditText) findViewById(R.id.editTextEntryAmount)).setText(sacEntry.getAmount() + "");
-			((EditText) findViewById(R.id.editTextEntryDesc)).setText(sacEntry.getDescription() + "");
+			descriptionAutoComplete.setText(sacEntry.getDescription() + "");
 			calendar.setTimeInMillis(sacEntry.getDateTime());
 
 			@SuppressWarnings("unchecked")
@@ -78,6 +95,7 @@ public class EditEntryActivity extends Activity {
 
 		setDateButtonText(calendar);
 		((Button) findViewById(R.id.buttonAddEntry)).setText(SacEntryType.getType(type).getButtonText());
+		
 
 	}
 

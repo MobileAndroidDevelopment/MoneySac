@@ -9,9 +9,11 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -23,12 +25,14 @@ import com.mad.moneySac.helpers.reccurring.RecurringBatchCreatorFactory;
 import com.mad.moneySac.model.Category;
 import com.mad.moneySac.model.CategoryDBHelper;
 import com.mad.moneySac.model.RecurringEntry;
+import com.mad.moneySac.model.SacEntryDBHelper;
 import com.mad.moneySac.model.SacEntryType;
 
 public class RecurringEntryActivity extends Activity {
 
 	private Spinner categorySpinner;
 	private Spinner recurringIntervalSpinner;
+	private AutoCompleteTextView descriptionAutoComplete;
 	private String type;
 	private long fromDateTime;
 	private long toDateTime;
@@ -46,11 +50,24 @@ public class RecurringEntryActivity extends Activity {
 		
 		categorySpinner = (Spinner) findViewById(R.id.spinnerRecurringEntryCategory);
 		recurringIntervalSpinner = (Spinner) findViewById(R.id.spinnerRecurringEntryInterval);
+		descriptionAutoComplete = (AutoCompleteTextView) findViewById(R.id.editTextRecurringEntryDesc);
 
 		loadCategories();
 		loadRecurringTypes();
+		initAutoCompleteWithAlreadyUsedDescriptions();
 		setFromDateButtonText(Calendar.getInstance());
 		setToDateButtonText(Calendar.getInstance());
+	}
+	
+	/**
+	 * Befüllen des AutoComplete-Feldes, typspezifisch, sortiert nach Häufigkeit
+	 */
+	private void initAutoCompleteWithAlreadyUsedDescriptions() {
+		SacEntryDBHelper dbHelper = new SacEntryDBHelper();
+		List<String> descriptions = dbHelper.getUsedDescriptionsOrderByUsageDescending(this, type, true);
+		Log.d("AUTO_COMPLETE", descriptions.toString());
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, descriptions);
+		descriptionAutoComplete.setAdapter(adapter);
 	}
 
 	private void loadRecurringTypes() {
