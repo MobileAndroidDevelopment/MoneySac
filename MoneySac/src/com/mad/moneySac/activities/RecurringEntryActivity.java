@@ -23,7 +23,6 @@ import com.mad.moneySac.helpers.reccurring.RecurringBatchCreatorFactory;
 import com.mad.moneySac.model.Category;
 import com.mad.moneySac.model.CategoryDBHelper;
 import com.mad.moneySac.model.RecurringEntry;
-import com.mad.moneySac.model.RecurringInterval;
 import com.mad.moneySac.model.SacEntryType;
 
 public class RecurringEntryActivity extends Activity {
@@ -44,6 +43,7 @@ public class RecurringEntryActivity extends Activity {
 		} else {
 			setTitle("Neue wiederkehrende Ausgabe");
 		}
+		
 		categorySpinner = (Spinner) findViewById(R.id.spinnerRecurringEntryCategory);
 		recurringIntervalSpinner = (Spinner) findViewById(R.id.spinnerRecurringEntryInterval);
 
@@ -54,8 +54,8 @@ public class RecurringEntryActivity extends Activity {
 	}
 
 	private void loadRecurringTypes() {
-		RecurringInterval[] recurringIntervals = RecurringInterval.values();
-		recurringIntervalSpinner.setAdapter(new ArrayAdapter<RecurringInterval>(this, android.R.layout.simple_spinner_dropdown_item, recurringIntervals));
+		String[] recurringIntervals = getResources().getStringArray(R.array.recurring_intervals);
+		recurringIntervalSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, recurringIntervals));
 	}
 
 	@Override
@@ -122,10 +122,10 @@ public class RecurringEntryActivity extends Activity {
 		String description = ((EditText) findViewById(R.id.editTextRecurringEntryDesc)).getText().toString();
 		double amount = Double.parseDouble(((EditText) findViewById(R.id.editTextRecurringEntryAmount)).getText().toString());
 		Category category = (Category) categorySpinner.getSelectedItem();
-		RecurringInterval interval = (RecurringInterval) recurringIntervalSpinner.getSelectedItem();
+		String interval = (String) recurringIntervalSpinner.getSelectedItem();
 
-		RecurringEntry entry = new RecurringEntry(description, amount, category, fromDateTime, toDateTime, type, interval);
-		RecurringBatchCreator creator = RecurringBatchCreatorFactory.getCreatorForInterval(interval);
+		RecurringEntry entry = new RecurringEntry(description, amount, category, fromDateTime, toDateTime, type);
+		RecurringBatchCreator creator = RecurringBatchCreatorFactory.getCreatorForInterval(interval, getResources());
 		try {
 			creator.createSacEntries(this, entry);
 		} catch (SQLException e) {
