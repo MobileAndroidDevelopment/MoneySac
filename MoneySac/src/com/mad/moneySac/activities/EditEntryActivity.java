@@ -60,12 +60,6 @@ public class EditEntryActivity extends Activity {
 		loadCategories();
 		initView();
 		initAutoCompleteWithAlreadyUsedDescriptions();
-		
-		if (type.equals(SacEntryType.EXPENSE)) {
-			setTitle(R.string.new_expense);
-		} else {
-			setTitle(R.string.new_income);			
-		}
 	}
 
 	/**
@@ -74,7 +68,6 @@ public class EditEntryActivity extends Activity {
 	private void initAutoCompleteWithAlreadyUsedDescriptions() {
 		SacEntryDBHelper dbHelper = new SacEntryDBHelper();
 		List<String> descriptions = dbHelper.getUsedDescriptionsOrderByUsageDescending(this, type, false);
-		Log.d("AUTO_COMPLETE", descriptions.toString());
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, descriptions);
 		descriptionAutoComplete.setAdapter(adapter);
 	}

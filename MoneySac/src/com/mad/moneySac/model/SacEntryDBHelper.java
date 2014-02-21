@@ -50,9 +50,9 @@ public class SacEntryDBHelper extends AbstractDBHelper<SacEntry> {
 
 	/**
 	 * @param context
-	 * @param type
-	 * @param recurring
-	 * @return Alle existierenden Beschreibungen sortiert nach Häufigkeit, häufigste dabei an erster Stelle
+	 * @param type Typeinschränkung
+	 * @param recurring wiederkehrend ja/nein Einschränkung
+	 * @return Liste mit allen existierenden Beschreibungen (Einschränkung s. Parameter) sortiert nach Häufigkeit, häufigste dabei an erster Stelle
 	 */
 	public List<String> getUsedDescriptionsOrderByUsageDescending(Context context, String type, boolean recurring) {
 		// da SQLite nicht direkt boolean kennt muss diese veränderte Abfrage auf true (kein NOT davor) oder false (NOT davor) benutzt werden
@@ -69,7 +69,6 @@ public class SacEntryDBHelper extends AbstractDBHelper<SacEntry> {
 			descriptions.add(cursor.getString(0));
 			cursor.moveToNext();
 		}
-		Log.d("DESCRIPTIONS", descriptions.toString());
 
 		return descriptions;
 	}

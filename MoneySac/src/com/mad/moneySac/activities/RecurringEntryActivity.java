@@ -9,7 +9,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -26,7 +25,6 @@ import com.mad.moneySac.model.Category;
 import com.mad.moneySac.model.CategoryDBHelper;
 import com.mad.moneySac.model.RecurringEntry;
 import com.mad.moneySac.model.SacEntryDBHelper;
-import com.mad.moneySac.model.SacEntryType;
 
 public class RecurringEntryActivity extends Activity {
 
@@ -42,11 +40,6 @@ public class RecurringEntryActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_recurring_entry);
 		type = getIntent().getStringExtra(MoneySac.TYPE_EXTRA);
-		if (type.equals(SacEntryType.INCOME)) {
-			setTitle("Neue wiederkehrende Einnahme");
-		} else {
-			setTitle("Neue wiederkehrende Ausgabe");
-		}
 		
 		categorySpinner = (Spinner) findViewById(R.id.spinnerRecurringEntryCategory);
 		recurringIntervalSpinner = (Spinner) findViewById(R.id.spinnerRecurringEntryInterval);
@@ -65,7 +58,6 @@ public class RecurringEntryActivity extends Activity {
 	private void initAutoCompleteWithAlreadyUsedDescriptions() {
 		SacEntryDBHelper dbHelper = new SacEntryDBHelper();
 		List<String> descriptions = dbHelper.getUsedDescriptionsOrderByUsageDescending(this, type, true);
-		Log.d("AUTO_COMPLETE", descriptions.toString());
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, descriptions);
 		descriptionAutoComplete.setAdapter(adapter);
 	}

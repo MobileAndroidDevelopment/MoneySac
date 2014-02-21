@@ -50,8 +50,6 @@
     <string name="title_activity_recurring_entry">RecurringEntryActivity</string>
     <string name="menu_recurring_income">Wiederk. Einkommen</string>
     <string name="menu_recurring_expense">Wiederk. Ausgabe</string>
-    <string name="new_income">Neue Einnahme</string>
-    <string name="new_expense">Neue Ausgabe</string>
     <string name="weekly">wöchentlich</string>
     <string name="monthly">monatlich</string>
     <string name="two_weekly">alle zwei Wochen</string>
