@@ -112,9 +112,14 @@ public class StatsActivity extends Activity {
     private PieDataset createDataset() {
         DefaultPieDataset dataset = new DefaultPieDataset();
         getExtrasFromBundle();
-        
-        dataset.setValue("Ausgaben", expense);
-        dataset.setValue("Einnahmen", income);
+
+        double onePercent = (expense+income)/100;
+        double expensePercent = expense/onePercent;
+        double incomePercent = income/onePercent;
+        String incomePercentString = String.format("%.2f", incomePercent)+" %";
+        String expensePercentString = String.format("%.2f", expensePercent)+" %";
+        dataset.setValue(getResources().getString(R.string.strAusgaben) +" ("+expensePercentString+")", expense);
+        dataset.setValue(getResources().getString(R.string.strEinnahmen)+" ("+incomePercentString+")", income);
         
         return dataset;
     }

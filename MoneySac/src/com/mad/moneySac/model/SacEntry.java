@@ -7,21 +7,21 @@ import com.j256.ormlite.field.DatabaseField;
 
 public class SacEntry implements Serializable, Comparable<SacEntry> {
 
-	@DatabaseField(generatedId = true)
+	@DatabaseField(generatedId = true, columnName=SacEntryTable.COLUMN_ID)
 	private int id;
-	@DatabaseField
+	@DatabaseField(columnName=SacEntryTable.COLUMN_DESCRIPTION)
 	private String description;
-	@DatabaseField
+	@DatabaseField(columnName=SacEntryTable.COLUMN_AMOUNT)
 	private double amount;
-	@DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
+	@DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true, columnName=SacEntryTable.COLUMN_CATEGORY)
 	private Category category;
-	@DatabaseField
+	@DatabaseField(columnName=SacEntryTable.COLUMN_DATE_TIME)
 	private long dateTime;
-	@DatabaseField
+	@DatabaseField(columnName=SacEntryTable.COLUMN_TYPE)
 	private String type;
-	@DatabaseField
+	@DatabaseField(columnName=SacEntryTable.COLUMN_PICTURE_PATH)
 	private String picturePath;
-	@DatabaseField
+	@DatabaseField(columnName=SacEntryTable.COLUMN_RECURRING)
 	private boolean recurring;
 
 	public SacEntry() {

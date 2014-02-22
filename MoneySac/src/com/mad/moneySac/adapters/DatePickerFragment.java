@@ -3,6 +3,7 @@ package com.mad.moneySac.adapters;
 import java.lang.reflect.Field;
 import java.util.Calendar;
 
+import com.mad.moneySac.R;
 import com.mad.moneySac.R.color;
 import com.mad.moneySac.activities.MoneySac;
 
@@ -67,7 +68,8 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
             }
         } catch (Exception ex) {
         }
-        dpd.setTitle("Monat wählen");
+		// TODO: Text in String.xml
+        dpd.setTitle(getActivity().getString(R.string.choose_month));
         return dpd;
     }
 }

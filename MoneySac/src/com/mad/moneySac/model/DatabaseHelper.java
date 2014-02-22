@@ -21,7 +21,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	// //data/data/<Your-Application-Package-Name>/databases/sacEntry.db
 	public static final String DATABASE_NAME = "sacEntry.db";
 	// any time you make changes to your database objects, you may have to increase the database version
-	private static final int DATABASE_VERSION = 6;
+	private static final int DATABASE_VERSION = 9;
 
 	// the DAO object we use to access the Todo table
 	private Dao<Category, Integer> categoryDao = null;
@@ -41,12 +41,42 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			Log.i(DatabaseHelper.class.getName(), "onCreate");
 			TableUtils.createTable(connectionSource, Category.class);
 			TableUtils.createTable(connectionSource, SacEntry.class);
+			
+			createIncomeCategories();
+			createExpenseCategories();
 		} catch (SQLException e) {
 			Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
 			throw new RuntimeException(e);
 		}
 	}
 	
+
+	private void createIncomeCategories() throws SQLException {
+		Category category = new Category();
+		category.setName("Gehalt");
+		category.setType(SacEntryType.INCOME);
+		getCategoryDao().createOrUpdate(category);
+	}
+
+	private void createExpenseCategories() throws SQLException {
+		Category foodCategory = new Category();
+		foodCategory.setName("Essen");
+		foodCategory.setType(SacEntryType.EXPENSE);
+		getCategoryDao().createOrUpdate(foodCategory);
+
+		Category householdCategory = new Category();
+		householdCategory.setName("Haushalt");
+		householdCategory.setType(SacEntryType.EXPENSE);
+		getCategoryDao().createOrUpdate(householdCategory);
+		
+		Category carCategory = new Category();
+		carCategory.setName("Auto");
+		carCategory.setType(SacEntryType.EXPENSE);
+		getCategoryDao().createOrUpdate(carCategory);
+		
+	}
+	
+
 	/**
 	 * This is called when your application is upgraded and it has a higher version number. This allows you to adjust
 	 * the various data to match the new version number.

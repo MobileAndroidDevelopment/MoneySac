@@ -23,12 +23,11 @@
             android:text="Was? "
             android:textSize="20sp" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/editTextEntryDesc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".6"
-            android:text="blah" />
+            android:layout_weight=".6" />
     </LinearLayout>
 
     <LinearLayout
@@ -53,8 +52,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".55"
-            android:inputType="numberDecimal"
-            android:text="3.50" />
+            android:inputType="numberDecimal"/>
 
         <TextView
             android:id="@+id/textViewEntryEuro"

@@ -13,6 +13,7 @@
     <uses-feature android:name="android.hardware.camera" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -59,7 +60,7 @@
         <activity
             android:name="com.mad.moneySac.activities.RecurringEntryActivity"
             android:label="@string/title_activity_recurring_entry"
-            android:theme="@android:style/Theme.Holo" >
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar" >
         </activity>
         <receiver android:name="com.mad.moneySac.activities.Widget">"
             <intent-filter>

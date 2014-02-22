@@ -23,7 +23,7 @@
             android:text="Was?"
             android:textSize="20sp" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/editTextRecurringEntryDesc"
             android:layout_width="0dp"
             android:inputType="text"

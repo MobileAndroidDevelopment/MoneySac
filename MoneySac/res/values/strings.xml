@@ -48,9 +48,19 @@
     <string name="menu_stats">Statistik</string>
     <string name="title_activity_stats">Statistik</string>
     <string name="title_activity_recurring_entry">RecurringEntryActivity</string>
-    <string name="menu_recurring_income">Wiederkehrendes Einkommen anlegen</string>
-    <string name="menu_recurring_expense">Wiederkehrende Ausgabe anlegen</string>
-    <string name="new_income">Neue Einnahme</string>
-    <string name="new_expense">Neue Ausgabe</string>
+    <string name="menu_recurring_income">Wiederk. Einkommen</string>
+    <string name="menu_recurring_expense">Wiederk. Ausgabe</string>
+    <string name="weekly">wöchentlich</string>
+    <string name="monthly">monatlich</string>
+    <string name="two_weekly">alle zwei Wochen</string>
+    <string name="two_monthly">alle zwei Monate</string>
+    <string-array name="recurring_intervals">
+        <item name="interval_weekly">@string/weekly</item>
+        <item name="interval_monthly">@string/monthly</item>
+        <item name="interval_two_weekly">@string/two_weekly</item>
+        <item name="interval_two_monthly">@string/weekly</item>
+    </string-array>
+        <string name="moneysac_title">MoneySac</string>
+        <string name="choose_month">Monat wählen</string>
 
 </resources>
