@@ -115,7 +115,8 @@ public class StatsActivity extends Activity {
     private PieDataset createDataset() {
         DefaultPieDataset dataset = new DefaultPieDataset();
         getExtrasFromBundle();
-        
+
+		// TODO: Text in String.xml
         dataset.setValue("Ausgaben", expense);
         dataset.setValue("Einnahmen", income);
         

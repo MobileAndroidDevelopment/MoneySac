@@ -60,5 +60,7 @@
         <item name="interval_two_weekly">@string/two_weekly</item>
         <item name="interval_two_monthly">@string/weekly</item>
     </string-array>
+        <string name="moneysac_title">MoneySac</string>
+        <string name="choose_month">Monat wählen</string>
 
 </resources>

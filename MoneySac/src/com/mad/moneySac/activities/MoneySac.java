@@ -57,7 +57,7 @@ public class MoneySac extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_moneysac);
-		setTitle("MoneySac");
+		setTitle(R.string.moneysac_title);
 		loadCurrentMonthButton();
 	}
 
@@ -228,6 +228,7 @@ public class MoneySac extends Activity {
 	}
 
 	private void showConfirmationDialog(final int pos,final Dialog pDialog) {
+		// TODO: Text in String.xml
 		new AlertDialog.Builder(this)
 				.setMessage("Dies wird ihren aktuellen Datenbestand überschreiben! Möchten sie dennoch fortfahren?")
 				.setTitle(R.string.attention)

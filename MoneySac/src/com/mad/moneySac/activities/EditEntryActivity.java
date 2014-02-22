@@ -229,10 +229,12 @@ public class EditEntryActivity extends Activity {
 		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
 			if (resultCode == RESULT_OK) {
 				// Image captured and saved to fileUri specified in the Intent
+				// TODO: Text in String.xml
 				Toast.makeText(this, "Gespeichert!" /*+ fileUri*/, Toast.LENGTH_LONG).show();
 			} else if (resultCode == RESULT_CANCELED) {
 				// User cancelled the image capture
 			} else {
+				// TODO: Text in String.xml
 				Toast.makeText(this, "SRY U NO PIC", Toast.LENGTH_SHORT).show();
 			}
 		}
