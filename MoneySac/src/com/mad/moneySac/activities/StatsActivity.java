@@ -72,14 +72,12 @@ public class StatsActivity extends Activity {
 	
 	private void configureChart() {
 		statsChart.setBackgroundPaintType(transparent);
-		// statsChart.setBorderEffect(effect);
 		statsChart.setBorderPaintType(transparent);
 		statsChart.setBorderStroke(0.0F);
 		statsChart.setBorderVisible(false);
 		statsChart.setNotify(false);
 		
 		statsPlot = (PiePlot) statsChart.getPlot();
-		
 		statsPlot.setLabelFont(new Font("SansSerif", Typeface.NORMAL, 24));
 		statsPlot.setNoDataMessage("No data available");
 		statsPlot.setCircular(true);
@@ -100,7 +98,6 @@ public class StatsActivity extends Activity {
 		statsPlot.setSimpleLabels(true);
 		statsPlot.setStartAngle(270.0);
 		statsPlot.setOutlineVisible(false);
-		
 		statsPlot.setBackgroundPaintType(transparent);
 		statsPlot.setLabelBackgroundPaintType(transparent);
 		statsPlot.setLabelLinkPaintType(transparent);
@@ -108,8 +105,8 @@ public class StatsActivity extends Activity {
 		statsPlot.setLabelShadowPaint(transparent);
 		statsPlot.setShadowPaint(new Paint(Color.TRANSPARENT));
 
-		// statsPlot.setSectionPaintType("Ausgaben", red);
-		// statsPlot.setSectionPaintType("Einnahmen", green);
+		statsPlot.setSectionPaintType("Ausgaben", red);
+		statsPlot.setSectionPaintType("Einnahmen", green);
 	}
 	
     private PieDataset createDataset() {
