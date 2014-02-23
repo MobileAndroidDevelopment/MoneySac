@@ -62,5 +62,14 @@
     </string-array>
         <string name="moneysac_title">MoneySac</string>
         <string name="choose_month">Monat wählen</string>
+        <string name="what">"Was? "</string>
+        <string name="amount">"Betrag: "</string>
+        <string name="euro">€</string>
+        <string name="category_text">"Kategorie: "</string>
+        <string name="dateText">"Datum: "</string>
+        <string name="add_photo">Foto der Rechnung anhängen</string>
+        <string name="category_used">Kategorie wird noch in Einträgen verwendet</string>
+        <string name="end_date_text">"Enddatum: "</string>
+        <string name="start_date_text">"Startdatum: "</string>
 
 </resources>

@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".4"
-            android:text="Was? "
+            android:text="@string/what"
             android:textSize="20sp" />
 
         <AutoCompleteTextView
@@ -44,7 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".4"
-            android:text="Betrag: "
+            android:text="@string/amount"
             android:textSize="20sp" />
 
         <EditText
@@ -59,7 +59,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".05"
-            android:text="€"
+            android:text="@string/euro"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -77,7 +77,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".4"
-            android:text="Kategorie: "
+            android:text="@string/category_text"
             android:textSize="20sp" />
 
         <Spinner
@@ -102,7 +102,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".4"
-            android:text="Datum: "
+            android:text="@string/dateText"
             android:textSize="20sp" />
 
         <Button
@@ -110,8 +110,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".6"
-            android:onClick="changeDateClicked"
-            android:text="18.01.2014" />
+            android:onClick="changeDateClicked"/>
     </LinearLayout>
 
     <LinearLayout
@@ -129,7 +128,7 @@
             android:layout_weight=".8"
             android:onClick="takePictureOfBill"
             android:textSize="12sp"
-            android:text="Foto der Rechnung anhängen" />
+            android:text="@string/add_photo" />
 
         <ImageButton
             android:id="@+id/buttonShowPicture"
@@ -148,7 +147,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/layoutPicture"
         android:onClick="persistClicked"
-        android:text="+"
+        android:text="@string/strAddIncome"
         android:textSize="35sp"
         android:textStyle="bold" />
 

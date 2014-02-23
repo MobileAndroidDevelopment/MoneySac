@@ -37,12 +37,15 @@ public class SacEntryDBHelper extends AbstractDBHelper<SacEntry> {
 
 	public List<SacEntry> where(Context context, SacEntrySelection selection) throws SQLException {
 		Dao<SacEntry, Integer> dao = getHelper(context).getSacEntryDao();
-		Where<SacEntry, Integer> where = dao.queryBuilder().where().isNotNull("id");
+		Where<SacEntry, Integer> where = dao.queryBuilder().where().isNotNull(SacEntryTable.COLUMN_ID);
 		if (selection.hasTimeSelection()) {
-			where.and().between("dateTime", selection.fromDate(), selection.toDate());
+			where.and().between(SacEntryTable.COLUMN_DATE_TIME, selection.fromDate(), selection.toDate());
 		}
 		if (selection.hasTypeSelection()) {
-			where.and().eq("type", selection.getType());
+			where.and().eq(SacEntryTable.COLUMN_TYPE, selection.getType());
+		}
+		if(selection.getCategoryId()!=null){
+			where.and().eq(SacEntryTable.COLUMN_CATEGORY, selection.getCategoryId());
 		}
 
 		return where.query();
