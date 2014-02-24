@@ -59,6 +59,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			// PIN activated or deactivated
 			if (prefs.getBoolean(KEY_SAFE_LOGIN, false)) {
 				prefLoginPin.setEnabled(true);
+				Toast.makeText(this, R.string.settings_pin_setup, Toast.LENGTH_SHORT).show();
 			} else {
 				prefLoginPin.setEnabled(false);
 			}
