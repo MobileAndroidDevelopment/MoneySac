@@ -7,9 +7,9 @@
         android:title="@string/moneysac_menu_category"/>
     <item
         android:id="@+id/menu_additional"
+        android:orderInCategory="2"
         android:title="@string/menu_additional"
-        android:titleCondensed="@string/menu_additional"
-        android:orderInCategory="2">
+        android:titleCondensed="@string/menu_additional">
         <menu>
             <item
                 android:id="@+id/menu_main_import"
@@ -31,11 +31,13 @@
                 android:title="@string/menu_stats"/>
             <item
                 android:id="@+id/add_recurring_income"
+                android:icon="@drawable/calendar_left"
                 android:orderInCategory="4"
                 android:showAsAction="never"
                 android:title="@string/menu_recurring_income"/>
             <item
                 android:id="@+id/add_recurring_expense"
+                android:icon="@drawable/calendar_right"
                 android:orderInCategory="5"
                 android:showAsAction="never"
                 android:title="@string/menu_recurring_expense"/>
