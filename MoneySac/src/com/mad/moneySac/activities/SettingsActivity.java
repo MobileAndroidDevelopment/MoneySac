@@ -5,6 +5,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 import android.view.KeyEvent;
 import android.view.View;
@@ -34,6 +35,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 	 */
 	@SuppressWarnings("deprecation")
 	private void initializePreferences() {
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		prefSafeLogin = (SwitchPreference) findPreference(KEY_SAFE_LOGIN);
 		prefLoginPin = (EditTextPreference) findPreference(KEY_LOGIN_PIN);
 		
@@ -46,14 +48,20 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 						return false;
 					}
 				});
+		
+		if (!prefs.getBoolean(KEY_SAFE_LOGIN, false)) prefLoginPin.setEnabled(false);
 	}
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if (key.equals(KEY_SAFE_LOGIN)) {
-			// Do nothing
-		} else if (key.equals(KEY_SAFE_LOGIN)) {
-			// Do nothing
+			if (prefs.getBoolean(KEY_SAFE_LOGIN, false)) {
+				prefLoginPin.setEnabled(true);
+			} else {
+				prefLoginPin.setEnabled(false);
+			}
+		} else if (key.equals(KEY_LOGIN_PIN)) {
+			// Pin changed -> Do nothing
 		}
 		setResult(RESULT_OK);
 	}
