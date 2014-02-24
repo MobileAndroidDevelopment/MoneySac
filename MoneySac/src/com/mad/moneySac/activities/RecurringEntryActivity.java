@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.mad.moneySac.R;
 import com.mad.moneySac.helpers.reccurring.RecurringBatchCreator;
@@ -40,7 +41,7 @@ public class RecurringEntryActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_recurring_entry);
 		type = getIntent().getStringExtra(MoneySac.TYPE_EXTRA);
-		
+
 		categorySpinner = (Spinner) findViewById(R.id.spinnerRecurringEntryCategory);
 		recurringIntervalSpinner = (Spinner) findViewById(R.id.spinnerRecurringEntryInterval);
 		descriptionAutoComplete = (AutoCompleteTextView) findViewById(R.id.editTextRecurringEntryDesc);
@@ -51,7 +52,7 @@ public class RecurringEntryActivity extends Activity {
 		setFromDateButtonText(Calendar.getInstance());
 		setToDateButtonText(Calendar.getInstance());
 	}
-	
+
 	/**
 	 * Befüllen des AutoComplete-Feldes, typspezifisch, sortiert nach Häufigkeit
 	 */
@@ -64,7 +65,8 @@ public class RecurringEntryActivity extends Activity {
 
 	private void loadRecurringTypes() {
 		String[] recurringIntervals = getResources().getStringArray(R.array.recurring_intervals);
-		recurringIntervalSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, recurringIntervals));
+		recurringIntervalSpinner.setAdapter(new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_dropdown_item, recurringIntervals));
 	}
 
 	@Override
@@ -77,7 +79,8 @@ public class RecurringEntryActivity extends Activity {
 		CategoryDBHelper categoryHelper = new CategoryDBHelper();
 		try {
 			List<Category> categories = categoryHelper.where(this, "type", type);
-			categorySpinner.setAdapter(new ArrayAdapter<Category>(this, android.R.layout.simple_spinner_dropdown_item, categories));
+			categorySpinner.setAdapter(new ArrayAdapter<Category>(this, android.R.layout.simple_spinner_dropdown_item,
+					categories));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -100,7 +103,8 @@ public class RecurringEntryActivity extends Activity {
 	private void setFromDateButtonText(Calendar c) {
 		Button dateButton = (Button) findViewById(R.id.buttonRecurringEntryStartDate);
 		fromDateTime = c.getTimeInMillis();
-		dateButton.setText(c.get(Calendar.DAY_OF_MONTH) + "." + (c.get(Calendar.MONTH) + 1) + "." + c.get(Calendar.YEAR));
+		dateButton.setText(c.get(Calendar.DAY_OF_MONTH) + "." + (c.get(Calendar.MONTH) + 1) + "."
+				+ c.get(Calendar.YEAR));
 	}
 
 	private void setFromDateButtonText(String date) {
@@ -115,7 +119,8 @@ public class RecurringEntryActivity extends Activity {
 	private void setToDateButtonText(Calendar c) {
 		Button dateButton = (Button) findViewById(R.id.buttonRecurringEntryFinishDate);
 		toDateTime = c.getTimeInMillis();
-		dateButton.setText(c.get(Calendar.DAY_OF_MONTH) + "." + (c.get(Calendar.MONTH) + 1) + "." + c.get(Calendar.YEAR));
+		dateButton.setText(c.get(Calendar.DAY_OF_MONTH) + "." + (c.get(Calendar.MONTH) + 1) + "."
+				+ c.get(Calendar.YEAR));
 	}
 
 	private void setToDateButtonText(String date) {
@@ -126,23 +131,44 @@ public class RecurringEntryActivity extends Activity {
 	public void setToDateTime(long currentDateInMillis) {
 		this.toDateTime = currentDateInMillis;
 	}
-	
+
 	public void persistClicked(View v) {
 		String description = ((EditText) findViewById(R.id.editTextRecurringEntryDesc)).getText().toString();
-		double amount = Double.parseDouble(((EditText) findViewById(R.id.editTextRecurringEntryAmount)).getText().toString());
+		String amount = ((EditText) findViewById(R.id.editTextRecurringEntryAmount)).getText().toString();
 		Category category = (Category) categorySpinner.getSelectedItem();
 		String interval = (String) recurringIntervalSpinner.getSelectedItem();
 
-		RecurringEntry entry = new RecurringEntry(description, amount, category, fromDateTime, toDateTime, type);
-		RecurringBatchCreator creator = RecurringBatchCreatorFactory.getCreatorForInterval(interval, getResources());
-		try {
-			creator.createSacEntries(this, entry);
-		} catch (SQLException e) {
-			e.printStackTrace();
+		if (checkSacEntryValues(description, category, amount)) {
+
+			RecurringEntry entry = new RecurringEntry(description, Double.parseDouble(amount), category, fromDateTime, toDateTime, type);
+			RecurringBatchCreator creator = RecurringBatchCreatorFactory
+					.getCreatorForInterval(interval, getResources());
+			try {
+				creator.createSacEntries(this, entry);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			this.finish();
 		}
-		this.finish();
 	}
-	
+
+	private boolean checkSacEntryValues(String desc, Category category, String amount) {
+		if (desc == null || desc.trim().isEmpty()) {
+			Toast.makeText(this, R.string.desc_is_required, Toast.LENGTH_LONG).show();
+			return false;
+		}
+		if (category == null) {
+			Toast.makeText(this, R.string.no_valid_category_selected, Toast.LENGTH_LONG).show();
+			return false;
+		}
+
+		if (amount == null || amount.trim().isEmpty()) {
+			Toast.makeText(this, R.string.amount_is_required, Toast.LENGTH_LONG).show();
+			return false;
+		}
+		return true;
+	}
+
 	/*
 	 * DATE PICKER
 	 */
