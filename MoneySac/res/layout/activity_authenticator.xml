@@ -13,6 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/athenticator_padding"
+        android:layout_marginRight="@dimen/athenticator_padding"
         android:src="@drawable/check" />
 
     <EditText
@@ -23,10 +25,10 @@
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/img_check"
         android:inputType="numberPassword"
-        android:layout_marginRight="@dimen/athenticator_check_padding"
+        android:layout_marginLeft="@dimen/athenticator_padding"
+        android:layout_marginRight="@dimen/athenticator_padding"
         android:textAlignment="center"
         android:textSize="@dimen/athenticator_pw_size" >
-
         <requestFocus />
     </EditText>
 
@@ -36,8 +38,20 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/ed_pw"
         android:layout_alignLeft="@+id/ed_pw"
-        android:paddingBottom="@dimen/athenticator_pin_padding"
+        android:layout_marginLeft="@dimen/athenticator_padding"
+        android:layout_marginRight="@dimen/athenticator_padding"
+        android:paddingBottom="@dimen/athenticator_padding"
         android:text="@string/pin"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ImageView
+        android:id="@+id/img_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/ed_pw"
+        android:layout_marginTop="@dimen/athenticator_padding"
+        android:layout_marginBottom="@dimen/athenticator_padding"
+        android:src="@drawable/ic_info" />
 
 </RelativeLayout>

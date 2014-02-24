@@ -19,6 +19,7 @@ public class AuthenticatorActivity extends Activity {
 
 	private EditText edPassword;
 	private ImageView imgCheck;
+	private ImageView imgInfo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +35,16 @@ public class AuthenticatorActivity extends Activity {
 
 	private void setListeners() {
 		imgCheck.setOnClickListener(new View.OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				login();
-
+			}
+		});
+		
+		imgInfo.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(AuthenticatorActivity.this, R.string.athenticator_std_pin, Toast.LENGTH_SHORT).show();
 			}
 		});
 
@@ -55,6 +61,7 @@ public class AuthenticatorActivity extends Activity {
 	private void initViews() {
 		edPassword = (EditText) findViewById(R.id.ed_pw);
 		imgCheck = (ImageView) findViewById(R.id.img_check);
+		imgInfo = (ImageView) findViewById(R.id.img_info);
 	}
 
 	private boolean isPwEnabled() {
@@ -67,9 +74,9 @@ public class AuthenticatorActivity extends Activity {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		String pwTyped = edPassword.getText().toString().trim();
 		String pwPrefs = prefs.getString(SettingsActivity.KEY_LOGIN_PIN, "");
-		if(pwTyped.equals(pwPrefs)){
+		if (pwTyped.equals(pwPrefs)) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -79,7 +86,7 @@ public class AuthenticatorActivity extends Activity {
 			startActivity(new Intent(this, MoneySac.class));
 			this.finish();
 		} else {
-			Toast.makeText(this, R.string.athenticator_wrong_pw, Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.athenticator_wrong_pin, Toast.LENGTH_SHORT).show();
 		}
 
 	}

@@ -10,6 +10,7 @@ import android.preference.SwitchPreference;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.mad.moneySac.R;
 
@@ -55,13 +56,14 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if (key.equals(KEY_SAFE_LOGIN)) {
+			// PIN activated or deactivated
 			if (prefs.getBoolean(KEY_SAFE_LOGIN, false)) {
 				prefLoginPin.setEnabled(true);
 			} else {
 				prefLoginPin.setEnabled(false);
 			}
 		} else if (key.equals(KEY_LOGIN_PIN)) {
-			// Pin changed -> Do nothing
+			// PIN changed
 		}
 		setResult(RESULT_OK);
 	}

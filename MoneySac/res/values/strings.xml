@@ -86,6 +86,7 @@
     <string name="no_valid_category_selected">Es existiert keine Kategorie des passenden Types!</string>
     <string name="title_activity_authenticator">AuthenticatorActivity</string>
     <string name="pin">PIN</string>
-    <string name="athenticator_wrong_pw">Falsches Passwort!</string>
+    <string name="athenticator_wrong_pin">Falsche PIN!</string>
+    <string name="athenticator_std_pin">Die Standard-PIN ist leer </string>
 
 </resources>
