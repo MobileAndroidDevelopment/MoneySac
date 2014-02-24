@@ -71,5 +71,8 @@
         <string name="category_used">Kategorie wird noch in Einträgen verwendet</string>
         <string name="end_date_text">"Enddatum: "</string>
         <string name="start_date_text">"Startdatum: "</string>
+        <string name="desc_is_required">Beschreibung darf nicht leer sein!</string>
+        <string name="amount_is_required">Betrag darf nicht leer sein!</string>
+        <string name="no_valid_category_selected">Es existiert keine Kategorie des passenden Types!</string>
 
 </resources>
