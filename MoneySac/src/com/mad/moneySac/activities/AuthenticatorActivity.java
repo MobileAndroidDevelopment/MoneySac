@@ -23,7 +23,7 @@ public class AuthenticatorActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (isPwEnabled()) {
+		if (!isPwEnabled()) {
 			startActivity(new Intent(this, MoneySac.class));
 			this.finish();
 		}
@@ -59,17 +59,25 @@ public class AuthenticatorActivity extends Activity {
 
 	private boolean isPwEnabled() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		return prefs.getBoolean(key, false);
+		return prefs.getBoolean(SettingsActivity.KEY_SAFE_LOGIN, false);
 		
 	}
 
 	private boolean checkPassword() {
-		return true;
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		String pwTyped = edPassword.getText().toString().trim();
+		String pwPrefs = prefs.getString(SettingsActivity.KEY_LOGIN_PIN, "");
+		if(pwTyped.equals(pwPrefs)){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	private void login() {
 		if (checkPassword()) {
 			startActivity(new Intent(this, MoneySac.class));
+			this.finish();
 		} else {
 			Toast.makeText(this, R.string.athenticator_wrong_pw, Toast.LENGTH_SHORT).show();
 		}

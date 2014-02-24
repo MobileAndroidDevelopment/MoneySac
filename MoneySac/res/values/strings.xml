@@ -46,6 +46,7 @@
     <string name="cancel">Abbrechen</string>
     <string name="attention">Achtung</string>
     <string name="menu_stats">Statistik</string>
+    <string name="menu_settings">Einstellungen</string>
     <string name="title_activity_stats">Statistik</string>
     <string name="title_activity_recurring_entry">RecurringEntryActivity</string>
     <string name="menu_recurring_income">Wiederk. Einkommen</string>
@@ -54,6 +55,13 @@
     <string name="monthly">monatlich</string>
     <string name="two_weekly">alle zwei Wochen</string>
     <string name="two_monthly">alle zwei Monate</string>
+    <string name="title_activity_settings">Einstellungen</string>
+    <string name="settings_security">Sicherheit</string>
+    <string name="settings_safe_login">Sicherer Login</string>
+    <string name="settings_safe_login_summary">PIN für Login benötigt</string>
+    <string name="settings_other">Weitere Einstellungen</string>
+    <string name="settings_pin">PIN</string>
+    <string name="settings_pin_summary">Die PIN für den sicheren Login</string>
 
     <string-array name="recurring_intervals">
         <item name="interval_weekly">@string/weekly</item>
