@@ -164,16 +164,16 @@ public class EditEntryActivity extends Activity {
 	}
 	
 	private boolean checkSacEntryValues(String desc, Category category, String amount){
-		if(desc == null || desc.trim().isEmpty()){
+		if (desc == null || desc.trim().isEmpty()) {
 			Toast.makeText(this, R.string.desc_is_required, Toast.LENGTH_LONG).show();
 			return false;
 		}
-		if(category == null){
+		if (category == null) {
 			Toast.makeText(this, R.string.no_valid_category_selected, Toast.LENGTH_LONG).show();
 			return false;
 		}
 		
-		if(amount == null || amount.trim().isEmpty()){
+		if (amount == null || amount.trim().isEmpty()) {
 			Toast.makeText(this, R.string.amount_is_required, Toast.LENGTH_LONG).show();
 			return false;
 		}
