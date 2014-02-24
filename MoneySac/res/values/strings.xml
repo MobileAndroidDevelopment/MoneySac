@@ -25,7 +25,7 @@
     <string name="name">Name</string>
     <string name="title_activity_edit_entry">EditEntryActivity</string>
     <string name="moneysac_menu_category">Kategorien</string>
-    <string name="title_activity_category_list_view">CategoryListView</string>
+    <string name="title_activity_category_list_view">Kategorien</string>
     <string name="title_activity_category_detail">CategoryDetailActivity</string>
     <string name="category_details_name_empty">Name darf nicht leer sein</string>
     <string name="saved_succesfull">Erfolgreich gespeichert!</string>
