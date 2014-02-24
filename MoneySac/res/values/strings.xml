@@ -61,7 +61,7 @@
     <string name="settings_safe_login_summary">PIN für Login benötigt</string>
     <string name="settings_other">Weitere Einstellungen</string>
     <string name="settings_pin">PIN</string>
-    <string name="settings_pin_summary">Die PIN für den sicheren Login</string>
+    <string name="settings_pin_summary">Die PIN für den sicheren Login ändern</string>
 
     <string-array name="recurring_intervals">
         <item name="interval_weekly">@string/weekly</item>
@@ -88,5 +88,6 @@
     <string name="pin">PIN</string>
     <string name="athenticator_wrong_pin">Falsche PIN!</string>
     <string name="athenticator_std_pin">Die Standard-PIN ist leer </string>
+    <string name="settings_pin_setup">Bitte PIN einrichten</string>
 
 </resources>
