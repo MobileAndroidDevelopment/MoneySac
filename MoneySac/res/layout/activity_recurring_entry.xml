@@ -20,10 +20,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".4"
-            android:text="Was?"
+            android:text="@string/what"
             android:textSize="20sp" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/editTextRecurringEntryDesc"
             android:layout_width="0dp"
             android:inputType="text"
@@ -45,7 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".4"
-            android:text="Betrag"
+            android:text="@string/amount"
             android:textSize="20sp" />
 
         <EditText
@@ -60,7 +60,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".05"
-            android:text="€"
+            android:text="@string/euro"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -78,7 +78,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".4"
-            android:text="Kategorie: "
+            android:text="@string/category_text"
             android:textSize="20sp" />
 
         <Spinner
@@ -128,7 +128,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".4"
-            android:text="Startdatum: "
+            android:text="@string/start_date_text"
             android:textSize="20sp" />
 
         <Button
@@ -153,7 +153,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".4"
-            android:text="Enddatum: "
+            android:text="@string/end_date_text"
             android:textSize="20sp" />
 
         <Button
@@ -173,7 +173,7 @@
         android:layout_below="@id/layoutRecurringEntryFinishDate"
         android:onClick="persistClicked"
         android:textSize="35sp"
-        android:text="+"
+        android:text="@string/strAddIncome"
         android:textStyle="bold" />
 
 

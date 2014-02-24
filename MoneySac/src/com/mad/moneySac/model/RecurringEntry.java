@@ -12,16 +12,14 @@ public class RecurringEntry {
 	private long startDateTime;
 	private long endDateTime;
 	private String type;
-	private RecurringInterval interval;
 
-	public RecurringEntry(String description, double amount, Category category, long startDateTime, long endDateTime, String type, RecurringInterval interval) {
+	public RecurringEntry(String description, double amount, Category category, long startDateTime, long endDateTime, String type) {
 		this.description = description;
 		this.amount = amount;
 		this.category = category;
 		this.startDateTime = startDateTime;
 		this.endDateTime = endDateTime;
 		this.type = type;
-		this.interval = interval;
 	}
 
 	public String getDescription() {
@@ -72,18 +70,10 @@ public class RecurringEntry {
 		this.type = type;
 	}
 
-	public RecurringInterval getInterval() {
-		return interval;
-	}
-
-	public void setInterval(RecurringInterval interval) {
-		this.interval = interval;
-	}
-
 	@Override
 	public String toString() {
 		return "RecurringEntry [description=" + description + ", amount=" + amount + ", category=" + category + ", startDateTime=" + startDateTime
-				+ ", endDateTime=" + endDateTime + ", type=" + type + ", interval=" + interval + "]";
+				+ ", endDateTime=" + endDateTime + ", type=" + type + "]";
 	}
 
 }

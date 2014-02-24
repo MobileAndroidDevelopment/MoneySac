@@ -16,11 +16,15 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.mad.moneySac.R;
 import com.mad.moneySac.adapters.CategoryListViewAdapter;
+import com.mad.moneySac.helpers.SacEntrySelection;
 import com.mad.moneySac.model.Category;
 import com.mad.moneySac.model.CategoryDBHelper;
+import com.mad.moneySac.model.SacEntry;
+import com.mad.moneySac.model.SacEntryDBHelper;
 
 public class CategoryListView extends Activity {
 
@@ -86,21 +90,30 @@ public class CategoryListView extends Activity {
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 		switch (item.getItemId()) {
-		case 0:
-			Intent categoryDetailIntend = new Intent(CategoryListView.this, CategoryDetailActivity.class);
-			categoryDetailIntend.putExtra(CATEGORY_EXTRA_ID, values.get(info.position));
-			startActivity(categoryDetailIntend);
-			break;
+			case 0:
+				Intent categoryDetailIntend = new Intent(CategoryListView.this, CategoryDetailActivity.class);
+				categoryDetailIntend.putExtra(CATEGORY_EXTRA_ID, values.get(info.position));
+				startActivity(categoryDetailIntend);
+				break;
+			case 1:
+				Category category = values.get(info.position);
 
-		case 1:
-			CategoryDBHelper db = new CategoryDBHelper();
-			try {
-				db.delete(this, values.get(info.position));
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			showList();
-			break;
+				SacEntryDBHelper sacEntryDBHelper = new SacEntryDBHelper();
+				CategoryDBHelper db = new CategoryDBHelper();
+				try {
+					List<SacEntry> elementsWithCategory = sacEntryDBHelper.where(this, new SacEntrySelection().setCategoryId(category.getId()));
+					if (elementsWithCategory.size() > 0) {
+						Toast.makeText(this, R.string.category_used, Toast.LENGTH_LONG).show();
+					} else {
+						db.delete(this, values.get(info.position));
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				showList();
+				db.close();
+				sacEntryDBHelper.close();
+				break;
 		}
 		return true;
 	}

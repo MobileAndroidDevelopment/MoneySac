@@ -10,6 +10,7 @@ import java.util.Calendar;
 
 import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 
 import com.mad.moneySac.model.DatabaseHelper;
 
@@ -68,7 +69,7 @@ public class FileUtils {
 			source.close();
 			destination.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e("EXPORTDB_FILEUTILS", e.toString());
 		}
 
 		return backupDB.toString();

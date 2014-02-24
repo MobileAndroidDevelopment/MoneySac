@@ -57,7 +57,7 @@ public class MoneySac extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_moneysac);
-		setTitle("MoneySac");
+		setTitle(R.string.moneysac_title);
 		loadCurrentMonthButton();
 	}
 
@@ -180,6 +180,11 @@ public class MoneySac extends Activity {
 				intent.putExtra(EXPENSE, totalExpense);
 				startActivity(intent);
 				break;
+			case R.id.menu_main_settings:
+				// starts the activity "SettingsActivity"
+				intent = new Intent(this, SettingsActivity.class);
+				startActivity(intent);
+				break;
 			case R.id.add_recurring_expense:
 				// starts the activity "StatsActivity"
 				intent = new Intent(this, RecurringEntryActivity.class);
@@ -228,6 +233,7 @@ public class MoneySac extends Activity {
 	}
 
 	private void showConfirmationDialog(final int pos,final Dialog pDialog) {
+		// TODO: Text in String.xml
 		new AlertDialog.Builder(this)
 				.setMessage("Dies wird ihren aktuellen Datenbestand überschreiben! Möchten sie dennoch fortfahren?")
 				.setTitle(R.string.attention)

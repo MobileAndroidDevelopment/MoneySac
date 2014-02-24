@@ -4,6 +4,7 @@ import org.afree.chart.AFreeChart;
 import org.afree.chart.ChartFactory;
 import org.afree.chart.plot.PieLabelLinkStyle;
 import org.afree.chart.plot.PiePlot;
+import org.afree.chart.plot.Plot;
 import org.afree.data.general.DefaultPieDataset;
 import org.afree.data.general.PieDataset;
 import org.afree.graphics.PaintType;
@@ -28,7 +29,6 @@ public class StatsActivity extends Activity {
 	
 	private static final RectangleInsets ZERO_INSETS = new RectangleInsets(UnitType.ABSOLUTE, 0.0, 0.0, 0.0, 0.0);
 	private static final PaintType transparent	= new SolidColor(color.transparent);
-	private static final PaintType white		= new SolidColor(color.white);
 	private static final PaintType green		= new SolidColor(color.holo_green_light);
 	private static final PaintType red			= new SolidColor(color.holo_red_light);
 
@@ -72,15 +72,13 @@ public class StatsActivity extends Activity {
 	
 	private void configureChart() {
 		statsChart.setBackgroundPaintType(transparent);
-		// statsChart.setBorderEffect(effect);
 		statsChart.setBorderPaintType(transparent);
 		statsChart.setBorderStroke(0.0F);
 		statsChart.setBorderVisible(false);
 		statsChart.setNotify(false);
 		
 		statsPlot = (PiePlot) statsChart.getPlot();
-		
-		statsPlot.setLabelFont(new Font("SansSerif", Typeface.NORMAL, 24));
+		statsPlot.setLabelFont(new Font("SansSerif", Typeface.NORMAL, 26));
 		statsPlot.setNoDataMessage("No data available");
 		statsPlot.setCircular(true);
 		statsPlot.setAutoPopulateSectionOutlinePaint(true);
@@ -100,7 +98,6 @@ public class StatsActivity extends Activity {
 		statsPlot.setSimpleLabels(true);
 		statsPlot.setStartAngle(270.0);
 		statsPlot.setOutlineVisible(false);
-		
 		statsPlot.setBackgroundPaintType(transparent);
 		statsPlot.setLabelBackgroundPaintType(transparent);
 		statsPlot.setLabelLinkPaintType(transparent);
@@ -108,16 +105,23 @@ public class StatsActivity extends Activity {
 		statsPlot.setLabelShadowPaint(transparent);
 		statsPlot.setShadowPaint(new Paint(Color.TRANSPARENT));
 
-		// statsPlot.setSectionPaintType("Ausgaben", red);
-		// statsPlot.setSectionPaintType("Einnahmen", green);
+		statsPlot.setSectionPaintType("Ausgaben", red);
+		statsPlot.setSectionPaintType("Einnahmen", green);
+		
+		
 	}
 	
     private PieDataset createDataset() {
         DefaultPieDataset dataset = new DefaultPieDataset();
         getExtrasFromBundle();
-        
-        dataset.setValue("Ausgaben", expense);
-        dataset.setValue("Einnahmen", income);
+
+        double onePercent = (expense+income)/100;
+        double expensePercent = expense/onePercent;
+        double incomePercent = income/onePercent;
+        String incomePercentString = String.format("%.2f", incomePercent)+" %";
+        String expensePercentString = String.format("%.2f", expensePercent)+" %";
+        dataset.setValue(getResources().getString(R.string.strAusgaben) +" ("+expensePercentString+")", expense);
+        dataset.setValue(getResources().getString(R.string.strEinnahmen)+" ("+incomePercentString+")", income);
         
         return dataset;
     }

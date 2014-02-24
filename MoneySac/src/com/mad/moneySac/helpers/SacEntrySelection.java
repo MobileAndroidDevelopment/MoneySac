@@ -6,8 +6,9 @@ public class SacEntrySelection {
 
 	private String type;
 	private Long selectedMonth;
-
-	public SacEntrySelection() {
+	private Integer categoryId;
+	
+	public SacEntrySelection(){
 	}
 
 	public String getType() {
@@ -60,5 +61,14 @@ public class SacEntrySelection {
 
 	public boolean hasTypeSelection() {
 		return type != null;
+	}
+
+	public Integer getCategoryId() {
+		return categoryId;
+	}
+
+	public SacEntrySelection setCategoryId(Integer categoryId) {
+		this.categoryId = categoryId;
+		return this;
 	}
 }

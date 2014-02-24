@@ -3,4 +3,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="moneysac_category_listrow_padding_img">10dp</dimen>
+    <dimen name="athenticator_pw_size">25dp</dimen>
+    <dimen name="athenticator_padding">7dp</dimen>
 </resources>

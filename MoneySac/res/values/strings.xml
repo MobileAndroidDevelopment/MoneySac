@@ -25,7 +25,7 @@
     <string name="name">Name</string>
     <string name="title_activity_edit_entry">EditEntryActivity</string>
     <string name="moneysac_menu_category">Kategorien</string>
-    <string name="title_activity_category_list_view">CategoryListView</string>
+    <string name="title_activity_category_list_view">Kategorien</string>
     <string name="title_activity_category_detail">CategoryDetailActivity</string>
     <string name="category_details_name_empty">Name darf nicht leer sein</string>
     <string name="saved_succesfull">Erfolgreich gespeichert!</string>
@@ -46,11 +46,48 @@
     <string name="cancel">Abbrechen</string>
     <string name="attention">Achtung</string>
     <string name="menu_stats">Statistik</string>
+    <string name="menu_settings">Einstellungen</string>
     <string name="title_activity_stats">Statistik</string>
     <string name="title_activity_recurring_entry">RecurringEntryActivity</string>
-    <string name="menu_recurring_income">Wiederkehrendes Einkommen anlegen</string>
-    <string name="menu_recurring_expense">Wiederkehrende Ausgabe anlegen</string>
-    <string name="new_income">Neue Einnahme</string>
-    <string name="new_expense">Neue Ausgabe</string>
+    <string name="menu_recurring_income">Wiederk. Einkommen</string>
+    <string name="menu_recurring_expense">Wiederk. Ausgabe</string>
+    <string name="weekly">wöchentlich</string>
+    <string name="monthly">monatlich</string>
+    <string name="two_weekly">alle zwei Wochen</string>
+    <string name="two_monthly">alle zwei Monate</string>
+    <string name="title_activity_settings">Einstellungen</string>
+    <string name="settings_security">Sicherheit</string>
+    <string name="settings_safe_login">Sicherer Login</string>
+    <string name="settings_safe_login_summary">PIN für Login benötigt</string>
+    <string name="settings_other">Weitere Einstellungen</string>
+    <string name="settings_pin">PIN</string>
+    <string name="settings_pin_summary">Die PIN für den sicheren Login ändern</string>
+
+    <string-array name="recurring_intervals">
+        <item name="interval_weekly">@string/weekly</item>
+        <item name="interval_monthly">@string/monthly</item>
+        <item name="interval_two_weekly">@string/two_weekly</item>
+        <item name="interval_two_monthly">@string/weekly</item>
+    </string-array>
+
+    <string name="moneysac_title">MoneySac</string>
+    <string name="choose_month">Monat wählen</string>
+    <string name="what">"Was? "</string>
+    <string name="amount">"Betrag: "</string>
+    <string name="euro">€</string>
+    <string name="category_text">"Kategorie: "</string>
+    <string name="dateText">"Datum: "</string>
+    <string name="add_photo">Foto der Rechnung anhängen</string>
+    <string name="category_used">Kategorie wird noch in Einträgen verwendet</string>
+    <string name="end_date_text">"Enddatum: "</string>
+    <string name="start_date_text">"Startdatum: "</string>
+    <string name="desc_is_required">Beschreibung darf nicht leer sein!</string>
+    <string name="amount_is_required">Betrag darf nicht leer sein!</string>
+    <string name="no_valid_category_selected">Es existiert keine Kategorie des passenden Types!</string>
+    <string name="title_activity_authenticator">AuthenticatorActivity</string>
+    <string name="pin">PIN</string>
+    <string name="athenticator_wrong_pin">Falsche PIN!</string>
+    <string name="athenticator_std_pin">Die Standard-PIN ist leer </string>
+    <string name="settings_pin_setup">Bitte PIN einrichten</string>
 
 </resources>
