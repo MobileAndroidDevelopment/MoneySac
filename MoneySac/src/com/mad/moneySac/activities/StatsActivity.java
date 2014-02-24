@@ -4,6 +4,7 @@ import org.afree.chart.AFreeChart;
 import org.afree.chart.ChartFactory;
 import org.afree.chart.plot.PieLabelLinkStyle;
 import org.afree.chart.plot.PiePlot;
+import org.afree.chart.plot.Plot;
 import org.afree.data.general.DefaultPieDataset;
 import org.afree.data.general.PieDataset;
 import org.afree.graphics.PaintType;
@@ -28,7 +29,6 @@ public class StatsActivity extends Activity {
 	
 	private static final RectangleInsets ZERO_INSETS = new RectangleInsets(UnitType.ABSOLUTE, 0.0, 0.0, 0.0, 0.0);
 	private static final PaintType transparent	= new SolidColor(color.transparent);
-	private static final PaintType white		= new SolidColor(color.white);
 	private static final PaintType green		= new SolidColor(color.holo_green_light);
 	private static final PaintType red			= new SolidColor(color.holo_red_light);
 
@@ -78,7 +78,7 @@ public class StatsActivity extends Activity {
 		statsChart.setNotify(false);
 		
 		statsPlot = (PiePlot) statsChart.getPlot();
-		statsPlot.setLabelFont(new Font("SansSerif", Typeface.NORMAL, 24));
+		statsPlot.setLabelFont(new Font("SansSerif", Typeface.NORMAL, 26));
 		statsPlot.setNoDataMessage("No data available");
 		statsPlot.setCircular(true);
 		statsPlot.setAutoPopulateSectionOutlinePaint(true);
@@ -107,6 +107,8 @@ public class StatsActivity extends Activity {
 
 		statsPlot.setSectionPaintType("Ausgaben", red);
 		statsPlot.setSectionPaintType("Einnahmen", green);
+		
+		
 	}
 	
     private PieDataset createDataset() {
