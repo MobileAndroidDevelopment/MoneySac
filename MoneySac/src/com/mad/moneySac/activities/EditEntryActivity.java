@@ -42,7 +42,7 @@ public class EditEntryActivity extends Activity {
 	public static final String IMAGE = "IMAGE";
 
 	private AutoCompleteTextView descriptionAutoComplete;
-	
+
 	private Uri fileUri;
 	private Spinner categorySpinner;
 	private long currentDateInMillis;
@@ -73,7 +73,7 @@ public class EditEntryActivity extends Activity {
 	}
 
 	private void initView() {
-		
+
 		Calendar calendar = Calendar.getInstance();
 		if (sacEntry != null) {
 			((EditText) findViewById(R.id.editTextEntryAmount)).setText(sacEntry.getAmount() + "");
@@ -88,7 +88,6 @@ public class EditEntryActivity extends Activity {
 
 		setDateButtonText(calendar);
 		((Button) findViewById(R.id.buttonAddEntry)).setText(SacEntryType.getType(type).getButtonText());
-		
 
 	}
 
@@ -96,7 +95,8 @@ public class EditEntryActivity extends Activity {
 		CategoryDBHelper categoryHelper = new CategoryDBHelper();
 		try {
 			List<Category> categories = categoryHelper.where(this, "type", type);
-			categorySpinner.setAdapter(new ArrayAdapter<Category>(this, android.R.layout.simple_spinner_dropdown_item, categories));
+			categorySpinner.setAdapter(new ArrayAdapter<Category>(this, android.R.layout.simple_spinner_dropdown_item,
+					categories));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -114,7 +114,8 @@ public class EditEntryActivity extends Activity {
 	private void setDateButtonText(Calendar c) {
 		Button dateButton = (Button) findViewById(R.id.buttonEntryDate);
 		currentDateInMillis = c.getTimeInMillis();
-		dateButton.setText(c.get(Calendar.DAY_OF_MONTH) + "." + (c.get(Calendar.MONTH) + 1) + "." + c.get(Calendar.YEAR));
+		dateButton.setText(c.get(Calendar.DAY_OF_MONTH) + "." + (c.get(Calendar.MONTH) + 1) + "."
+				+ c.get(Calendar.YEAR));
 	}
 
 	private void setDateButtonText(String date) {
@@ -130,34 +131,53 @@ public class EditEntryActivity extends Activity {
 
 	public void persistClicked(View v) {
 		String desc = ((EditText) findViewById(R.id.editTextEntryDesc)).getText().toString();
-		double amount = Double.parseDouble(((EditText) findViewById(R.id.editTextEntryAmount)).getText().toString());
+		String amount = ((EditText) findViewById(R.id.editTextEntryAmount)).getText().toString();
 		Category category = (Category) ((Spinner) findViewById(R.id.spinnerEntryCategory)).getSelectedItem();
 		long date = currentDateInMillis;
 
 		persist(desc, amount, category, date);
 	}
 
-	private void persist(String desc, double amount, Category category, long date) {
+	private void persist(String desc, String amount, Category category, long date) {
 		if (sacEntry == null) {
 			sacEntry = SacEntry.normalEntry();
 		}
-		sacEntry.setAmount(amount);
-		sacEntry.setCategory(category);
-		sacEntry.setDescription(desc);
-		sacEntry.setDateTime(date);
-		sacEntry.setType(type);
-		if(fileUri != null){
-			sacEntry.setPicturePath(fileUri+"");
+		if (checkSacEntryValues(desc, category, amount)) {
+			sacEntry.setAmount(Double.parseDouble(amount));
+			sacEntry.setCategory(category);
+			sacEntry.setDescription(desc);
+			sacEntry.setDateTime(date);
+			sacEntry.setType(type);
+			if (fileUri != null) {
+				sacEntry.setPicturePath(fileUri + "");
+			}
+			Log.d("zu speicherndes objekt", sacEntry.toString());
+			SacEntryDBHelper helper = new SacEntryDBHelper();
+			try {
+				helper.createOrUpdate(this, sacEntry);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			helper.close();
+			this.finish();
 		}
-		Log.d("zu speicherndes objekt", sacEntry.toString());
-		SacEntryDBHelper helper = new SacEntryDBHelper();
-		try {
-			helper.createOrUpdate(this, sacEntry);
-		} catch (SQLException e) {
-			e.printStackTrace();
+	}
+	
+	private boolean checkSacEntryValues(String desc, Category category, String amount){
+		if(desc == null || desc.trim().isEmpty()){
+			Toast.makeText(this, R.string.desc_is_required, Toast.LENGTH_LONG).show();
+			return false;
 		}
-		helper.close();
-		this.finish();
+		if(category == null){
+			Toast.makeText(this, R.string.no_valid_category_selected, Toast.LENGTH_LONG).show();
+			return false;
+		}
+		
+		if(amount == null || amount.trim().isEmpty()){
+			Toast.makeText(this, R.string.amount_is_required, Toast.LENGTH_LONG).show();
+			return false;
+		}
+		return true;
 	}
 
 	public void changeDateClicked(View v) {
@@ -184,7 +204,7 @@ public class EditEntryActivity extends Activity {
 			// Create a new instance of DatePickerDialog and return it
 			return new DatePickerDialog(getActivity(), this, year, month, day);
 		}
-		
+
 		public void onDateSet(DatePicker view, int year, int month, int day) {
 			((EditEntryActivity) getActivity()).setDateButtonText(day + "." + (month + 1) + "." + year);
 			final Calendar c = Calendar.getInstance();
@@ -192,32 +212,35 @@ public class EditEntryActivity extends Activity {
 			((EditEntryActivity) getActivity()).setCurrentMillis(c.getTimeInMillis());
 		}
 	}
-	
-	public void seePictureOfBill(View v){
-		if(sacEntry != null){
-			 if(sacEntry.getPicturePath() != null){
-				 startActivity(sacEntry.getPicturePath());
-			 } else {
-				 Toast.makeText(this, "Kein Bild vorhanden", Toast.LENGTH_LONG).show();
-			 }
-		} else if(fileUri != null){
-			startActivity(fileUri+"");
+
+	public void seePictureOfBill(View v) {
+		if (sacEntry != null) {
+			if (sacEntry.getPicturePath() != null) {
+				startActivity(sacEntry.getPicturePath());
+			} else {
+				Toast.makeText(this, "Kein Bild vorhanden", Toast.LENGTH_LONG).show();
+			}
+		} else if (fileUri != null) {
+			startActivity(fileUri + "");
 		} else {
 			Toast.makeText(this, "Kein Bild vorhanden", Toast.LENGTH_LONG).show();
 		}
 	}
-	
-	private void startActivity(String path){
-		 Intent intent = new Intent(this,ShowPictureActivity.class);
-		 intent.putExtra(IMAGE, path);
-		 startActivity(intent);
+
+	private void startActivity(String path) {
+		Intent intent = new Intent(this, ShowPictureActivity.class);
+		intent.putExtra(IMAGE, path);
+		startActivity(intent);
 	}
 
 	public void takePictureOfBill(View v) {
-		// create Intent to take a picture and return control to the calling application
+		// create Intent to take a picture and return control to the calling
+		// application
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
-		intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
+		fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to
+															// save the image
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file
+															// name
 
 		// start the image capture Intent
 		startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
@@ -230,7 +253,7 @@ public class EditEntryActivity extends Activity {
 			if (resultCode == RESULT_OK) {
 				// Image captured and saved to fileUri specified in the Intent
 				// TODO: Text in String.xml
-				Toast.makeText(this, "Gespeichert!" /*+ fileUri*/, Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "Gespeichert!" /* + fileUri */, Toast.LENGTH_LONG).show();
 			} else if (resultCode == RESULT_CANCELED) {
 				// User cancelled the image capture
 			} else {
@@ -250,7 +273,8 @@ public class EditEntryActivity extends Activity {
 		// To be safe, you should check that the SDCard is mounted
 		// using Environment.getExternalStorageState() before doing this.
 
-		File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MoneySac");
+		File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+				"MoneySac");
 		// This location works best if you want the created images to be shared
 		// between applications and persist after your app has been uninstalled.
 
@@ -265,10 +289,10 @@ public class EditEntryActivity extends Activity {
 		// Create a media file name
 		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.GERMAN).format(new Date());
 		File mediaFile;
-		
+
 		if (type == MEDIA_TYPE_IMAGE) {
 			mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
-			
+
 		} else {
 			return null;
 		}
