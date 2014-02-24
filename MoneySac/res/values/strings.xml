@@ -58,8 +58,10 @@
     <string name="title_activity_settings">Einstellungen</string>
     <string name="settings_security">Sicherheit</string>
     <string name="settings_safe_login">Sicherer Login</string>
-    <string name="settings_safe_login_summary">Passwort für Login benötigt</string>
+    <string name="settings_safe_login_summary">PIN für Login benötigt</string>
     <string name="settings_other">Weitere Einstellungen</string>
+    <string name="settings_pin">PIN</string>
+    <string name="settings_pin_summary">Die PIN für den sicheren Login</string>
     
     <string-array name="recurring_intervals">
         <item name="interval_weekly">@string/weekly</item>
