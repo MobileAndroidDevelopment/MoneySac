@@ -27,7 +27,6 @@
             android:theme="@android:style/Theme.Holo" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -62,13 +61,29 @@
             android:label="@string/title_activity_recurring_entry"
             android:theme="@android:style/Theme.Holo.Dialog.NoActionBar" >
         </activity>
-        <receiver android:name="com.mad.moneySac.activities.Widget">"
+
+        <receiver android:name="com.mad.moneySac.activities.Widget" >
+"
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widgetprovider" />
         </receiver>
+
+        <activity
+            android:name="com.mad.moneySac.activities.AuthenticatorActivity"
+            android:label="@string/title_activity_authenticator" 
+            android:theme="@android:style/Theme.Holo.NoActionBar"
+            android:windowSoftInputMode="stateVisible">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
+
 </manifest>
