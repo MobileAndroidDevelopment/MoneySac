@@ -180,6 +180,11 @@ public class MoneySac extends Activity {
 				intent.putExtra(EXPENSE, totalExpense);
 				startActivity(intent);
 				break;
+			case R.id.menu_main_settings:
+				// starts the activity "SettingsActivity"
+				intent = new Intent(this, SettingsActivity.class);
+				startActivity(intent);
+				break;
 			case R.id.add_recurring_expense:
 				// starts the activity "StatsActivity"
 				intent = new Intent(this, RecurringEntryActivity.class);

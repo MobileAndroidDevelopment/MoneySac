@@ -62,13 +62,22 @@
             android:label="@string/title_activity_recurring_entry"
             android:theme="@android:style/Theme.Holo.Dialog.NoActionBar" >
         </activity>
-        <receiver android:name="com.mad.moneySac.activities.Widget">"
+
+        <receiver android:name="com.mad.moneySac.activities.Widget" >
+"
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widgetprovider" />
         </receiver>
+
+        <activity
+            android:name="com.mad.moneySac.activities.SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
     </application>
+
 </manifest>

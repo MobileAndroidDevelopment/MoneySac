@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory 
+        android:title="@string/settings_security" >
+	    <SwitchPreference
+	        android:title="@string/settings_safe_login"
+	        android:summary="@string/settings_safe_login_summary"
+	        android:key="safe_login"
+	        android:defaultValue="false" />
+    </PreferenceCategory>
+    <PreferenceCategory 
+        android:title="@string/settings_other" >
+    </PreferenceCategory>
+</PreferenceScreen>
