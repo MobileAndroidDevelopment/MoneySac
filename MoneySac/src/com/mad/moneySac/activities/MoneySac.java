@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -117,7 +118,9 @@ public class MoneySac extends Activity {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		
+		Collections.sort(list, SacEntry.getReverseDateComparator());
+		
 		ListViewAdapter listAdapter = new ListViewAdapter(this, list);
 		listView.setAdapter(listAdapter);
 		listView.setOnItemClickListener(listAdapter.getCategoryItemClickListener());

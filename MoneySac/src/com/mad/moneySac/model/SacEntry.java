@@ -123,12 +123,25 @@ public class SacEntry implements Serializable, Comparable<SacEntry> {
 	public static Comparator<SacEntry> getDateComparator() {
 		return new SacEntryDateComparator();
 	}
+	
+	public static Comparator<SacEntry> getReverseDateComparator() {
+		return new SacEntryReverseDateComparator();
+	}
 
 	private static class SacEntryDateComparator implements Comparator<SacEntry> {
 
 		@Override
 		public int compare(SacEntry lhs, SacEntry rhs) {
 			return lhs.getDateTime().compareTo(rhs.getDateTime());
+		}
+
+	}
+	
+	private static class SacEntryReverseDateComparator implements Comparator<SacEntry> {
+
+		@Override
+		public int compare(SacEntry lhs, SacEntry rhs) {
+			return rhs.getDateTime().compareTo(lhs.getDateTime());
 		}
 
 	}
