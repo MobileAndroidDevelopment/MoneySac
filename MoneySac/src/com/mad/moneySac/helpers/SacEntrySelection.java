@@ -28,8 +28,11 @@ public class SacEntrySelection {
 		this.selectedMonth = selectedMonth;
 		return this;
 	}
-	
-	public long fromDate(){
+
+	/**
+	 * @return Millisekunden des ersten Tages des gewaehlten Monats um 00:00:00
+	 */
+	public long fromDate() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(selectedMonth);
 		calendar.set(Calendar.DAY_OF_MONTH, 1);
@@ -38,8 +41,11 @@ public class SacEntrySelection {
 		calendar.set(Calendar.SECOND, 0);
 		return calendar.getTimeInMillis();
 	}
-	
-	public long toDate(){
+
+	/**
+	 * @return Millisekunden des letzten Tages des gewaehlten Monats um 23:59:59
+	 */
+	public long toDate() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(selectedMonth);
 		calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
@@ -48,14 +54,13 @@ public class SacEntrySelection {
 		calendar.set(Calendar.SECOND, 59);
 		return calendar.getTimeInMillis();
 	}
-	
-	
-	public boolean hasTimeSelection(){
-		return selectedMonth!=null;
+
+	public boolean hasTimeSelection() {
+		return selectedMonth != null;
 	}
 
 	public boolean hasTypeSelection() {
-		return type!=null;
+		return type != null;
 	}
 
 	public Integer getCategoryId() {
