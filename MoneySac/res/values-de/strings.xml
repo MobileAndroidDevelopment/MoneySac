@@ -37,10 +37,10 @@
     <string name="menu_export">Exportieren</string>
     <string name="menu_additional">Weiteres</string>
     <string name="main_pls_select">Bitte wählen</string>
-    <string name="no_file_found_to_import">Keine Datei zum importieren gefunden.</string>
-    <string name="database_exported">Datenbank wurde erfolgreich exportiert.\n\n</string>
+    <string name="no_file_found_to_import">Keine Datei zum importieren gefunden</string>
+    <string name="database_exported">Datenbank wurde erfolgreich exportiert</string>
     <string name="select_import_file">Datum auswählen</string>
-    <string name="database_imported">Datenbank wurde erfolgreich importiert.</string>
+    <string name="database_imported">Datenbank wurde erfolgreich importiert</string>
     <string name="strContinue">Fortfahren</string>
     <string name="cancel">Abbrechen</string>
     <string name="attention">Achtung</string>
@@ -82,7 +82,7 @@
     <string name="start_date_text">"Startdatum: "</string>
     <string name="desc_is_required">Beschreibung darf nicht leer sein!</string>
     <string name="amount_is_required">Betrag darf nicht leer sein!</string>
-    <string name="no_valid_category_selected">Es existiert keine Kategorie des passenden Types!</string>
+    <string name="no_valid_category_selected">Es existiert keine Kategorie des passenden Typs!</string>
     <string name="title_activity_authenticator">AuthenticatorActivity</string>
     <string name="pin">PIN</string>
     <string name="athenticator_wrong_pin">Falsche PIN!</string>
