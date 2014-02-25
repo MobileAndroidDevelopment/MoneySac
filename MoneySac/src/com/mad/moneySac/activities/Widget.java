@@ -28,7 +28,7 @@ public class Widget extends AppWidgetProvider {
 			intentIncome.putExtra(MoneySac.TYPE_EXTRA, SacEntryType.INCOME);
 			PendingIntent pendingIntentIncome = PendingIntent.getActivity(context, 1, intentIncome, PendingIntent.FLAG_UPDATE_CURRENT);
 			
-			Intent intentApp = new Intent(context, MoneySac.class);
+			Intent intentApp = new Intent(context, AuthenticatorActivity.class);
 			PendingIntent pendingIntentMoneySac = PendingIntent.getActivity(context, 2, intentApp, PendingIntent.FLAG_UPDATE_CURRENT);
 			
 			// Get the layout for the App Widget and attach an on-click listener to the button
