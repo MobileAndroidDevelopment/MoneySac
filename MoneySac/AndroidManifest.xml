@@ -30,6 +30,7 @@
         <activity
             android:name="com.mad.moneySac.activities.EditEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
             android:label="@string/title_activity_edit_entry"
             android:theme="@android:style/Theme.Holo.Dialog.NoActionBar" >
             <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -83,7 +84,6 @@
             android:windowSoftInputMode="stateVisible" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
