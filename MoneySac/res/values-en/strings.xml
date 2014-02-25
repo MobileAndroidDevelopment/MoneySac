@@ -16,7 +16,7 @@
     <string name="title_activity_download">DownloadActivity</string>
     <string name="strEinnahmenHead">Income:</string>
     <string name="strAusgabenHead">Expenses:</string>
-    <string name="strEinnahmen">Takings</string>
+    <string name="strEinnahmen">Income</string>
     <string name="strAusgaben">Expenses</string>
     <string name="strBeides">Both</string>
     <string name="strAddIncome">+</string>
