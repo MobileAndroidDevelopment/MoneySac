@@ -66,7 +66,7 @@
         <item name="interval_weekly">@string/weekly</item>
         <item name="interval_monthly">@string/monthly</item>
         <item name="interval_two_weekly">@string/two_weekly</item>
-        <item name="interval_two_monthly">@string/weekly</item>
+        <item name="interval_two_monthly">@string/two_monthly</item>
     </string-array>
 
     <string name="moneysac_title">MoneySac</string>
