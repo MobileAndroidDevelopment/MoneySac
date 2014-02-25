@@ -14,11 +14,11 @@
     <string name="deleteButtonText">Delete</string>
     <string name="saveButtonText">Save</string>
     <string name="title_activity_download">DownloadActivity</string>
-    <string name="strEinnahmenHead">Einnahmen:</string>
-    <string name="strAusgabenHead">Ausgaben:</string>
-    <string name="strEinnahmen">Einnahmen</string>
-    <string name="strAusgaben">Ausgaben</string>
-    <string name="strBeides">Beides</string>
+    <string name="strEinnahmenHead">Takings:</string>
+    <string name="strAusgabenHead">Expenses:</string>
+    <string name="strEinnahmen">Takings</string>
+    <string name="strAusgaben">Expenses</string>
+    <string name="strBeides">Both</string>
     <string name="strAddIncome">+</string>
     <string name="strAddExpense">-</string>
     <string name="strAddMonth">+</string>
