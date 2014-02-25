@@ -14,7 +14,7 @@
     <string name="deleteButtonText">Delete</string>
     <string name="saveButtonText">Save</string>
     <string name="title_activity_download">DownloadActivity</string>
-    <string name="strEinnahmenHead">Takings:</string>
+    <string name="strEinnahmenHead">Income:</string>
     <string name="strAusgabenHead">Expenses:</string>
     <string name="strEinnahmen">Takings</string>
     <string name="strAusgaben">Expenses</string>
