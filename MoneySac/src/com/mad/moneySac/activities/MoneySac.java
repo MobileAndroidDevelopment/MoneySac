@@ -166,6 +166,7 @@ public class MoneySac extends Activity {
 				// starts the activity "CategoryListView"
 				intent = new Intent(this, CategoryListView.class);
 				startActivity(intent);
+				overridePendingTransition(R.anim.slide_in_to_left, R.anim.slide_out_to_left);
 				break;
 			case R.id.menu_main_import:
 				// imports the database

@@ -85,6 +85,7 @@ public class AuthenticatorActivity extends Activity {
 		if (checkPassword()) {
 			startActivity(new Intent(this, MoneySac.class));
 			this.finish();
+			overridePendingTransition(R.anim.slide_in_to_bottom, R.anim.slide_out_to_bottom);
 		} else {
 			Toast.makeText(this, R.string.athenticator_wrong_pin, Toast.LENGTH_SHORT).show();
 		}

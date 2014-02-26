@@ -134,4 +134,10 @@ public class CategoryListView extends Activity {
 			startActivity(categoryDetailIntend);
 		}
 	}
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+	}
+	
 }
