@@ -9,6 +9,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -141,11 +142,12 @@ public class RecurringEntryActivity extends Activity {
 		if (checkSacEntryValues(description, category, amount)) {
 
 			RecurringEntry entry = new RecurringEntry(description, Double.parseDouble(amount), category, fromDateTime, toDateTime, type);
-			RecurringBatchCreator creator = RecurringBatchCreatorFactory
-					.getCreatorForInterval(interval, getResources());
+			RecurringBatchCreator creator = RecurringBatchCreatorFactory.getCreatorForInterval(interval, getResources());
 			try {
 				creator.createSacEntries(this, entry);
 			} catch (SQLException e) {
+				Log.e("RECURRING", "Konnte die wiederkehrenden Eintraege nicht anlegen!", e);
+				// TODO: Allgemeine Toasts
 				e.printStackTrace();
 			}
 			this.finish();
