@@ -32,7 +32,7 @@
     <string name="delete">Delete</string>
     <string name="deleted_category">Categorie deleted</string>
     <string name="edit">Edit</string>
-    <string name="title_activity_show_picture">ShowPictureActivity</string>
+    <string name="title_activity_showpicture">ShowPictureActivity</string>
     <string name="menu_import">Import</string>
     <string name="menu_export">Export</string>
     <string name="menu_additional">Further</string>
@@ -88,5 +88,16 @@
     <string name="athenticator_wrong_pin">Wrong PIN!</string>
     <string name="athenticator_std_pin">Standard-PIN is empty</string>
     <string name="settings_pin_setup">Please set up a PIN</string>
+    <string name="no_statistic_data_available">No data available</string>
+    <string name="oclock">o\'clock</string>
+    <string name="override_current_data">This action is going to override your current data. Do you want to proceed?</string>
+    <string name="backup_could_not_be_imported">The backup could not be imported. Sorry.</string>
+    <string name="could_not_delete_entry">The entry could not be deleted</string>
+    <string name="load_all_categories_not_possible">Could not load existing categories</string>
+    <string name="saving_entry_not_possible">The entry could not be saved!</string>
+    <string name="no_image_available">No image available</string>
+    <string name="saved">Saved!</string>
+    <string name="saving_image_not_possible">The image could not be saved</string>
+    <string name="saving_recurring_entries_not_possible">The recurring entries could not be saved!</string>
 
 </resources>

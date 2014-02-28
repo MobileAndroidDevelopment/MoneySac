@@ -134,7 +134,6 @@ public class SacEntry implements Serializable, Comparable<SacEntry> {
 		public int compare(SacEntry lhs, SacEntry rhs) {
 			return lhs.getDateTime().compareTo(rhs.getDateTime());
 		}
-
 	}
 	
 	private static class SacEntryReverseDateComparator implements Comparator<SacEntry> {

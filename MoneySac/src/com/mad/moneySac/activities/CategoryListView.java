@@ -7,6 +7,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -61,7 +62,8 @@ public class CategoryListView extends Activity {
 		try {
 			values = catDBHelper.getAll(this);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.e("CATEGORY_LIST", "Konnte die aktuellen Kategorien nicht laden!", e);
+			Toast.makeText(this, R.string.load_all_categories_not_possible, Toast.LENGTH_LONG).show();
 		}
 
 		CategoryListViewAdapter adapter = new CategoryListViewAdapter(this, values);
@@ -99,20 +101,22 @@ public class CategoryListView extends Activity {
 				Category category = values.get(info.position);
 
 				SacEntryDBHelper sacEntryDBHelper = new SacEntryDBHelper();
-				CategoryDBHelper db = new CategoryDBHelper();
+				CategoryDBHelper categoryDbHelper = new CategoryDBHelper();
 				try {
 					List<SacEntry> elementsWithCategory = sacEntryDBHelper.where(this, new SacEntrySelection().setCategoryId(category.getId()));
 					if (elementsWithCategory.size() > 0) {
 						Toast.makeText(this, R.string.category_used, Toast.LENGTH_LONG).show();
 					} else {
-						db.delete(this, values.get(info.position));
+						categoryDbHelper.delete(this, values.get(info.position));
 					}
 				} catch (SQLException e) {
-					e.printStackTrace();
+					Log.e("CATEGORY_LIST", "Konnte die Kategorie nicht löschen!", e);
+					Toast.makeText(this, R.string.could_not_delete_entry, Toast.LENGTH_LONG).show();
+				} finally {
+					sacEntryDBHelper.close();
+					categoryDbHelper.close();
 				}
 				showList();
-				db.close();
-				sacEntryDBHelper.close();
 				break;
 		}
 		return true;
@@ -127,17 +131,10 @@ public class CategoryListView extends Activity {
 		}
 
 		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-				long arg3) {
+		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 			Intent categoryDetailIntend = new Intent(CategoryListView.this, CategoryDetailActivity.class);
 			categoryDetailIntend.putExtra(CATEGORY_EXTRA_ID, adapter.getItem(position));
 			startActivity(categoryDetailIntend);
 		}
 	}
-
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-	}
-	
 }

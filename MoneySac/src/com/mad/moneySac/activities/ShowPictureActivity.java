@@ -11,16 +11,19 @@ import android.widget.ImageView;
 
 import com.mad.moneySac.R;
 
+/**
+ * Dialog zur Anzeige eines Bildes.
+ */
 public class ShowPictureActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_show_picture);
-		show();
+		showImage();
 	}
 
-	private void show() {
+	private void showImage() {
 		String path = getIntent().getStringExtra(EditEntryActivity.IMAGE).substring(7);
 		Log.d("path", path);
 		Bitmap myBitmap = BitmapFactory.decodeFile(path);
@@ -31,7 +34,6 @@ public class ShowPictureActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.show_picture, menu);
 		return false;
 	}
@@ -39,6 +41,4 @@ public class ShowPictureActivity extends Activity {
 	public void close(View v){
 		finish();
 	}
-
-
 }

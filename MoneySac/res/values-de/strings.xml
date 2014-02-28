@@ -88,5 +88,16 @@
     <string name="athenticator_wrong_pin">Falsche PIN!</string>
     <string name="athenticator_std_pin">Die Standard-PIN ist leer </string>
     <string name="settings_pin_setup">Bitte PIN einrichten</string>
+    <string name="no_statistic_data_available">Keine Daten vorhanden</string>
+    <string name="oclock">Uhr</string>
+    <string name="override_current_data">Dies wird ihren aktuellen Datenbestand überschreiben! Möchten sie dennoch fortfahren?</string>
+    <string name="backup_could_not_be_imported">Es tut uns leid, der Stand konnte nicht wiederhergestellt werden.</string>
+    <string name="could_not_delete_entry">Der Eintrag konnte leider nicht gelöscht werden</string>
+    <string name="load_all_categories_not_possible">Konnte die vorhandenen Einträge leider nicht laden</string>
+    <string name="saving_entry_not_possible">Der Eintrag konnte nicht gespeichert werden!</string>
+    <string name="no_image_available">Kein Bild vorhanden</string>
+    <string name="saved">Gespeichert!</string>
+    <string name="saving_image_not_possible">Das Bild konnte leider nicht gespeichert werden</string>
+    <string name="saving_recurring_entries_not_possible">Konnte die wiederkehrenden Eintraege nicht anlegen!</string>
 
 </resources>

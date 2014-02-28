@@ -41,6 +41,9 @@ import com.mad.moneySac.model.SacEntry;
 import com.mad.moneySac.model.SacEntryDBHelper;
 import com.mad.moneySac.model.SacEntryType;
 
+/**
+ * Activity zur Auflistung der Einnahmen und Ausgaben. Zudem erfolgt hierueber die zentrale Navigation an die Unterfunktionen der App.
+ */
 public class MoneySac extends Activity {
 
 	public static final String TYPE_EXTRA = "TYPE";
@@ -108,24 +111,29 @@ public class MoneySac extends Activity {
 		refreshListView(selection);
 	}
 
+	/**
+	 * aktualisiert die Auflistung, je nach gewaehlten Selektionskriterien
+	 * @param selection
+	 */
 	private void refreshListView(SacEntrySelection selection) {
 		ListView listView = (ListView) findViewById(R.id.listViewEntries);
 
 		SacEntryDBHelper helper = new SacEntryDBHelper();
-		List<SacEntry> list = null;
 		try {
-			list = helper.where(this, selection);
+			List<SacEntry> list = helper.where(this, selection);
+			Collections.sort(list, SacEntry.getReverseDateComparator());
+			
+			ListViewAdapter listAdapter = new ListViewAdapter(this, list);
+			listView.setAdapter(listAdapter);
+			listView.setOnItemClickListener(listAdapter.getCategoryItemClickListener());
+			registerForContextMenu(listView);
+			calculateSum();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.e("MONEY_SAC", "Konnte keine Eintragungen laden und die Liste daher nicht aktualisieren!", e);
+		} finally {
+			helper.close();
 		}
 		
-		Collections.sort(list, SacEntry.getReverseDateComparator());
-		
-		ListViewAdapter listAdapter = new ListViewAdapter(this, list);
-		listView.setAdapter(listAdapter);
-		listView.setOnItemClickListener(listAdapter.getCategoryItemClickListener());
-		registerForContextMenu(listView);
-		calculateSum();
 	}
 
 	private void calculateSum() {
@@ -217,7 +225,9 @@ public class MoneySac extends Activity {
 		String[] fileNames = new String[files.length];
 		
 		for(int i = 0; i < files.length; i++){
-			fileNames[i] = files[i].getName().substring(8, 10) +"."+ files[i].getName().substring(5, 8) + files[i].getName().substring(0, 4)+" - " +files[i].getName().substring(11,16) +" Uhr";
+			// THE BEAST
+			fileNames[i] = files[i].getName().substring(8, 10) +"."+ files[i].getName().substring(5, 8) + files[i].getName().substring(0, 4)+" - " 
+			+files[i].getName().substring(11,16) +" "+getString(R.string.oclock);
 		}
 		
 		ArrayAdapter<String> modeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, fileNames);
@@ -226,7 +236,6 @@ public class MoneySac extends Activity {
 		final Dialog dialog = builder.create();
 		
 		list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
 					showConfirmationDialog(pos,dialog);
@@ -237,20 +246,19 @@ public class MoneySac extends Activity {
 	}
 
 	private void showConfirmationDialog(final int pos,final Dialog pDialog) {
-		// TODO: Text in String.xml
 		new AlertDialog.Builder(this)
-				.setMessage("Dies wird ihren aktuellen Datenbestand überschreiben! Möchten sie dennoch fortfahren?")
+				.setMessage(R.string.override_current_data)
 				.setTitle(R.string.attention)
 				.setIcon(android.R.drawable.ic_dialog_alert)
 				.setPositiveButton(getString(R.string.strContinue), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						try {
 							FileUtils.importDatabase(getApplicationContext(),files[pos]);
+							Toast.makeText(getApplicationContext(), R.string.database_imported, Toast.LENGTH_LONG).show();
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							Log.e("IMPORT_DATABASE", e.toString());
+							Log.e("IMPORT_DATABASE", e.getMessage(), e);
+							Toast.makeText(getApplicationContext(), R.string.backup_could_not_be_imported, Toast.LENGTH_LONG).show();
 						}
-						Toast.makeText(getApplicationContext(), R.string.database_imported, Toast.LENGTH_LONG).show();
 						pDialog.dismiss();
 						onResume();
 					}
@@ -299,7 +307,8 @@ public class MoneySac extends Activity {
 			try {
 				helper.delete(this, adapter.getItem(info.position));
 			} catch (SQLException e) {
-				e.printStackTrace();
+				Log.e("MONEY_SAC", "Konnte den Eintrag nicht loeschen! Position: "+info.position, e);
+				Toast.makeText(this, R.string.could_not_delete_entry, Toast.LENGTH_LONG).show();
 			}
 			onResume();
 			break;

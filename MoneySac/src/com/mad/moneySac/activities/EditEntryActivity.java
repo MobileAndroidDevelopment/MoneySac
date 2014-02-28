@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.mad.moneySac.R;
 import com.mad.moneySac.model.Category;
 import com.mad.moneySac.model.CategoryDBHelper;
+import com.mad.moneySac.model.CategoryTable;
 import com.mad.moneySac.model.SacEntry;
 import com.mad.moneySac.model.SacEntryDBHelper;
 import com.mad.moneySac.model.SacEntryType;
@@ -88,17 +89,17 @@ public class EditEntryActivity extends Activity {
 
 		setDateButtonText(calendar);
 		((Button) findViewById(R.id.buttonAddEntry)).setText(SacEntryType.getType(type).getButtonText());
-
 	}
 
 	private void loadCategories() {
 		CategoryDBHelper categoryHelper = new CategoryDBHelper();
 		try {
-			List<Category> categories = categoryHelper.where(this, "type", type);
+			List<Category> categories = categoryHelper.where(this, CategoryTable.COLUMN_TYPE, type);
 			categorySpinner.setAdapter(new ArrayAdapter<Category>(this, android.R.layout.simple_spinner_dropdown_item,
 					categories));
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.e("EDIT_ENTRY", "Konnte Kategorien nicht laden!", e);
+			Toast.makeText(this, R.string.load_all_categories_not_possible, Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -156,9 +157,11 @@ public class EditEntryActivity extends Activity {
 			try {
 				helper.createOrUpdate(this, sacEntry);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				Log.e("EDIT_ENTRY", "Konnte SacEntry nicht speichern!", e);
+				Toast.makeText(this, R.string.saving_entry_not_possible, Toast.LENGTH_LONG).show();
+			} finally {
+				helper.close();	
 			}
-			helper.close();
 			this.finish();
 		}
 	}
@@ -172,7 +175,6 @@ public class EditEntryActivity extends Activity {
 			Toast.makeText(this, R.string.no_valid_category_selected, Toast.LENGTH_LONG).show();
 			return false;
 		}
-		
 		if (amount == null || amount.trim().isEmpty()) {
 			Toast.makeText(this, R.string.amount_is_required, Toast.LENGTH_LONG).show();
 			return false;
@@ -218,12 +220,12 @@ public class EditEntryActivity extends Activity {
 			if (sacEntry.getPicturePath() != null) {
 				startActivity(sacEntry.getPicturePath());
 			} else {
-				Toast.makeText(this, "Kein Bild vorhanden", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, R.string.no_image_available, Toast.LENGTH_LONG).show();
 			}
 		} else if (fileUri != null) {
 			startActivity(fileUri + "");
 		} else {
-			Toast.makeText(this, "Kein Bild vorhanden", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, R.string.no_image_available, Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -234,17 +236,13 @@ public class EditEntryActivity extends Activity {
 	}
 
 	public void takePictureOfBill(View v) {
-		// create Intent to take a picture and return control to the calling
-		// application
+		// create Intent to take a picture and return control to the calling application
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to
-															// save the image
-		intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file
-															// name
+		fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
 
 		// start the image capture Intent
 		startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-
 	}
 
 	@Override
@@ -252,13 +250,11 @@ public class EditEntryActivity extends Activity {
 		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
 			if (resultCode == RESULT_OK) {
 				// Image captured and saved to fileUri specified in the Intent
-				// TODO: Text in String.xml
-				Toast.makeText(this, "Gespeichert!" /* + fileUri */, Toast.LENGTH_LONG).show();
+				Toast.makeText(this, R.string.saved, Toast.LENGTH_LONG).show();
 			} else if (resultCode == RESULT_CANCELED) {
-				// User cancelled the image capture
+				// User cancelled the image capture - nix machen
 			} else {
-				// TODO: Text in String.xml
-				Toast.makeText(this, "SRY U NO PIC", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, R.string.saving_image_not_possible, Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
@@ -292,7 +288,6 @@ public class EditEntryActivity extends Activity {
 
 		if (type == MEDIA_TYPE_IMAGE) {
 			mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
-
 		} else {
 			return null;
 		}

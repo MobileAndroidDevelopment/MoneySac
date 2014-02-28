@@ -4,7 +4,6 @@ import org.afree.chart.AFreeChart;
 import org.afree.chart.ChartFactory;
 import org.afree.chart.plot.PieLabelLinkStyle;
 import org.afree.chart.plot.PiePlot;
-import org.afree.chart.plot.Plot;
 import org.afree.data.general.DefaultPieDataset;
 import org.afree.data.general.PieDataset;
 import org.afree.graphics.PaintType;
@@ -79,7 +78,7 @@ public class StatsActivity extends Activity {
 		
 		statsPlot = (PiePlot) statsChart.getPlot();
 		statsPlot.setLabelFont(new Font("SansSerif", Typeface.NORMAL, 26));
-		statsPlot.setNoDataMessage("No data available");
+		statsPlot.setNoDataMessage(getString(R.string.no_statistic_data_available));
 		statsPlot.setCircular(true);
 		statsPlot.setAutoPopulateSectionOutlinePaint(true);
 		statsPlot.setAutoPopulateSectionOutlineStroke(true);

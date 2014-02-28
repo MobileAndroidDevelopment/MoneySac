@@ -28,8 +28,15 @@ import com.mad.moneySac.model.CategoryDBHelper;
 import com.mad.moneySac.model.RecurringEntry;
 import com.mad.moneySac.model.SacEntryDBHelper;
 
+/**
+ * Activity zum Erfassen wiederkehrender Eintraege. Dabei dient die Activity nur dem Anlegen solcher Eintraege. Ein Aendern ist nicht moeglich und daher auch
+ * in der Activity nicht abgedeckt.
+ *
+ */
 public class RecurringEntryActivity extends Activity {
 
+	private static final String TO_DATE_TAG = "toDatePicker";
+	private static final String FROM_DATE_TAG = "fromDatePicker";
 	private Spinner categorySpinner;
 	private Spinner recurringIntervalSpinner;
 	private AutoCompleteTextView descriptionAutoComplete;
@@ -48,7 +55,7 @@ public class RecurringEntryActivity extends Activity {
 		descriptionAutoComplete = (AutoCompleteTextView) findViewById(R.id.editTextRecurringEntryDesc);
 
 		loadCategories();
-		loadRecurringTypes();
+		loadRecurringIntervals();
 		initAutoCompleteWithAlreadyUsedDescriptions();
 		setFromDateButtonText(Calendar.getInstance());
 		setToDateButtonText(Calendar.getInstance());
@@ -64,7 +71,7 @@ public class RecurringEntryActivity extends Activity {
 		descriptionAutoComplete.setAdapter(adapter);
 	}
 
-	private void loadRecurringTypes() {
+	private void loadRecurringIntervals() {
 		String[] recurringIntervals = getResources().getStringArray(R.array.recurring_intervals);
 		recurringIntervalSpinner.setAdapter(new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_dropdown_item, recurringIntervals));
@@ -83,7 +90,7 @@ public class RecurringEntryActivity extends Activity {
 			categorySpinner.setAdapter(new ArrayAdapter<Category>(this, android.R.layout.simple_spinner_dropdown_item,
 					categories));
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.e("RECURRING", "Konnte die Kategorien nicht laden! ",e);
 		}
 	}
 
@@ -91,21 +98,21 @@ public class RecurringEntryActivity extends Activity {
 		DialogFragment newFragment = new FromDatePickerFragment();
 		Bundle bundle = new Bundle();
 		newFragment.setArguments(bundle);
-		newFragment.show(getFragmentManager(), "fromDatePicker");
+		newFragment.show(getFragmentManager(), FROM_DATE_TAG);
 	}
 
 	public void changeToDateClicked(View v) {
 		DialogFragment newFragment = new ToDatePickerFragment();
 		Bundle bundle = new Bundle();
 		newFragment.setArguments(bundle);
-		newFragment.show(getFragmentManager(), "toDatePicker");
+		newFragment.show(getFragmentManager(), TO_DATE_TAG);
 	}
 
 	private void setFromDateButtonText(Calendar c) {
 		Button dateButton = (Button) findViewById(R.id.buttonRecurringEntryStartDate);
 		fromDateTime = c.getTimeInMillis();
-		dateButton.setText(c.get(Calendar.DAY_OF_MONTH) + "." + (c.get(Calendar.MONTH) + 1) + "."
-				+ c.get(Calendar.YEAR));
+		String date = c.get(Calendar.DAY_OF_MONTH) + "." + (c.get(Calendar.MONTH) + 1) + "." + c.get(Calendar.YEAR);
+		dateButton.setText(date);
 	}
 
 	private void setFromDateButtonText(String date) {
@@ -120,8 +127,8 @@ public class RecurringEntryActivity extends Activity {
 	private void setToDateButtonText(Calendar c) {
 		Button dateButton = (Button) findViewById(R.id.buttonRecurringEntryFinishDate);
 		toDateTime = c.getTimeInMillis();
-		dateButton.setText(c.get(Calendar.DAY_OF_MONTH) + "." + (c.get(Calendar.MONTH) + 1) + "."
-				+ c.get(Calendar.YEAR));
+		String date = c.get(Calendar.DAY_OF_MONTH) + "." + (c.get(Calendar.MONTH) + 1) + "." + c.get(Calendar.YEAR);
+		dateButton.setText(date);
 	}
 
 	private void setToDateButtonText(String date) {
@@ -140,15 +147,13 @@ public class RecurringEntryActivity extends Activity {
 		String interval = (String) recurringIntervalSpinner.getSelectedItem();
 
 		if (checkSacEntryValues(description, category, amount)) {
-
 			RecurringEntry entry = new RecurringEntry(description, Double.parseDouble(amount), category, fromDateTime, toDateTime, type);
 			RecurringBatchCreator creator = RecurringBatchCreatorFactory.getCreatorForInterval(interval, getResources());
 			try {
 				creator.createSacEntries(this, entry);
 			} catch (SQLException e) {
-				Log.e("RECURRING", "Konnte die wiederkehrenden Eintraege nicht anlegen!", e);
-				// TODO: Allgemeine Toasts
-				e.printStackTrace();
+				Log.e("RECURRING", getString(R.string.saving_recurring_entries_not_possible), e);
+				Toast.makeText(this, R.string.saving_recurring_entries_not_possible, Toast.LENGTH_LONG).show();;
 			}
 			this.finish();
 		}
@@ -163,7 +168,6 @@ public class RecurringEntryActivity extends Activity {
 			Toast.makeText(this, R.string.no_valid_category_selected, Toast.LENGTH_LONG).show();
 			return false;
 		}
-
 		if (amount == null || amount.trim().isEmpty()) {
 			Toast.makeText(this, R.string.amount_is_required, Toast.LENGTH_LONG).show();
 			return false;
@@ -171,9 +175,7 @@ public class RecurringEntryActivity extends Activity {
 		return true;
 	}
 
-	/*
-	 * DATE PICKER
-	 */
+	// =================== DATE PICKER =======================
 
 	public static class FromDatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
